@@ -1,0 +1,63 @@
+
+// ---------------------------
+// STATUS/LABEL -----------
+// ---------------------------
+
+
+// Status labels
+
+.fnb-label{
+	padding: 0.3em 1em;
+	border: 1px solid;
+	border-radius: 4px;
+	font-size: 0.95em;
+	font-weight: 400;
+	line-height: 1.2;
+	margin-bottom: 0;
+	&.wholesaler{
+		color: @accent-secondary;
+	}
+}
+
+
+// Category lables
+
+.fnb-cat{
+	flex-wrap: wrap;
+	li{
+		border: 1px solid #676767;
+    	padding: 0.5em 1.2em;
+    	margin: 0.4em 0.6em 0.4em 0;
+    	border-radius: 4px;
+    	background-color: #f8fafc;
+    	cursor: pointer;
+    	transition: all 0.5s ease;
+    	&:hover{
+    		background-color: darken(#f8fafc,8%);
+    	}
+	}
+	&__title{
+		color: @text-darker;
+    	font-size: 1.05em;
+    	&:hover{
+    		text-decoration: none;
+    	}
+	}
+	&.small{
+		li{
+			padding: 0.3em 0.8em;
+			margin: 0.2em 0.6em 0.2em 0;
+		}
+		&__title{
+			font-size: 0.95em;
+		}
+	}
+	.remove{
+		color: @accent-primary;
+		padding-left: 5px;
+	}
+}
+
+
+
+

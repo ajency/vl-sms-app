@@ -1,0 +1,30 @@
+
+input[type=radio].fnb-radio {
+    margin-right: 8px;
+    position: relative;
+    &:before {
+        content: "\f10c";
+        font-family: 'FontAwesome';
+        background-color: #fff;
+        padding: 0;
+        position: absolute;
+        top: -4px;
+        left: -1px;
+        color: #dcdcdc;
+        font-size: 1.5em;
+        cursor: pointer;
+    }
+    &:checked {
+        &:before {
+            content: "\f192";
+            color: @accent-secondary;
+        }
+    }
+    &.disabled{
+        pointer-events: none;
+        &:before{
+            content: '\f10c';
+            color: #ccc;
+        }
+    }
+}
