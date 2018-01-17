@@ -33,8 +33,22 @@
   vertical-align: middle;
   margin-right: 5px;
 }
+.result--title {
+  font-size: 1.4em;
+}
 .send-message .vl-btn {
   font-size: 0.85em;
   padding: 0.4em 1em;
+}
+@media screen and (max-width: 480px) {
+  .vl-participant .departure {
+    margin: 1em 0;
+  }
+  .vl-participant .filter-action {
+    text-align: center;
+  }
+  .result--title {
+    font-size: 1.3em;
+  }
 }
 /*# sourceMappingURL=default.component.css.map */

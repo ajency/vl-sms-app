@@ -3,7 +3,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-sm-4 text-center align-self-center">
-				<h5 class="vl-logo m-b-0"><span class="text-primary">Vacation</span><span class="text-danger">Labs</span></h5>
+				<h5 class="vl-logo m-b-0"><img src="./assets/img/logo.png" width="180"></h5>
 			</div>
 			<div class="col-sm-4 text-center align-self-center">
 				<div class="app-detail thinner">
@@ -29,14 +29,14 @@
 			</select>
 		</div>
 		<div class="col-sm-4">
-			<select class="vl-select">
+			<select class="vl-select departure">
 				<option>Select a departure</option>
 				<option>Little Rann of Kutch</option>
 				<option>Little Rann of Kutch</option>
 				<option>Little Rann of Kutch</option>
 			</select>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-sm-3 filter-action">
 			<button (click)="initDatatable()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
 		</div>
 	</div>
@@ -51,7 +51,7 @@
 		<!-- Results -->
 		<div *ngIf="showParticipants" class="col-sm-12 mb-2">
 			<div class="results-header pt-3 pb-3">
-				<h5 class="heavier m-b-0 pb-1">Little Rann of Kutch</h5>
+				<h5 class="heavier m-b-0 pb-1 result--title">Little Rann of Kutch</h5>
 				<ul class="d-flex text-medium results-header__details">
 					<li class="pr-2"><b>LRRK24023</b></li>
 					<li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li>
@@ -131,7 +131,7 @@
 				<input type="tel" class="vl-text vl-shadow" placeholder="eg. 9812435687, 981234567">
 			</div>
 			<div class="publish-link mb-3">
-				<label class="x-small text-color m-b-0 cursor-pointer"><input type="checkbox" class="fnb-checkbox checkbox"> Publish notification on the website</label>
+				<label class="x-small text-color m-b-0 cursor-pointer d-flex"><input type="checkbox" class="fnb-checkbox checkbox"> Publish notification on the website</label>
 			</div>
 			<div class="send-message">
 				<button (click)="sendSMS()" type="button" class="btn vl-btn secondary-btn text-uppercase lighter fullwidth"><i class="fa fa-circle-o-notch fa-spin mr-1 d-none"></i> <i class="fa fa-check pr-1 d-none" aria-hidden="true"></i> Send message</button>
