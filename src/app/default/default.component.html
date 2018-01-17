@@ -1,3 +1,83 @@
-<p>
-  default works!
-</p>
+
+<header class="vl-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4 text-center align-self-center">
+				<h5 class="vl-logo m-b-0"><span class="text-primary">Vacation</span><span class="text-danger">Labs</span></h5>
+			</div>
+			<div class="col-sm-4 text-center align-self-center">
+				<div class="app-detail thinner">
+					<i class="fa fa-commenting" aria-hidden="true"></i>
+					SMS App
+				</div>
+			</div>
+			<div class="col-sm-4 text-center align-self-center">
+				<a href="#" class="back-link cloud-color thinner"><i class="fa fa-angle-left p-r-5 label-size" aria-hidden="true"></i> Back to the app</a>
+			</div>
+		</div>
+	</div>
+</header>
+
+<div class="container vl-participant">
+	<div class="row vl-participant__filter">
+		<div class="col-sm-4">
+			<select class="vl-select">
+				<option>Select a tour</option>
+				<option>Little Rann of Kutch</option>
+				<option>Little Rann of Kutch</option>
+				<option>Little Rann of Kutch</option>
+			</select>
+		</div>
+		<div class="col-sm-4">
+			<select class="vl-select">
+				<option>Select a departure</option>
+				<option>Little Rann of Kutch</option>
+				<option>Little Rann of Kutch</option>
+				<option>Little Rann of Kutch</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<button type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
+		</div>
+	</div>
+	<div class="row vl-participants__data pb-5">
+		<!-- If not values selected -->
+		<!-- <div class="col-sm-12 align-self-center">
+			<div class="empty-box text-center">
+				<i class="fa fa-commenting" aria-hidden="true"></i>
+				<p class="label-size m-b-0 text-lighter">Please select a <b>trip</b> and <b>departure</b> above and click on 'Show Participants'.</p>
+			</div>
+		</div> -->
+		<!-- Results -->
+		<div class="col-sm-12 mb-2">
+			<div class="results-header pt-3 pb-3">
+				<h5 class="heavier m-b-0 pb-1">Little Rann of Kutch</h5>
+				<ul class="d-flex text-medium results-header__details">
+					<li class="pr-2"><b>LRRK24023</b></li>
+					<li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-sm-8">
+			
+		</div>
+		<div class="col-sm-4">
+			<!-- Additional options -->
+			<div class="message-box mb-3">
+				<label class="vl-label label-color d-block mb-1 xx-small text-uppercase">Message</label>
+				<textarea class="vl-textarea vl-shadow" rows="4" placeholder="Start typing your message here..."></textarea>
+			</div>
+			<div class="phone-box mb-3">
+				<label class="vl-label label-color d-block mb-1 xx-small text-uppercase">Additional phone numbers<span class="lighter text-capitalize"> (Comma Separated)</span></label>
+				<input type="tel" class="vl-text vl-shadow" placeholder="eg. 9812435687, 981234567">
+			</div>
+			<div class="publish-link mb-3">
+				<label class="x-small text-color m-b-0 cursor-pointer"><input type="checkbox" class="fnb-checkbox checkbox"> Publish notification on the website</label>
+			</div>
+			<div class="send-message">
+				<button type="button" class="btn vl-btn secondary-btn text-uppercase lighter fullwidth"><i class="fa fa-circle-o-notch fa-spin mr-1 d-none"></i> <i class="fa fa-check pr-1 d-none" aria-hidden="true"></i> Send message</button>
+			</div>
+		</div>
+	</div>
+</div>
+

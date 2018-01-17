@@ -1,0 +1,89 @@
+
+// ---------------------------
+// TYPOGRAPHY STYLES -----------
+// ---------------------------
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video, select {
+ 	font-family: 'Roboto', sans-serif;
+}
+
+ul,ol{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+
+a{
+	text-decoration: none;
+	outline: 0;
+	&:hover{
+		color: inherit;
+	}
+	&:focus,&:active{
+		outline: 0;
+	}
+}
+
+// Headings
+
+h1{
+	font-size: @h1-font-size;
+}
+
+h2{
+	font-size: @h2-font-size;
+}
+
+h3{
+	font-size: @h3-font-size;
+}
+
+h4{
+	font-size: @h4-font-size;
+}
+
+h5{
+	font-size: @h5-font-size;
+}
+
+h6{
+	font-size: @h6-font-size;
+}
+
+// Titles/labels
+
+p{
+	font-size: 1.1em;
+}
+
+// Smaller titles
+
+span{
+	font-size: 0.95em;
+}
+
+// Extra small sizes
+
+.x-small{
+	font-size: 0.9em;
+}
+
+.xx-small{
+	font-size: 0.75em;
+}
+
+.xxx-small{
+	font-size: 0.6em;
+}
+
+
+// @font-face {
+//   font-family: 'MyWebFont';
+//   src: url('webfont.eot'); /* IE9 Compat Modes */
+//   src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+//        url('webfont.woff2') format('woff2'), /* Super Modern Browsers */
+//        url('webfont.woff') format('woff'), /* Pretty Modern Browsers */
+//        url('webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+//        url('webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+// }
