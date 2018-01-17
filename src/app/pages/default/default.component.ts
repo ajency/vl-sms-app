@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { DataTable, DataTableResource } from '../../custom-data-table';
-import { cars } from './data';
+import { passengers } from './data';
 
 @Component({
   selector: 'app-default',
@@ -9,24 +9,36 @@ import { cars } from './data';
 })
 export class DefaultComponent implements OnInit {
 
-  private carResource = new DataTableResource(cars);
-  cars = [];
-  public carCount = 0;
+  private passengerResource;
+  passengers = [];
+  public passengerCount = 0;
 
   @ViewChild(DataTable) carsTable: DataTable;
 
-  constructor() { 
-
-    this.rowColors = this.rowColors.bind(this);
-
-    this.carResource.count().then(count => this.carCount = count);
+  constructor() {
+    
   }
 
   ngOnInit() {
+
+  }
+
+  private showParticipants: boolean = false;
+
+  initDatatable(){
+    console.log("init dtatable")
+    this.passengerResource = new DataTableResource(passengers);
+
+    this.rowColors = this.rowColors.bind(this);
+
+    this.passengerResource.count().then(count => this.passengerCount = count);
+
+    this.showParticipants = true;
   }
 
   reloadCars(params) {
-      this.carResource.query(params).then(cars => this.cars = cars);
+    console.log("reload cars",params)
+      this.passengerResource.query(params).then(cars => this.passengers = cars);
   }
 
   // custom features:
@@ -38,6 +50,14 @@ export class DefaultComponent implements OnInit {
 
   rowColors(car) {
       if (car.year >= this.yearLimit) return 'rgb(255, 255, 197)';
+  }
+
+  rowClick(event){
+    console.log("row event", event);
+  }
+
+  sendSMS(){
+    console.log("passengers", this.passengers);
   }
 
 }
