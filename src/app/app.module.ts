@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
-import { AppRoutingModule, routedComponents } from './app-routing.module';
+import { AppRoutingModule, routedComponents, miscComponents } from './app-routing.module';
 import { DataTableModule } from './custom-data-table';
 import { AuthService } from './providers/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
@@ -11,6 +11,7 @@ import { AuthGuard } from './guards/auth-guard.service';
 @NgModule({
   declarations: [
     AppComponent,
+    miscComponents,
     routedComponents
   ],
   imports: [

@@ -56,8 +56,8 @@ export class DefaultComponent implements OnInit {
     console.log("row event", event);
   }
 
-  sendSMS(){
-    console.log("passengers", this.passengers);
+  sendSMS(event){
+    console.log("passengers", this.passengers, event);
   }
 
 }
