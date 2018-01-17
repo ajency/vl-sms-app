@@ -37,7 +37,7 @@
   font-size: 0.85em;
   padding: 0.4em 1em;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .vl-participant .departure {
     margin: 1em 0;
   }

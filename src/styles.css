@@ -369,7 +369,8 @@ span {
   padding-left: 5px;
 }
 input[type=checkbox] {
-  margin-right: 5px;
+  margin-right: 8px;
+  margin-top: 2px;
   -webkit-appearance: none;
   outline: 0;
   width: 15px;
@@ -385,7 +386,7 @@ input[type=checkbox]:before {
   cursor: pointer;
   background-image: url('assets/img/checkbox.png');
   background-size: cover;
-  top: -12px;
+  top: 0;
   width: 15px;
   height: 15px;
   text-align: center;
@@ -1091,7 +1092,7 @@ input[type="checkbox"].toggle__check {
   top: -10px;
   font-size: 1.15em;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .describe-section .points .checkbox:before {
     background-color: #f8f8f8;
     color: #afafaf;
@@ -1165,7 +1166,7 @@ input[type="checkbox"].toggle__check {
     font-size: 0.9em;
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .sign-page .alert {
     font-size: 0.85em;
   }
@@ -1268,7 +1269,7 @@ input[type="checkbox"].toggle__check {
 .require-modal .fnb-select {
   font-size: 1em;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .require-modal .fnb-select {
     font-size: 0.95em;
     padding-left: 0;
@@ -1278,7 +1279,7 @@ input[type="checkbox"].toggle__check {
   margin-top: 2em;
   text-align: center;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .require-modal .verify-container {
     text-align: right;
     margin-top: 0;
@@ -1295,7 +1296,7 @@ input[type="checkbox"].toggle__check {
             justify-content: flex-end;
   }
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .require-modal .phone-col {
     display: -webkit-box;
     display: -webkit-flex;
@@ -1332,7 +1333,7 @@ input[type="checkbox"].toggle__check {
 .require-modal .describe-section .points__text {
   font-size: 0.9em;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .require-modal__title {
     font-size: 1.2em;
   }
@@ -1360,7 +1361,7 @@ input[type="checkbox"].toggle__check {
           flex: 1;
   padding: 0 5px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .forget-holder {
     background-color: #fff;
     height: 90vh;
@@ -1923,7 +1924,7 @@ input[type="checkbox"].toggle__check {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 480px) {
   .link-center {
     display: -webkit-box;
     display: -webkit-flex;
