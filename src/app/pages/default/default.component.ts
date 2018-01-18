@@ -21,8 +21,34 @@ export class DefaultComponent implements OnInit {
     
   }
 
+  private tripCode: string;
+  private tripId: string;
+  private departureId: string;
+
   ngOnInit() {
-    console.log("tripId", this.route.snapshot.paramMap.get("trip_id"));
+    let tripslug = this.route.snapshot.paramMap.get("trip_slug");
+
+    this.route.queryParams.subscribe((params) => {
+      console.log("trip_slug: ", tripslug);
+      console.log("departure_id:", params["departure_id"]);
+
+      if(tripslug){
+        let slugelements = tripslug.split('-');
+        if(slugelements.length >= 3){
+          this.tripCode = slugelements[1];
+          this.tripId = slugelements[slugelements.length - 1];
+  
+          console.log("trip code:" , this.tripCode, " trip id: ", this.tripId, this.route);
+        }
+      }
+
+      if(params['departure_id']){
+        this.departureId = params['departure_id'];
+        this.initDatatable();
+      }
+
+    });
+
 
   }
 
@@ -31,19 +57,24 @@ export class DefaultComponent implements OnInit {
   initDatatable(){
     console.log("init dtatable")
 
-    this.api.getParticipants("2").subscribe((res: any) => {
+    this.api.getParticipants(this.departureId).subscribe((res: any) => {
       console.log("participants api respsonse:",res);
 
-      this.passengerResource = new DataTableResource(res.data);
-      this.updateRows = this.updateRows.bind(this);
-      // this.passengerResource.count().then(count => this.participantCount = count);
-      this.reloadItems({});
+      if(res.data.length){
+        this.passengerResource = new DataTableResource(res.data);
+        this.updateRows = this.updateRows.bind(this);
+        // this.passengerResource.count().then(count => this.participantCount = count);
+        this.reloadItems({});
+  
+        this.participantsAvailable = true;
+      }
+      else{
 
-      this.participantsAvailable = true;
+      }
 
-    },(err) => {
-      console.warn("Error", err)
+
     });
+
     // setTimeout((function() {
     //   document.querySelector('[data-toggle="tooltip"]').tooltip();
     // }), 800);

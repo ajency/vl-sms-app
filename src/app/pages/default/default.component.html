@@ -20,7 +20,7 @@
 
 <div class="container vl-participant">
 	<div class="row vl-participant__filter">
-		<main-dropdowns [frompage]="'sms'" (onOutput)="initDatatable()">
+		<main-dropdowns [frompage]="route.routeConfig.path" [tripid]="tripId" [departureid]="departureId" (onOutput)="initDatatable()">
 		</main-dropdowns>
 	</div>
 	<div class="row vl-participants__data pb-5" [ngClass]="{'no-data': !participantsAvailable}">
@@ -61,7 +61,7 @@
 				header="Passenger Name"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
-						<div [ngClass]="{'disable': item['redundant']}">{{item.passenger_name | titleCase}} 
+						<div [ngClass]="{'disable': item['redundant_contact']}">{{item.passenger_name | titleCase}} 
 							<span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact">
 								<i class="fa fa-star text-warning" aria-hidden="true"></i>
 							</span>
@@ -85,7 +85,7 @@
 				header="Booking ID"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
-						<span [ngClass]="{'d-none': item['redundant']}" class="booking-id">{{item.booking_id}}</span>
+						<span [ngClass]="{'d-none': item['redundant_contact']}" class="booking-id">{{item.booking_id}}</span>
 					</ng-template>
 				</data-table-column>
 				
@@ -95,7 +95,7 @@
 				styleClass="test"
 				sortable="true">
 					<ng-template  #dataTableCell let-item="item">
-						<span class="status-label" [ngClass]="{'d-none': item['redundant'], 'confirmed': item.booking_status == 'confirmed', 'pending': item.booking_status != 'confirmed'}">{{item.booking_status | titleCase}}</span>
+						<span class="status-label" [ngClass]="{'d-none': item['redundant_contact'], 'confirmed': item.booking_status == 'confirmed', 'pending': item.booking_status != 'confirmed'}">{{item.booking_status | titleCase}}</span>
 					</ng-template>
 				</data-table-column>
 				

@@ -1,14 +1,11 @@
 <div class="row vl-participant__filter">
 		<div class="col-sm-4">
-			<select class="vl-select">
-				<option>Select a tour</option>
-				<option>Little Rann of Kutch</option>
-				<option>Little Rann of Kutch</option>
-				<option>Little Rann of Kutch</option>
+			<select class="vl-select" [disabled]="trips.length == 0">
+				<option *ngFor="let option of trips" [value]="option.id">{{option.code}} - {{option.name}}</option>
 			</select>
 		</div>
 		<div class="col-sm-4">
-			<select class="vl-select departure">
+			<select class="vl-select departure" [disabled]="true">
 				<option>Select a departure</option>
 				<option>Little Rann of Kutch</option>
 				<option>Little Rann of Kutch</option>
@@ -16,6 +13,6 @@
 			</select>
 		</div>
 		<div class="col-sm-3 filter-action">
-			<button (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
+			<button [disabled]="!departureid" (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
 		</div>
 	</div>

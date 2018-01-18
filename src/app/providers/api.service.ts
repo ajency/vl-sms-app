@@ -9,16 +9,16 @@ export class ApiService {
 
   constructor(private app: AppService) { }
 
-  public getTrips(){
-    return this.app.request(`${this.apiUrl}/v1/api/trips`,'get');
+  public getTrips(body: any){
+    return this.app.request(`${this.apiUrl}/v1/api/trips`,'post',body);
   }
 
-  public getDepartures(id: string){
-    return this.app.request(`${this.apiUrl}/v1/api/departures`,'get');
+  public getDepartures(id: string, body: any){
+    return this.app.request(`${this.apiUrl}/v1/api/departures`,'post',body);
   }
 
   public getParticipants(id: string){
-    return this.app.request(`${this.apiUrl}/v1/api/trip-participants/${id}`,'get');
+    return this.app.request(`${this.apiUrl}/v1/api/trip-passengers`,'post',{departure_id: id});
   }
 
 }
