@@ -10,3 +10,18 @@
 .clickable {
     cursor: pointer;
 }
+
+.data-column{
+	font-weight: 400;
+    font-size: 0.85em;
+}
+
+.column-booking_id{
+	color: #8d8e8f;
+	font-weight: 300;
+}
+
+
+input[type="checkbox"]:before{
+      top: -13px;
+}

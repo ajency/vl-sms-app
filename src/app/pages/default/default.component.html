@@ -58,7 +58,7 @@
 				</ul>
 			</div>
 		</div>
-		<div *ngIf="showParticipants" class="col-sm-8">
+		<div *ngIf="showParticipants" class="col-sm-8 passenger-data">
 			<!-- Datables -->
 			<data-table
 				[items]="passengers"
@@ -71,14 +71,14 @@
 				[selectColumn]="true"
 				[multiSelect]="true"
 				[rowColors]="rowColors"
+				class="passenger-data__details"
 				>
 				<data-table-column
 				property="passenger_name"
 				header="Passenger Name"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
-						<strong>{{item.passenger_name}}</strong>
-						<span [hidden]="!item.primary">(Primary)</span>
+						<div>{{item.passenger_name}} <span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact"><i class="fa fa-star text-warning" aria-hidden="true"></i></span></div>
 					</ng-template>
 				</data-table-column>
 				
@@ -95,7 +95,7 @@
 				header="Booking ID"
 				sortable="true">
 					<ng-template  #dataTableCell let-item="item">
-						<span>{{item.booking_id}}</span>
+						<span class="booking-id">{{item.booking_id}}</span>
 					</ng-template>
 				</data-table-column>
 				
@@ -104,7 +104,7 @@
 				header="Booking Status"
 				sortable="true">
 					<ng-template  #dataTableCell let-item="item">
-						<span>{{item.booking_status}}</span>
+						<span class="status-label confirmed">{{item.booking_status}}</span>
 					</ng-template>
 				</data-table-column>
 				
