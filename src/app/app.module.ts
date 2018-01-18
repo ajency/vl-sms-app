@@ -1,12 +1,16 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule, routedComponents, miscComponents } from './app-routing.module';
 import { DataTableModule } from './custom-data-table';
-import { AuthService } from './providers/auth.service';
+
+import { AppService, AuthService, ApiService } from './providers';
+
 import { AuthGuard } from './guards/auth-guard.service';
+
 import { TitleCasePipe } from './pipes/title-case.pipe';
 
 
@@ -18,6 +22,7 @@ import { TitleCasePipe } from './pipes/title-case.pipe';
     TitleCasePipe
   ],
   imports: [
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     DataTableModule,
@@ -26,7 +31,7 @@ import { TitleCasePipe } from './pipes/title-case.pipe';
   entryComponents: [
     // routedComponents
   ],
-  providers: [AuthService, AuthGuard],
+  providers: [AppService, AuthService, ApiService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

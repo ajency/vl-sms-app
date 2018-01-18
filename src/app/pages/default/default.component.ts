@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
-import { passengers } from './data';
+// import { participants } from './data';
+import { ApiService } from '../../providers/api.service';
 
 @Component({
   selector: 'app-default',
@@ -11,40 +12,50 @@ import { passengers } from './data';
 export class DefaultComponent implements OnInit {
 
   private passengerResource;
-  passengers = [];
-  public passengerCount = 0;
+  participants = [];
+  public participantCount = 0;
 
   @ViewChild(DataTable) carsTable: DataTable;
 
-  constructor(private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute, private api: ApiService) {
     
   }
 
   ngOnInit() {
     console.log("tripId", this.route.snapshot.paramMap.get("trip_id"));
+
   }
 
-  private showParticipants: boolean = false;
+  private participantsAvailable: boolean = false;
 
   initDatatable(){
     console.log("init dtatable")
 
-    this.passengerResource = new DataTableResource(passengers);
+    this.api.getParticipants("2").subscribe((res: any) => {
+      console.log("participants api respsonse:",res);
 
-    this.rowColors = this.rowColors.bind(this);
+      this.passengerResource = new DataTableResource(res.data);
+      this.updateRows = this.updateRows.bind(this);
+      // this.passengerResource.count().then(count => this.participantCount = count);
+      this.reloadItems({});
 
-    this.passengerResource.count().then(count => this.passengerCount = count);
+      this.participantsAvailable = true;
 
-    this.showParticipants = true;
+    },(err) => {
+      console.warn("Error", err)
+    });
     // setTimeout((function() {
     //   document.querySelector('[data-toggle="tooltip"]').tooltip();
     // }), 800);
     
   }
 
-  reloadCars(params) {
+  reloadItems(params) {
     console.log("reload cars",params)
-      this.passengerResource.query(params).then(cars => this.passengers = cars);
+    this.passengerResource.query(params).then((data) => {
+      this.participants = data;
+      this.participantCount = data.length;
+    });
   }
 
   // custom features:
@@ -54,11 +65,11 @@ export class DefaultComponent implements OnInit {
 
   yearLimit = 1999;
 
-  rowColors(passenger,event) {
+  updateRows(passenger,event) {
       // console.log('rowcolor:', passenger,event);
 
       if (passenger.redundant) {
-        passenger.disabled = true; //disable the checkbox for a row without mobile from self
+        // passenger.disabled = true; //disable the checkbox for a row without mobile from self
         // return 'rgba(0, 0, 0, 0.1)';
       }
   }
@@ -68,7 +79,7 @@ export class DefaultComponent implements OnInit {
   }
 
   sendSMS(event){
-    console.log("passengers", this.passengers, event);
+    console.log("participants", this.participants, event);
   }
 
 }
