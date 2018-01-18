@@ -1,0 +1,11 @@
+@media screen and (max-width: 500px){
+	.departure{
+		margin: 1em 0;
+	}
+	.filter-action{
+		text-align: center;
+	}
+	.result--title{
+		font-size: 1.3em;
+	}
+}

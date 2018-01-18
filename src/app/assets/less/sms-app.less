@@ -25,6 +25,7 @@
 
 .no-data{
 	min-height: 70vh;
+	padding-bottom: 0 !important;
 }
 
 .empty-box{
@@ -75,18 +76,43 @@ main-dropdowns{
 }
 
 
-
-
 @media screen and (max-width: @mobile){
-	.vl-participant{
-		.departure{
-			margin: 1em 0;
+	.no-data{
+		min-height: 60vh;
+		padding: 0 !important;
+	}
+	.empty-box{
+		.fa{
+			font-size: 3em;
 		}
-		.filter-action{
-			text-align: center;
-		}
+	}
+	.app-detail{
+		margin: 0.5em 0;
+    	font-size: 1.5em;
 	}
 	.result--title{
-		font-size: 1.3em;
+		font-size: 1.25em;
 	}
 }
+@media screen and (max-width: 360px){
+	.no-data{
+		min-height: 50vh;
+	}
+}
+
+@media screen and (min-width: @mobile) and (max-width: @tab){
+	.vl-participants__data{
+		flex-direction: column;
+	}
+	.passenger-data,.compose-msg{
+		max-width: 100%;
+	}
+}
+
+
+
+
+
+
+
+

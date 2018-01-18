@@ -1622,7 +1622,7 @@ input[type="checkbox"].toggle__check {
   color: #8d8e8f;
 }
 .vl-shadow {
-  box-shadow: 0px 1px 3px 0px rgba(177, 173, 173, 0.5);
+  box-shadow: 0px 1px 2px 0px rgba(117, 117, 117, 0.5);
 }
 .primary-link {
   color: #4a90e2;
