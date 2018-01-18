@@ -40,6 +40,10 @@
   font-size: 0.85em;
   padding: 0.4em 1em;
 }
+main-dropdowns {
+  width: 100%;
+  padding: 0 15px;
+}
 @media screen and (max-width: 480px) {
   .vl-participant .departure {
     margin: 1em 0;

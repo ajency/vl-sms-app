@@ -27,6 +27,7 @@ export class DefaultComponent implements OnInit {
 
   initDatatable(){
     console.log("init dtatable")
+
     this.passengerResource = new DataTableResource(passengers);
 
     this.rowColors = this.rowColors.bind(this);
@@ -34,6 +35,10 @@ export class DefaultComponent implements OnInit {
     this.passengerResource.count().then(count => this.passengerCount = count);
 
     this.showParticipants = true;
+    // setTimeout((function() {
+    //   document.querySelector('[data-toggle="tooltip"]').tooltip();
+    // }), 800);
+    
   }
 
   reloadCars(params) {

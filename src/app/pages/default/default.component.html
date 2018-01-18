@@ -61,7 +61,11 @@
 				header="Passenger Name"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
-						<div>{{item.passenger_name}} <span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact"><i class="fa fa-star text-warning" aria-hidden="true"></i></span></div>
+						<div>{{item.passenger_name}} 
+							<span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact">
+								<i class="fa fa-star text-warning" aria-hidden="true"></i>
+							</span>
+						</div>
 					</ng-template>
 				</data-table-column>
 				
@@ -70,6 +74,7 @@
 				header="Phone No.">
 					<ng-template  #dataTableCell let-item="item">
 						<span>{{item.phone_no}}</span>
+						<span class="text-lighter xx-small">(Mobile-self)</span>
 					</ng-template>
 				</data-table-column>
 				
@@ -103,8 +108,9 @@
 			
 			</data-table>
 		</div>
-
-		<send-sms [sms-users]="passengers" *ngIf="showParticipants" (onSendSms)="sendSMS($event)"></send-sms>
+		<div class="col-sm-4">
+			<send-sms [sms-users]="passengers" *ngIf="showParticipants" (onSendSms)="sendSMS($event)"></send-sms>
+		</div>
 	</div>
 </div>
 
