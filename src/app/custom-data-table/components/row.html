@@ -13,7 +13,7 @@
         <span class="glyphicon glyphicon-triangle-bottom" [hide]="!expanded"></span>
     </td>
     <td [hide]="!dataTable.indexColumnVisible" class="index-column" [textContent]="displayIndex"></td>
-    <td [hide]="!dataTable.selectColumnVisible" class="select-column">
+    <td [hide]="!dataTable.selectColumnVisible" class="select-column" [class.disable]="item['disabled']">
         <input type="checkbox" [(ngModel)]="selected"/>
     </td>
     <td *ngFor="let column of dataTable.columns" [hide]="!column.visible" [ngClass]="column.styleClassObject" class="data-column"

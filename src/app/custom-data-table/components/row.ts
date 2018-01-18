@@ -49,6 +49,17 @@ export class DataTableRow implements OnDestroy {
 
     constructor(@Inject(forwardRef(() => DataTable)) public dataTable: DataTable) {}
 
+    // ngOnChanges(){
+    //     console.log("row datatable", this.dataTable);
+    //     if(this.dataTable.columns.length){
+    //         this.dataTable.columns.map((col: any) => {
+    //             col.styleClassObject ? col.styleClassObject['d-none'] = (this.item['disabled'] || false ): { 'd-none': this.item['disabled'] || false }
+    //             // col.styleClassObject  = { 'd-none': this.item['disabled'] || false }
+    //             console.log("col.sytle", col.styleClassObject)
+    //         })
+    //     }
+    // }
+
     ngOnDestroy() {
         this.selected = false;
     }

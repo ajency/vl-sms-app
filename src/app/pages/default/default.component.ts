@@ -53,8 +53,13 @@ export class DefaultComponent implements OnInit {
 
   yearLimit = 1999;
 
-  rowColors(car) {
-      if (car.year >= this.yearLimit) return 'rgb(255, 255, 197)';
+  rowColors(passenger,event) {
+      // console.log('rowcolor:', passenger,event);
+
+      if (passenger.phone_type !== 'mobile-self') {
+        passenger.disabled = true; //disable the checkbox for a row without mobile from self
+        // return 'rgba(0, 0, 0, 0.1)';
+      }
   }
 
   rowClick(event){

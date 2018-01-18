@@ -7,12 +7,14 @@ import { AppRoutingModule, routedComponents, miscComponents } from './app-routin
 import { DataTableModule } from './custom-data-table';
 import { AuthService } from './providers/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
+import { TitleCasePipe } from './pipes/title-case.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     miscComponents,
-    routedComponents
+    routedComponents,
+    TitleCasePipe
   ],
   imports: [
     AppRoutingModule,
