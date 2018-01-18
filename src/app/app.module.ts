@@ -9,6 +9,7 @@ import { AuthService } from './providers/auth.service';
 import { AuthGuard } from './guards/auth-guard.service';
 import { TitleCasePipe } from './pipes/title-case.pipe';
 
+
 @NgModule({
   declarations: [
     AppComponent,

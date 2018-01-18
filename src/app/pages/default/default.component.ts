@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
 import { passengers } from './data';
 
@@ -15,12 +16,12 @@ export class DefaultComponent implements OnInit {
 
   @ViewChild(DataTable) carsTable: DataTable;
 
-  constructor() {
+  constructor(private route: ActivatedRoute) {
     
   }
 
   ngOnInit() {
-
+    console.log("tripId", this.route.snapshot.paramMap.get("trip_id"));
   }
 
   private showParticipants: boolean = false;
@@ -56,7 +57,7 @@ export class DefaultComponent implements OnInit {
   rowColors(passenger,event) {
       // console.log('rowcolor:', passenger,event);
 
-      if (passenger.phone_type !== 'mobile-self') {
+      if (passenger.redundant) {
         passenger.disabled = true; //disable the checkbox for a row without mobile from self
         // return 'rgba(0, 0, 0, 0.1)';
       }

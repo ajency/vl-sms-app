@@ -2,7 +2,7 @@ export var passengers = [
     { booking_id: "BD568456413", passenger_id: "1245", passenger_name: "Lawrence P.", primary: false, phone_no: "914521258442", phone_type: 'mobile-self', booking_status: 'confirmed' },
     { booking_id: "BD465156413", passenger_id: "1245", passenger_name: "Annabelle S.", primary: true, phone_no: "914526518442", phone_type: 'mobile-self', booking_status: 'confirmed' },
     { booking_id: "BD368456413", passenger_id: "1245", passenger_name: "Craig D.", primary: false, phone_no: "914525658442", phone_type: 'Emergency mobile', booking_status: 'confirmed' },
-    { booking_id: "BD268456413", passenger_id: "1245", passenger_name: "Ginger E.", primary: false, phone_no: "914522658442", phone_type: 'Emergency mobile', booking_status: 'pending_confirmation' },
+    { redundant: true, booking_id: "BD268456413", passenger_id: "1245", passenger_name: "Ginger E.", primary: false, phone_no: "914522658442", phone_type: 'Emergency mobile', booking_status: 'pending_confirmation' },
     { booking_id: "BD168456413", passenger_id: "1245", passenger_name: "Donald T.", primary: false, phone_no: "914254658442", phone_type: 'Emergency mobile', booking_status: 'confirmed' },
     { booking_id: "BD068456413", passenger_id: "1245", passenger_name: "Ajaj R.", primary: false, phone_no: "914523665442", phone_type: 'mobile-self', booking_status: 'confirmed' },
     { booking_id: "BD058456413", passenger_id: "1245", passenger_name: "Naire L.", primary: false, phone_no: "914548558442", phone_type: 'mobile-self', booking_status: 'pending-confirmation_new' },
