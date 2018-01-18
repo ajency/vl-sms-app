@@ -40,12 +40,9 @@ input[type=checkbox] {
             // color: @accent-secondary;
         }
     }
-    &.disabled{
+    &.disable{
         pointer-events: none;
-        &:before{
-            content: '\f10c';
-            color: #ccc;
-        }
+        opacity: 0.4;
     }
     &:focus{
     	outline: 0;

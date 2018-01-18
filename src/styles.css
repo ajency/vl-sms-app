@@ -361,12 +361,9 @@ input[type=checkbox]:checked:before {
   background-image: url('assets/img/checkbox-checked.png');
   background-size: initial;
 }
-input[type=checkbox].disabled {
+input[type=checkbox].disable {
   pointer-events: none;
-}
-input[type=checkbox].disabled:before {
-  content: '\f10c';
-  color: #ccc;
+  opacity: 0.4;
 }
 input[type=checkbox]:focus {
   outline: 0;

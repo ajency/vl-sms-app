@@ -18,7 +18,7 @@
 	</div>
 </header>
 
-<div class="container vl-participant">
+<div class="container vl-participant no-data">
 	<div class="row vl-participant__filter">
 		<main-dropdowns [frompage]="'sms'" (onOutput)="initDatatable()">
 		</main-dropdowns>
@@ -74,7 +74,7 @@
 				header="Phone No.">
 					<ng-template  #dataTableCell let-item="item">
 						<span>{{item.phone_no}}</span>
-						<span class="text-lighter xx-small">(Mobile-self)</span>
+						<span class="text-lighter xx-small d-block">(Mobile-self)</span>
 					</ng-template>
 				</data-table-column>
 				
