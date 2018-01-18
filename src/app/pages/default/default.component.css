@@ -12,6 +12,7 @@
 }
 .no-data {
   min-height: 70vh;
+  padding-bottom: 0 !important;
 }
 .empty-box .fa {
   font-size: 6em;
@@ -45,14 +46,37 @@ main-dropdowns {
   padding: 0 15px;
 }
 @media screen and (max-width: 480px) {
-  .vl-participant .departure {
-    margin: 1em 0;
+  .no-data {
+    min-height: 60vh;
+    padding: 0 !important;
   }
-  .vl-participant .filter-action {
-    text-align: center;
+  .empty-box .fa {
+    font-size: 3em;
+  }
+  .app-detail {
+    margin: 0.5em 0;
+    font-size: 1.5em;
   }
   .result--title {
-    font-size: 1.3em;
+    font-size: 1.25em;
+  }
+}
+@media screen and (max-width: 360px) {
+  .no-data {
+    min-height: 50vh;
+  }
+}
+@media screen and (min-width: 480px) and (max-width: 769px) {
+  .vl-participants__data {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
+  }
+  .passenger-data,
+  .compose-msg {
+    max-width: 100%;
   }
 }
 /*# sourceMappingURL=default.component.css.map */

@@ -18,7 +18,7 @@
 	</div>
 </header>
 
-<div class="container vl-participant no-data">
+<div class="container vl-participant">
 	<div class="row vl-participant__filter">
 		<main-dropdowns [frompage]="'sms'" (onOutput)="initDatatable()">
 		</main-dropdowns>
@@ -108,7 +108,7 @@
 			
 			</data-table>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-4 compose-msg">
 			<send-sms [sms-users]="passengers" *ngIf="showParticipants" (onSendSms)="sendSMS($event)"></send-sms>
 		</div>
 	</div>
