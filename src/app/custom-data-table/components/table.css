@@ -90,6 +90,11 @@
   color: #8d8e8f;
 }
 
+@media screen and (max-width: 500px){
+  .column-header{
+    min-width: 140px;  
+  }
+}
 
 input[type="checkbox"]:before{
       top: -13px;
