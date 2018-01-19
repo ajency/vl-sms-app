@@ -33,6 +33,7 @@
 				<p class="label-size m-b-0 text-lighter" [hidden]="!errorMessage">{{errorMessage}}</p>
 			</div>
 		</div>
+
 		<!-- Results -->
 		<div *ngIf="participantsAvailable" class="col-sm-12 mb-2">
 			<div class="results-header pt-3 pb-3">
@@ -47,6 +48,15 @@
 				</ul>
 			</div>
 		</div>
+
+		<!-- Loader -->
+		<div class="col-sm-12 d-none">
+			<div class="bar-loader mb-4 mt-4 text-center fullwidth">
+				<div class="loading-pulse"></div>
+			</div>
+		</div>
+		<!-- loader -->
+
 		<div *ngIf="participantsAvailable" class="col-sm-8 passenger-data">
 			<!-- Datables -->
 			<data-table

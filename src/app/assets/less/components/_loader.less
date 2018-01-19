@@ -1,6 +1,77 @@
 
 // Bounce animation
 
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes pulse {
+  50% {
+    background: white;
+  }
+}
+@keyframes pulse {
+  50% {
+    background: white;
+  }
+}
+
+.loading {
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  border: 0.25rem solid rgb(74, 144, 226);
+  border-top-color: white;
+  animation: spin 1s infinite linear;
+}
+
+
+
+.loading-pulse {
+  position: relative;
+  width: 4px;
+  height: 60px;
+  background: @accent-primary;
+  animation: pulse 750ms infinite;
+  animation-delay: 250ms;
+  margin: 0 auto;
+  &:before,&:after{
+  	  content: "";
+	  position: absolute;
+	  display: block;
+	  height: 30px;
+	  width: 4px;
+	  background: @accent-primary;
+	  top: 50%;
+      transform: translateY(-50%);
+      animation: pulse 750ms infinite;
+  }
+  &:after{
+  	left: 12px;
+    animation-delay: 500ms;
+  }
+  &:before{
+  	left: -12px;	
+  }
+}
+
+
 @keyframes loading {
   0%, 100% {
     transform: translateY(0px);
