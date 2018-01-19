@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Input, Output , NgZone } from '@angular/core';
-// import * as Moment from 'angular2-moment';
+import { PlatformLocation } from '@angular/common';
 import { ApiService } from '../../providers/api.service';
 
 
@@ -23,16 +23,23 @@ export class MainDropdownsComponent {
   private depSub: any;
   private dateFormat: string;
 
-  constructor(private api: ApiService, private zone: NgZone) {
+  private tripFromParent: boolean = false;
+  private depFromParent: boolean = false;
+
+  constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation) {
     // console.log("moment", Moment);
     this.dateFormat = this.api.dateFormat;
    }
 
   ngOnInit() {
-    console.log("from page:", this.frompage, this.tripid);
+    
+    // set flags to indicate if trip id & departure id are passed in from parent component
+    this.tripFromParent = this.tripid ? true : false;
+    this.depFromParent = this.departureid ? true : false;
+
+    console.log("main drops init:  from page: ", this.frompage, " tripid: ",this.tripFromParent, "departureid: ", this.depFromParent);
 
     this.updateTrips(this.tripid);
-    this.updateDepartures(this.departureid);
   }
 
   // ngOnChanges(){
@@ -51,6 +58,10 @@ export class MainDropdownsComponent {
                             this.trips = res.data;
                             // this.tripid = inittripid  ? inittripid : this.trips[0].id;
                             this.tripid = inittripid  ? inittripid : '';
+
+                            this.updateDepartures(this.departureid);
+                          },() => {
+                            this.updateDepartures(this.departureid);
                           });
   }
 
@@ -75,29 +86,95 @@ export class MainDropdownsComponent {
                               console.log("depatures", res);
                               this.departures = res.data;
                               // this.departureid = initdepid ? initdepid : this.departures[0].departure_id;
-                              this.departureid = initdepid ? initdepid : '';
+                              
+                              this.updateLocation('trip');
+                            
+                              if(initdepid){
+                                this.departureid = initdepid;
+                                this.triggerOutput(); // if departure id is passed in from parent component trigger the output event to load participant data
+                              }
+
                             });
     }
   }
 
+  private participantSub: any;
+
   triggerOutput(){
     let oevent = {};
 
+    oevent['trip_details'] = this.getTripMeta();
+    oevent['dep_details'] = this.getDepMeta();
+
+    console.log("triggerout dtatable", oevent)
+
+    if(this.participantSub){
+      this.participantSub.unsubscribe();
+    }
+
+    if(!this.departureid){
+      console.warn("no departure id set");
+      return;
+    } 
+
+    this.participantSub = this.api.getParticipants(this.departureid)
+                                  .subscribe((res: any) => {
+                                    console.log("participants api respsonse:",res);
+                                    oevent['response'] = res;
+                                    
+                                    this.updateLocation('departure');
+                                  
+                                    this.onOutput.emit(oevent);
+                                  });
+
+  }
+
+  getTripMeta(){
+    let meta = {};
     this.trips.map((val) => {
       if(val.id == this.tripid){
-        oevent['trip_details'] = val;
+        meta = val;
       }
-    })
+    });
+    return meta;
+  }
 
+  getDepMeta(){
+    let meta = {};
     this.departures.map((val) => {
       if(val.departure_id == this.departureid){
-        oevent['dep_details'] = val;
+        meta = val;
       }
-    })
+    });
+    return meta;
+  }
 
-    oevent['departure_id'] = this.departureid;
+  updateLocation(type: string){
+    if(this.frompage.indexOf('send-sms') === 0){
+      console.log("############################################## url update ", type , this.frompage);
+      let tripmeta = this.getTripMeta();
+      let depmeta = this.getDepMeta();
 
-    this.onOutput.emit(oevent);
+      switch(type){
+        case 'trip': {  
+                          if(!this.tripFromParent){
+                            this.platformlocation
+                                .pushState({tripid: this.tripid}, 'update tripid', `send-sms/trip-${tripmeta['code']}-${tripmeta['id']}`);
+                          }else{
+                            this.tripFromParent = false;
+                          }
+                      };break;
+        case 'departure': {
+                            if(!this.depFromParent){
+                              this.platformlocation
+                                .pushState({departureid: this.departureid}, 'update departureid', `send-sms/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
+                            }else{
+                              this.depFromParent = false;
+                            }
+                            
+                          };break;
+      }
+    }
   }
 
 }
