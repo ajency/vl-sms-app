@@ -2,7 +2,7 @@
 
 
 
-<div class="offline-mode container">
+<div class="offline-mode container" [class.active]="!online">
   <div class="alert alert-primary container flex-row justify-center">
     Please check your connection it seems that you are offline !!!
     <a href="" class="btn vl-btn  offline-btn text-uppercase lighter">Refresh</a>
