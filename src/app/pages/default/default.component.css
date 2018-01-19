@@ -45,6 +45,9 @@ main-dropdowns {
   width: 100%;
   padding: 0 15px;
 }
+.external-link {
+  color: #2d7ace;
+}
 @media screen and (max-width: 480px) {
   .no-data {
     min-height: 60vh;
