@@ -17,8 +17,10 @@ export class DefaultComponent implements OnInit {
 
   @ViewChild(DataTable) carsTable: DataTable;
 
+  private dateFormat: string;
+
   constructor(private route: ActivatedRoute, private api: ApiService) {
-    
+    this.dateFormat = this.api.dateFormat;
   }
 
   private tripCode: string;
@@ -26,6 +28,8 @@ export class DefaultComponent implements OnInit {
   private departureId: string;
 
   ngOnInit() {
+    this.updateRows = this.updateRows.bind(this);
+
     let tripslug = this.route.snapshot.paramMap.get("trip_slug");
 
     this.route.queryParams.subscribe((params) => {
@@ -53,27 +57,43 @@ export class DefaultComponent implements OnInit {
   }
 
   private participantsAvailable: boolean = false;
+  private participantSub: any;
+  private tripDetails: any;
+  private depDetails: any;
 
-  initDatatable(){
-    console.log("init dtatable")
+  initDatatable(event: any = {}){
+    console.log("init dtatable", event)
 
-    this.api.getParticipants(this.departureId).subscribe((res: any) => {
-      console.log("participants api respsonse:",res);
+    if(this.participantSub){
+      this.participantSub.unsubscribe();
+    }
 
-      if(res.data.length){
-        this.passengerResource = new DataTableResource(res.data);
-        this.updateRows = this.updateRows.bind(this);
-        // this.passengerResource.count().then(count => this.participantCount = count);
-        this.reloadItems({});
-  
-        this.participantsAvailable = true;
-      }
-      else{
+    this.departureId = event['departure_id'] ? event['departure_id'] : this.departureId;
 
-      }
+    if(!this.departureId){
+      console.warn("no departure id set");
+      return;
+    } 
 
+    this.participantSub = this.api.getParticipants(this.departureId)
+                                  .subscribe((res: any) => {
+                                    console.log("participants api respsonse:",res);
+                                    if(res.data.length){
+                                      this.passengerResource = new DataTableResource(res.data);
+                                      // this.passengerResource.count().then(count => this.participantCount = count);
+                                      this.reloadItems({});
+                                      
+                                      this.tripDetails = event['trip_details'];
+                                      this.depDetails = event['dep_details'];
 
-    });
+                                      this.participantsAvailable = true;
+                                    }
+                                    else{
+                                      this.passengerResource = new DataTableResource(res.data);
+                                      this.participantsAvailable = false;
+
+                                    }
+                                  });
 
     // setTimeout((function() {
     //   document.querySelector('[data-toggle="tooltip"]').tooltip();
@@ -99,10 +119,10 @@ export class DefaultComponent implements OnInit {
   updateRows(passenger,event) {
       // console.log('rowcolor:', passenger,event);
 
-      if (passenger.redundant) {
-        // passenger.disabled = true; //disable the checkbox for a row without mobile from self
-        // return 'rgba(0, 0, 0, 0.1)';
-      }
+      // if (passenger.redundant) {
+      //   passenger.disabled = true; //disable the checkbox for a row without mobile from self
+      //   return 'rgba(0, 0, 0, 0.1)';
+      // }
   }
 
   rowClick(event){

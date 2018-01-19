@@ -20,7 +20,7 @@
 
 <div class="container vl-participant">
 	<div class="row vl-participant__filter">
-		<main-dropdowns [frompage]="route.routeConfig.path" [tripid]="tripId" [departureid]="departureId" (onOutput)="initDatatable()">
+		<main-dropdowns [frompage]="route.routeConfig.path" [tripid]="tripId" [departureid]="departureId" (onOutput)="initDatatable($event)">
 		</main-dropdowns>
 	</div>
 	<div class="row vl-participants__data pb-5" [ngClass]="{'no-data': !participantsAvailable}">
@@ -34,10 +34,14 @@
 		<!-- Results -->
 		<div *ngIf="participantsAvailable" class="col-sm-12 mb-2">
 			<div class="results-header pt-3 pb-3">
-				<h5 class="heavier m-b-0 pb-1 result--title">Little Rann of Kutch</h5>
+				<h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails.name}}</h5>
 				<ul class="d-flex text-medium results-header__details">
-					<li class="pr-2"><b>LRRK24023</b></li>
-					<li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li>
+					<li class="pr-2"><b>{{tripDetails.code}}</b></li>
+					<!-- <li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li> -->
+					<li class="lighter date-range">
+						<!-- <b>1</b> Oct to <b>3</b> Oct -->
+						{{depDetails.starts_at | amParse: dateFormat | amDateFormat:'DD MMM' }} to {{depDetails.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' }}
+					</li>
 				</ul>
 			</div>
 		</div>

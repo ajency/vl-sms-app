@@ -1,3 +1,12 @@
+select {
+	border: 1px solid transparent;
+}
+
+select .ng-pristine{
+font-style: italic;
+color: rgba(0,0,0,0.2);
+}
+
 @media screen and (max-width: 500px){
 	.departure{
 		margin: 1em 0;

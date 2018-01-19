@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 @Injectable()
 export class ApiService {
 
+  public dateFormat: string = 'YYYY-MM-DDTHH:mm:ss';
   public apiUrl: string = 'http://localhost:3000';
 
   constructor(private app: AppService) { }
@@ -13,7 +14,7 @@ export class ApiService {
     return this.app.request(`${this.apiUrl}/v1/api/trips`,'post',body);
   }
 
-  public getDepartures(id: string, body: any){
+  public getDepartures( body: any){
     return this.app.request(`${this.apiUrl}/v1/api/departures`,'post',body);
   }
 
