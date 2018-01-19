@@ -24,6 +24,24 @@ apiRoutes.options(function(req,res){
     res.send(200);
 });
 
+apiRoutes.post('/login',function(req,res){
+
+    if(req.body.username == 'nutan' && req.body.password == 'password'){
+        res.status(200).json({
+            status: "success",
+            msg: "ok",
+            token: 'passwordXXXXX'
+        });
+    }
+    else{
+        res.status(401).json({
+            status: "error",
+            msg: "user doesn't exist"
+        });
+    }
+    
+});
+
 apiRoutes.post('/trips',function(req,res){
     res.status(200).json(
         {
@@ -36,12 +54,23 @@ apiRoutes.post('/trips',function(req,res){
 });
 
 apiRoutes.post('/departures',function(req,res){
-    res.status(200).json({
-        status: "success",
-        msg: "ok",
-        data: dataHandler('departures').departures
-        }
-        );
+    var response =  {
+            status: "success",
+            msg: "ok",
+            data: dataHandler('departures').departures
+        };
+    if(req.body.filters.trip_id == 1 || req.body.filters.trip_id == 2){
+        response.status = "success";
+        response.msg = 'ok';
+        response.data = dataHandler('departures').departures;
+    }
+    else{
+        response.status = "error";
+        response.msg = 'Departures for trip dont exist!';
+        response.data = [];
+    }
+
+    res.status(200).json(response);
 });
 
 apiRoutes.post('/trip-passengers',function(req,res){
@@ -65,7 +94,7 @@ apiRoutes.post('/trip-passengers',function(req,res){
             response['msg'] = "ok";
         }
         else{
-            response['msg'] = "Data doesn't exist";
+            response['msg'] = "No participants found for departure!";
         }
 
 

@@ -1,8 +1,14 @@
 import { Injectable } from '@angular/core';
+import { AppService } from './app.service';
+import { globals } from '../app.global';
 
 @Injectable()
 export class AuthService {
 
-  constructor() { }
+  constructor(private app: AppService) { }
+
+  public login(body: any){
+    return this.app.request(`${globals.apiUrl}/v1/api/login`,'post',body);
+  }
 
 }

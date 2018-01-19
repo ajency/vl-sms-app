@@ -12,7 +12,7 @@ import { AuthGuard } from './guards/auth-guard.service';
 
 const routes: Routes = [
     { path: '', redirectTo: '/send-sms', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent },
+    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
     { path: 'send-sms', component: DefaultComponent, canActivate: [AuthGuard]},
     { path: 'send-sms/:trip_slug', component: DefaultComponent, canActivate: [AuthGuard]},
     { path: '**', component: NotfoundComponent}
