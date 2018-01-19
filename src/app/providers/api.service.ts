@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
-
+import { globals } from '../app.global';
 
 @Injectable()
 export class ApiService {
 
-  public dateFormat: string = 'YYYY-MM-DDTHH:mm:ss';
-  public apiUrl: string = 'http://localhost:3000';
+  public dateFormat: string = globals.dateFormat;
+  public apiUrl: string = globals.apiUrl;
 
   constructor(private app: AppService) { }
 

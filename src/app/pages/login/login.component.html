@@ -9,14 +9,14 @@
 				<form class="form-signin card">
 					<h6 class="font-weight-normal form-signin__title">sign in</h6>
 					<div class="login-card">
-						<input type="email" id="inputEmail" class="vl-text" placeholder="Email address" required="" autofocus="">
-						<input type="password" id="inputPassword" class="vl-text" placeholder="Password" required="">
+						<input type="email" [(ngModel)]="username" name="inputEmail" class="vl-text" placeholder="Email address" required="" autofocus="">
+						<input type="password" [(ngModel)]="password" name="inputPassword" class="vl-text" placeholder="Password" required="">
 						<div class="mb-3 mt-3 remember">
 							<label class="x-small label-color cursor-pointer">
 								<input type="checkbox" value="remember-me"> Remember me
 							</label>
 						</div>
-						<button class="btn vl-btn primary-btn text-uppercase lighter fullwidth" type="submit">Sign in</button>
+						<button (click)="signIn()" class="btn vl-btn primary-btn text-uppercase lighter fullwidth" type="submit">Sign in</button>
 					</div>
 				</form>
 			</div>

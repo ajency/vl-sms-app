@@ -24,6 +24,24 @@ apiRoutes.options(function(req,res){
     res.send(200);
 });
 
+apiRoutes.post('/login',function(req,res){
+
+    if(req.body.username == 'nutan' && req.body.password == 'password'){
+        res.status(200).json({
+            status: "success",
+            msg: "ok",
+            token: 'passwordXXXXX'
+        });
+    }
+    else{
+        res.status(401).json({
+            status: "error",
+            msg: "user doesn't exist"
+        });
+    }
+    
+});
+
 apiRoutes.post('/trips',function(req,res){
     res.status(200).json(
         {
