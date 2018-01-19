@@ -89,7 +89,7 @@
 				header="Booking ID"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
-						<span [ngClass]="{'d-none': item['redundant_contact']}" class="booking-id">{{item.booking_id ? item.booking_id : naText}}</span>
+						<span [ngClass]="{'d-none': item['redundant_contact']}" class="booking-id">{{item.booking_id ? item.booking_id : naText}} <i class="fa fa-external-link external-link p-l-5" aria-hidden="true"></i></span>
 					</ng-template>
 				</data-table-column>
 				
