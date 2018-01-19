@@ -303,7 +303,56 @@
 }
 
 
+.offline-mode{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: -1;
+    margin: 0 auto;
+    height: 100%;
+    opacity: 0;
+    background-color: rgba(12, 12, 12, 0.5);
+    transition: all 0.5s ease;
+    .alert{
+      position: fixed;
+      background-color: #000;
+      border: 0;
+      color: #fff;
+      border-radius: 0;
+      margin: 0 -15px;
+      bottom: 0;
+      text-align: center;
+      padding: 1em;
+      font-weight: 300;
+      font-size: 0.9em;
+    }
+    &.active{
+      z-index: 10;
+      opacity: 1;
+    }
+}
 
+.vl-btn.vl-btn.offline-btn{
+    margin-left: 1.5em;
+    border-radius: 0;
+    background-color: #0e0e0e2e;
+    border-color: #fdfcfc63;
+    font-size: 0.8em;
+    color: #fff;
+    &:hover{
+      color: #fff;
+    }
+}
+
+@media screen and (max-width: @mobile){
+  .offline-mode{
+    .alert{
+      font-size: 0.8em;
+      text-align: left;
+    }
+  }
+}
 
 
 .alert-success{
