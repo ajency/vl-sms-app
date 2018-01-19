@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
 // import { participants } from './data';
 import { ApiService } from '../../providers/api.service';
@@ -17,15 +17,24 @@ export class DefaultComponent implements OnInit {
 
   @ViewChild(DataTable) carsTable: DataTable;
 
-  private dateFormat: string;
-
-  constructor(private route: ActivatedRoute, private api: ApiService) {
-    this.dateFormat = this.api.dateFormat;
-  }
-
   private tripCode: string;
   private tripId: string;
   private departureId: string;
+
+  private participantsAvailable: boolean = false;
+
+  private tripDetails: any = {};
+  private depDetails: any = {};
+  private naText: string = '--';
+  private dateFormat: string;
+
+  constructor(private route: ActivatedRoute, private api: ApiService, private element: ElementRef, private router: Router) {
+    this.dateFormat = this.api.dateFormat;
+
+    console.log("element:", element);
+  }
+
+
 
   ngOnInit() {
     this.updateRows = this.updateRows.bind(this);
@@ -48,7 +57,7 @@ export class DefaultComponent implements OnInit {
 
       if(params['departure_id']){
         this.departureId = params['departure_id'];
-        this.initDatatable();
+        // this.initDatatable({});
       }
 
     });
@@ -56,49 +65,27 @@ export class DefaultComponent implements OnInit {
 
   }
 
-  private participantsAvailable: boolean = false;
-  private participantSub: any;
-  private tripDetails: any;
-  private depDetails: any;
-
   initDatatable(event: any = {}){
-    console.log("init dtatable", event)
+    if(event.response.data && event.response.data.length){
+      this.passengerResource = new DataTableResource(event.response.data);
+      // this.passengerResource.count().then(count => this.participantCount = count);
+      this.reloadItems({});
+      
+      this.tripDetails = event['trip_details'];
+      this.depDetails = event['dep_details'];
 
-    if(this.participantSub){
-      this.participantSub.unsubscribe();
+      this.participantsAvailable = true;
+
+
+      // setTimeout(()  => {
+      //   this.element.nativeElement.querySelector('[data-toggle="tooltip"]').tooltip();
+      // }, 800);
     }
+    else{
+      this.passengerResource = new DataTableResource([]);
+      this.participantsAvailable = false;
 
-    this.departureId = event['departure_id'] ? event['departure_id'] : this.departureId;
-
-    if(!this.departureId){
-      console.warn("no departure id set");
-      return;
-    } 
-
-    this.participantSub = this.api.getParticipants(this.departureId)
-                                  .subscribe((res: any) => {
-                                    console.log("participants api respsonse:",res);
-                                    if(res.data.length){
-                                      this.passengerResource = new DataTableResource(res.data);
-                                      // this.passengerResource.count().then(count => this.participantCount = count);
-                                      this.reloadItems({});
-                                      
-                                      this.tripDetails = event['trip_details'];
-                                      this.depDetails = event['dep_details'];
-
-                                      this.participantsAvailable = true;
-                                    }
-                                    else{
-                                      this.passengerResource = new DataTableResource(res.data);
-                                      this.participantsAvailable = false;
-
-                                    }
-                                  });
-
-    // setTimeout((function() {
-    //   document.querySelector('[data-toggle="tooltip"]').tooltip();
-    // }), 800);
-    
+    }
   }
 
   reloadItems(params) {
@@ -126,7 +113,8 @@ export class DefaultComponent implements OnInit {
   }
 
   rowClick(event){
-    console.log("row event", event);
+    event.row.selected = !event.row.selected;
+    console.log("row event", event.row.selected);
   }
 
   sendSMS(event){
