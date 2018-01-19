@@ -14,6 +14,10 @@
     outline: none !important;
 }
 
+.select-column-header{
+    padding: .2rem .5rem .2rem;
+}
+
 .column-selector-wrapper {
     position: relative;
 }
