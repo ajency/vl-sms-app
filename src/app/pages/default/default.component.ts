@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
-// import { participants } from './data';
 import { ApiService } from '../../providers/api.service';
 
 @Component({
@@ -27,6 +26,7 @@ export class DefaultComponent implements OnInit {
   private depDetails: any = {};
   private naText: string = '--';
   private dateFormat: string;
+  private errorMessage: string;
 
   constructor(private route: ActivatedRoute, private api: ApiService, private element: ElementRef, private router: Router) {
     this.dateFormat = this.api.dateFormat;
@@ -67,6 +67,8 @@ export class DefaultComponent implements OnInit {
 
   initDatatable(event: any = {}){
     if(event.response.data && event.response.data.length){
+      this.errorMessage = '';
+
       this.passengerResource = new DataTableResource(event.response.data);
       // this.passengerResource.count().then(count => this.participantCount = count);
       this.reloadItems({});
@@ -82,9 +84,19 @@ export class DefaultComponent implements OnInit {
       // }, 800);
     }
     else{
+      this.errorMessage = event.response.msg || 'An error occured!';
       this.passengerResource = new DataTableResource([]);
       this.participantsAvailable = false;
 
+    }
+  }
+
+  checkDepartureError(event){
+    if(event && event.data.length){
+      this.errorMessage = '';
+    }
+    else{
+      this.errorMessage = event.msg;
     }
   }
 

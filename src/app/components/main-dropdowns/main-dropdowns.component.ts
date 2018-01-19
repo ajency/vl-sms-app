@@ -15,6 +15,7 @@ export class MainDropdownsComponent {
   @Input() frompage: string;
 
   @Output() onOutput = new EventEmitter<any>();
+  @Output() onDepartures = new EventEmitter<any>();
 
   private trips: Array<any> = [];
   private departures: Array<any> = [];
@@ -25,6 +26,7 @@ export class MainDropdownsComponent {
 
   private tripFromParent: boolean = false;
   private depFromParent: boolean = false;
+  private departureError: string = '';
 
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation) {
     // console.log("moment", Moment);
@@ -92,6 +94,16 @@ export class MainDropdownsComponent {
                               if(initdepid){
                                 this.departureid = initdepid;
                                 this.triggerOutput(); // if departure id is passed in from parent component trigger the output event to load participant data
+                              }
+
+                              this.onDepartures.emit(res);
+
+                              if(this.departures.length){
+                                this.departureError = '';
+                              }
+                              else{
+                                this.departureid = ''; // set this because its n ng model
+                                this.departureError = 'No departure found';
                               }
 
                             });
