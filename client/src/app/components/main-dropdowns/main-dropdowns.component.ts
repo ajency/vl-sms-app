@@ -16,6 +16,7 @@ export class MainDropdownsComponent {
 
   @Output() onOutput = new EventEmitter<any>();
   @Output() onDepartures = new EventEmitter<any>();
+  @Output() loadingParticipants = new EventEmitter<any>();
 
   public trips: Array<any> = [];
   public departures: Array<any> = [];
@@ -129,6 +130,8 @@ export class MainDropdownsComponent {
       return;
     } 
 
+    this.loadingParticipants.emit(true);
+
     this.participantSub = this.api.getParticipants(this.departureid)
                                   .subscribe((res: any) => {
                                     console.log("participants api respsonse:",res);
@@ -136,6 +139,9 @@ export class MainDropdownsComponent {
                                     
                                     this.updateLocation('departure');
                                   
+                                    this.onOutput.emit(oevent);
+                                  },(err) => {
+                                    oevent['response'] = err;
                                     this.onOutput.emit(oevent);
                                   });
 

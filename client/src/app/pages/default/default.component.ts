@@ -28,6 +28,8 @@ export class DefaultComponent implements OnInit {
   public dateFormat: string;
   public errorMessage: string;
 
+  public loadingParticipants: boolean = false;
+
   constructor(public route: ActivatedRoute, private api: ApiService, private element: ElementRef, private router: Router) {
     this.dateFormat = this.api.dateFormat;
 
@@ -65,6 +67,12 @@ export class DefaultComponent implements OnInit {
 
   }
 
+  setParticipantLoader(){
+    this.participantsAvailable = false;
+    this.passengerResource = new DataTableResource([]);
+    this.loadingParticipants = true;
+  }
+
   initDatatable(event: any = {}){
     if(event.response.data && event.response.data.length){
       this.errorMessage = '';
@@ -78,17 +86,12 @@ export class DefaultComponent implements OnInit {
 
       this.participantsAvailable = true;
 
-
-      // setTimeout(()  => {
-      //   this.element.nativeElement.querySelector('[data-toggle="tooltip"]').tooltip();
-      // }, 800);
     }
     else{
       this.errorMessage = event.response.msg || 'An error occured!';
-      this.passengerResource = new DataTableResource([]);
-      this.participantsAvailable = false;
-
     }
+
+    this.loadingParticipants = false;
   }
 
   checkDepartureError(event){
