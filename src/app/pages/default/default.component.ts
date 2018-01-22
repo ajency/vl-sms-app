@@ -124,10 +124,14 @@ export class DefaultComponent implements OnInit {
       // }
   }
 
+  private checkUpdate: boolean = true; // trigger change detection in send-sms-component
+
   rowClick(event){
     event.row.selected = !event.row.selected;
     event.row.item.selected = event.row.selected;
     console.log("row event", event.row);
+
+    this.checkUpdate = !this.checkUpdate;
   }
 
   sendSMS(event){
