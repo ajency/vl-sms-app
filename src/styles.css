@@ -1783,10 +1783,22 @@ input[type="checkbox"].toggle__check {
   left: 0;
   right: 0;
   margin: 0 auto;
+  -webkit-transform: translate3d(0, 100px, 0);
+          transform: translate3d(0, 100px, 0);
+  -webkit-transition: all 0.5s ease;
+          transition: all 0.5s ease;
 }
 .offline-mode.active {
   z-index: 10;
   opacity: 1;
+}
+.offline-mode.active .alert {
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+.blackout {
+  -webkit-filter: grayscale(1);
+          filter: grayscale(1);
 }
 .vl-btn.vl-btn.offline-btn {
   margin-left: 1.5em;
