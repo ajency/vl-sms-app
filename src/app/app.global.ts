@@ -1,4 +1,6 @@
+declare const VL_SMS_GLOBALS: any;
+
 export const globals = {
-    dateFormat: 'YYYY-MM-DDTHH:mm:ss',
-    apiUrl: 'http://localhost:3000'
+    dateFormat: VL_SMS_GLOBALS.dateFormat,
+    apiUrl: VL_SMS_GLOBALS.apiUrl
 }

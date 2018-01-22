@@ -10,7 +10,7 @@ declare var window: any;
 export class AppComponent {
   title = 'app';
 
-  private online: boolean = true;
+  public online: boolean = true;
   constructor(){}
 
   ngOnInit(){

@@ -10,25 +10,25 @@ import { ApiService } from '../../providers/api.service';
 })
 export class DefaultComponent implements OnInit {
 
-  private passengerResource;
+  public passengerResource;
   participants = [];
   public participantCount = 0;
 
   @ViewChild(DataTable) carsTable: DataTable;
 
-  private tripCode: string;
-  private tripId: string;
-  private departureId: string;
+  public tripCode: string;
+  public tripId: string;
+  public departureId: string;
 
-  private participantsAvailable: boolean = false;
+  public participantsAvailable: boolean = false;
 
-  private tripDetails: any = {};
-  private depDetails: any = {};
-  private naText: string = '--';
-  private dateFormat: string;
-  private errorMessage: string;
+  public tripDetails: any = {};
+  public depDetails: any = {};
+  public naText: string = '--';
+  public dateFormat: string;
+  public errorMessage: string;
 
-  constructor(private route: ActivatedRoute, private api: ApiService, private element: ElementRef, private router: Router) {
+  constructor(public route: ActivatedRoute, private api: ApiService, private element: ElementRef, private router: Router) {
     this.dateFormat = this.api.dateFormat;
 
     console.log("element:", element);
@@ -124,7 +124,7 @@ export class DefaultComponent implements OnInit {
       // }
   }
 
-  private checkUpdate: boolean = true; // trigger change detection in send-sms-component
+  public checkUpdate: boolean = true; // trigger change detection in send-sms-component
 
   rowClick(event){
     event.row.selected = !event.row.selected;

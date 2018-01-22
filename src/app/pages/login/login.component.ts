@@ -10,10 +10,11 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  private username: string;
-  private password: string;
+  public username: string;
+  public password: string;
+  public loginIn: boolean = false;
 
-  private error: string;
+  public error: string;
 
   constructor(private auth: AuthService, private router: Router, private localstorage: LocalStorageService) { }
 
@@ -22,15 +23,19 @@ export class LoginComponent implements OnInit {
 
   signIn(){
     this.error = '';
+
+    this.loginIn = true;
     console.log("user", this.username, this.password)
     this.auth.login({
       username: this.username,
       password: this.password
     })
     .subscribe((res: any) => {
+      this.loginIn = false;
       this.localstorage.set("token",res.token);
       this.router.navigate(['/send-sms']);
     },(err) => {
+        this.loginIn = false;
         this.error = err.error ? err.error.msg : err.message;
     });
   }

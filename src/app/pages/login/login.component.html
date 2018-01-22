@@ -19,7 +19,10 @@
 								<input type="checkbox" value="remember-me"> Remember me
 							</label>
 						</div>
-						<button (click)="signIn()" class="btn vl-btn primary-btn text-uppercase lighter fullwidth" type="submit">Sign in</button>
+						<button [disabled]="loginIn" (click)="signIn()" class="btn vl-btn primary-btn text-uppercase lighter fullwidth" type="submit">
+							<i class="fa fa-circle-o-notch fa-spin mr-1" [ngClass]="{'d-none': !loginIn}" ></i> 
+							Sign in
+						</button>
 					</div>
 				</form>
 			</div>

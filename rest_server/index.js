@@ -108,7 +108,8 @@ apiRoutes.post('/send-sms',function(req,res){
     setTimeout(() => {
         count++
 
-        if(count % 3){
+        if(count === 3){
+            count = 0;
             res.status(200).json({
                 status: "error",
                 msg: 'failed to send sms'

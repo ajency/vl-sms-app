@@ -17,16 +17,16 @@ export class MainDropdownsComponent {
   @Output() onOutput = new EventEmitter<any>();
   @Output() onDepartures = new EventEmitter<any>();
 
-  private trips: Array<any> = [];
-  private departures: Array<any> = [];
+  public trips: Array<any> = [];
+  public departures: Array<any> = [];
 
-  private tripSub: any;
-  private depSub: any;
-  private dateFormat: string;
+  public tripSub: any;
+  public depSub: any;
+  public dateFormat: string;
 
-  private tripFromParent: boolean = false;
-  private depFromParent: boolean = false;
-  private departureError: string = '';
+  public tripFromParent: boolean = false;
+  public depFromParent: boolean = false;
+  public departureError: string = '';
 
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation) {
     // console.log("moment", Moment);
@@ -48,7 +48,7 @@ export class MainDropdownsComponent {
 
   // }
 
-  private disableDep: boolean = true;
+  public disableDep: boolean = true;
   updateTrips(inittripid: string = ''): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
       this.tripSub.unsubscribe();
@@ -110,7 +110,7 @@ export class MainDropdownsComponent {
     }
   }
 
-  private participantSub: any;
+  public participantSub: any;
 
   triggerOutput(){
     let oevent = {};

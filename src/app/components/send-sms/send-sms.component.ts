@@ -12,8 +12,8 @@ export class SendSmsComponent {
   @Input() checkupdate: boolean;
   @Output() onSendSms = new EventEmitter<any>();
 
-  private smsMessage: string;
-  private additionContacts: string;
+  public smsMessage: string;
+  public additionContacts: string;
 
   constructor(private api: ApiService) { }
 
@@ -47,8 +47,8 @@ export class SendSmsComponent {
     return smsjson;
   }
 
-  private validContacts: boolean = true;
-  private smsError: boolean;
+  public validContacts: boolean = true;
+  public smsError: boolean;
 
   validateExtraContacts(){
     this.sentSMS = false;
@@ -67,10 +67,10 @@ export class SendSmsComponent {
     return parsecontacts;
   }
 
-  private sendingSMS: boolean = false;
-  private sentSMS: boolean = false;
+  public sendingSMS: boolean = false;
+  public sentSMS: boolean = false;
 
-  sendSMS(event){
+  sendSMS(){
     this.smsError = false;
 
     let smsjson = this.addMessage()
@@ -91,7 +91,7 @@ export class SendSmsComponent {
             .subscribe((res: any) => {
               this.sendingSMS = false;
 
-              if(res.status !== 'success'){
+              if(res.status === 'success'){
                 this.sentSMS = true;
               }
               else{
