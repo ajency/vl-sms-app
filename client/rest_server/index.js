@@ -10,6 +10,24 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
+app.use(express.static('../dist'));
+
+app.get('/',function(req,res){
+    res.sendFile('index.html',{'root': '../dist'})
+});
+
+app.get('/login',function(req,res){
+    res.sendFile('index.html',{'root': '../dist'})
+});
+
+app.get('/send-sms',function(req,res){
+    res.sendFile('index.html',{'root': '../dist'})
+});
+
+app.get('/send-sms/:trip_id',function(req,res){
+    res.sendFile('index.html',{'root': '../dist'})
+});
+
 const apiRoutes = express.Router();
 
 apiRoutes.use(function(req,res,next){
