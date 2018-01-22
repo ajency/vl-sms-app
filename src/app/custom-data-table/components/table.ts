@@ -208,6 +208,7 @@ export class DataTable implements DataTableParams, OnInit {
     @Output() rowDoubleClick = new EventEmitter();
     @Output() headerClick = new EventEmitter();
     @Output() cellClick = new EventEmitter();
+    @Output() headerCheckClick = new EventEmitter();
 
     rowClicked(row: DataTableRow, event) {
         this.rowClick.emit({ row, event });
@@ -287,6 +288,8 @@ export class DataTable implements DataTableParams, OnInit {
 
     private _onSelectAllChanged(value: boolean) {
         this.rows.toArray().forEach(row => row.selected = value);
+        // console.log("select changed", this.rows);
+        this.headerCheckClick.emit({checked: value});
     }
 
     onRowSelectChanged(row: DataTableRow) {
@@ -353,4 +356,9 @@ export class DataTable implements DataTableParams, OnInit {
         }
         return true;
     }
+
+    // headerCheckClick(event){
+    //     console.log("header check click", event);
+    //     this.headerClick.emit({ {property : 'checkbox', visible: true}, event });
+    // }
 }

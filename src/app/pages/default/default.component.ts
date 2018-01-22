@@ -134,6 +134,20 @@ export class DefaultComponent implements OnInit {
     this.checkUpdate = !this.checkUpdate;
   }
 
+  headerClick(event){
+    // console.log("header click event", event);
+  }
+
+  onSelectChange(event){
+    console.log("onSelectChange", event);
+
+    this.participants.map((val) => {
+      val.selected = event.checked;
+    });
+
+    this.checkUpdate = !this.checkUpdate;
+  }
+
   sendSMS(event){
     console.log("sms clients ", event);
   }

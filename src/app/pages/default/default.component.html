@@ -64,6 +64,8 @@
 				[itemCount]="participantCount"
 				(reload)="reloadItems($event)"
 				(rowClick)="rowClick($event)"
+				(headerClick) = "headerClick($event)"
+				(headerCheckClick) = "onSelectChange($event)"
 
 				[pagination]="false"
 				[indexColumn]="false"
