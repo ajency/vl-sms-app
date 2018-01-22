@@ -10,20 +10,24 @@ export class ApiService {
 
   constructor(private app: AppService) { }
 
+  private _getToken(){
+    return {'Authorization': `Bearer ${globals.apitoken}`};
+  }
+
   public getTrips(body: any){
-    return this.app.request(`${this.apiUrl}/v1/api/trips`,'post',body);
+    return this.app.request(`${this.apiUrl}/v1/api/trips`,'post',body,this._getToken());
   }
 
   public getDepartures( body: any){
-    return this.app.request(`${this.apiUrl}/v1/api/departures`,'post',body);
+    return this.app.request(`${this.apiUrl}/v1/api/departures`,'post',body, this._getToken());
   }
 
   public getParticipants(id: string){
-    return this.app.request(`${this.apiUrl}/v1/api/trip-passengers`,'post',{departure_id: id});
+    return this.app.request(`${this.apiUrl}/v1/api/trip-passengers`,'post',{departure_id: id}, this._getToken());
   }
 
   public sendSMStoClients(body: any){
-    return this.app.request(`${this.apiUrl}/v1/api//send-sms`,'post', body);
+    return this.app.request(`${this.apiUrl}/v1/api//send-sms`,'post', body, this._getToken());
   }
 
 }
