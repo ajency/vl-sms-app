@@ -7,10 +7,12 @@ export class AppService {
 
   constructor(private http: HttpClient) { }
 
-  public request(url: string, method: string = 'get', body: any = {}){
+  public request(url: string, method: string = 'get', body: any = {}, headers: any = {}){
+
+    // let headers = new HttpHeaders({'Authorization': 'Bearer 4513213513'});
 
     if(method === 'get'){
-      return this.http.get(url)
+      return this.http.get(url, {headers: headers})
       .map((res) => {
         return res;
       }, (err) => {
@@ -18,7 +20,7 @@ export class AppService {
       });
     }
     else{
-      return this.http.post(url,body)
+      return this.http.post(url,body, {headers: headers})
       .map((res) => {
         return res;
       }, (err) => {

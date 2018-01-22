@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AuthService } from '../providers/auth.service';
 import { LocalStorageService } from 'angular-2-local-storage';
+import { globals } from '../app.global';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -14,6 +15,10 @@ export class AuthGuard implements CanActivate {
         console.log("route path: ",route.routeConfig.path);
 
         let token = this.localstorage.get('token');
+
+        globals.apitoken = token ? token.toString() : 'n/a';
+        
+        // console.log("token:" , token);
 
         if(route.routeConfig.path == 'login'){
             if(token){
