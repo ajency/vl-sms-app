@@ -22,6 +22,7 @@ export class SendSmsComponent {
 
   ngOnChanges(){
     console.log("sms participants",this.participants);
+    this.sentSMS = false;
     this.validContacts = this.filterSMSContacts().length ? true : false;
   }
 
@@ -29,9 +30,7 @@ export class SendSmsComponent {
     let smsclients = [];
     this.participants.map((val) => {
       if(val.selected == true){
-        smsclients.push({
-          to: val.phone_no
-        });
+        smsclients.push(val.phone_no);
       }
     });
 
@@ -42,23 +41,25 @@ export class SendSmsComponent {
     let smsclients = this.filterSMSContacts();
     let smsjson = {
       message: this.smsMessage,
-      sender: 'xxxxx',
+      // sender: 'xxxxx',
       sms: smsclients
     }
     return smsjson;
   }
 
   private validContacts: boolean = true;
+  private smsError: boolean;
 
   validateExtraContacts(){
-    
+    this.sentSMS = false;
+
     let extracontacts = this.additionContacts ? this.additionContacts.split(',') : [];
     let validcontacts = false;
 
     let parsecontacts = extracontacts.map((val: any) => {
       let num = Number(val);
       validcontacts = ( !isNaN(num) && num.toString().length === 12 ) ? true : false;
-      return validcontacts ? { to: num.toString() } : false;
+      return validcontacts ? num.toString() : false;
     });
 
     this.validContacts = extracontacts.length ? validcontacts : true;
@@ -66,7 +67,12 @@ export class SendSmsComponent {
     return parsecontacts;
   }
 
+  private sendingSMS: boolean = false;
+  private sentSMS: boolean = false;
+
   sendSMS(event){
+    this.smsError = false;
+
     let smsjson = this.addMessage()
 
     if(this.validContacts){
@@ -74,12 +80,29 @@ export class SendSmsComponent {
     }
 
     let body = {
-      api_key: '<api-key>', 
-      method: 'sms.json', 
+      // api_key: '<api-key>', 
+      // method: 'sms.json', 
       json: smsjson
     };
-    // console.log("participants", this.participants);
-    // this.api.sendSMS({api_key: '<api-key>', method: 'sms.json', json: this.addMessage()})
+
+    this.sendingSMS = true;
+
+    this.api.sendSMStoClients(body)
+            .subscribe((res: any) => {
+              this.sendingSMS = false;
+
+              if(res.status !== 'success'){
+                this.sentSMS = true;
+              }
+              else{
+                this.smsError = true;
+              }
+              
+            }, (err) => {
+              this.sendingSMS = false;
+              this.smsError = true;
+            });
+
     this.onSendSms.emit(body);
   }
 

@@ -102,6 +102,28 @@ apiRoutes.post('/trip-passengers',function(req,res){
     
 });
 
+var count = 0;
+
+apiRoutes.post('/send-sms',function(req,res){
+    setTimeout(() => {
+        count++
+
+        if(count % 3){
+            res.status(200).json({
+                status: "error",
+                msg: 'failed to send sms'
+            });
+        }
+        else{
+            res.status(200).json({
+                status: "success",
+                msg: 'ok'
+            });
+        }
+
+    },2000);
+});
+
 
 app.use('/v1/api',apiRoutes);
 

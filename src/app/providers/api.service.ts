@@ -22,4 +22,8 @@ export class ApiService {
     return this.app.request(`${this.apiUrl}/v1/api/trip-passengers`,'post',{departure_id: id});
   }
 
+  public sendSMStoClients(body: any){
+    return this.app.request(`${this.apiUrl}/v1/api//send-sms`,'post', body);
+  }
+
 }
