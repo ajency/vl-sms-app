@@ -2,11 +2,11 @@
   <!-- Additional options -->
   <div class="message-box mb-3">
     <label class="vl-label label-color d-block mb-1 xx-small text-uppercase">Message</label>
-    <textarea class="vl-textarea vl-shadow" rows="4" placeholder="Start typing your message here..."></textarea>
+    <textarea [(ngModel)]="smsMessage" class="vl-textarea vl-shadow" rows="4" placeholder="Start typing your message here..."></textarea>
   </div>
   <div class="phone-box mb-3">
     <label class="vl-label label-color d-block mb-1 xx-small text-uppercase">Additional phone numbers<span class="lighter text-capitalize"> (Comma Separated)</span></label>
-    <input type="tel" class="vl-text vl-shadow" placeholder="eg. 9812435687, 981234567">
+    <input [(ngModel)]="additionContacts" type="tel" class="vl-text vl-shadow" placeholder="eg. 9812435687, 981234567">
   </div>
   <div class="publish-link mb-3">
     <label class="x-small text-color m-b-0 cursor-pointer d-flex"><input type="checkbox" class="fnb-checkbox checkbox"> Publish notification on the website</label>

@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { ApiService } from '../../providers/api.service';
 
 @Component({
   selector: 'send-sms',
@@ -7,20 +8,49 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class SendSmsComponent {
 
-  @Input('sms-users') smsUsers: Array<any>;
+  @Input() participants: Array<any>;
   @Output() onSendSms = new EventEmitter<any>();
 
-  constructor() { }
+  private smsMessage: string;
+  private additionContacts: string;
+
+  constructor(private api: ApiService) { }
 
   ngOnInit() {
   }
 
-  // ngOnChanges(){
-  //   console.log("sms users",this.smsUsers);
-  // }
+  ngOnChanges(){
+    console.log("sms participants",this.participants);
+  }
+
+  filterSMSContacts(){
+    let smsclients = [];
+    this.participants.map((val) => {
+      if(val.selected == true){
+        smsclients.push({
+          to: val.phone_no
+        });
+      }
+    });
+
+    return smsclients;
+  }
+
+  addMessage(){
+    let smsclients = this.filterSMSContacts();
+    let smsjson = {
+      message: this.smsMessage,
+      sender: 'xxxxx',
+      sms: smsclients
+    }
+    return smsjson;
+  }
+
 
   sendSMS(event){
-    this.onSendSms.emit({test: 'event'});
+    // console.log("participants", this.participants);
+    // this.api.sendSMS({api_key: '<api-key>', method: 'sms.json', json: this.addMessage()})
+    this.onSendSms.emit(this.addMessage());
   }
 
 }

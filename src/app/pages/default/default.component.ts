@@ -126,11 +126,12 @@ export class DefaultComponent implements OnInit {
 
   rowClick(event){
     event.row.selected = !event.row.selected;
-    console.log("row event", event.row.selected);
+    event.row.item.selected = event.row.selected;
+    console.log("row event", event.row);
   }
 
   sendSMS(event){
-    console.log("participants", this.participants, event);
+    console.log("sms clients ", event);
   }
 
 }
