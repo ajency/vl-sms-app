@@ -11,6 +11,9 @@
 					<div class="login-card">
 						<input type="email" [(ngModel)]="username" name="inputEmail" class="vl-text" placeholder="Email address" required="" autofocus="">
 						<input type="password" [(ngModel)]="password" name="inputPassword" class="vl-text" placeholder="Password" required="">
+						<div class="invalid-login" [hidden]="!error">
+							{{error}}
+						</div>
 						<div class="mb-3 mt-3 remember">
 							<label class="x-small label-color cursor-pointer">
 								<input type="checkbox" value="remember-me"> Remember me

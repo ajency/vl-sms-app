@@ -13,12 +13,15 @@ export class LoginComponent implements OnInit {
   private username: string;
   private password: string;
 
+  private error: string;
+
   constructor(private auth: AuthService, private router: Router, private localstorage: LocalStorageService) { }
 
   ngOnInit() {
   }
 
   signIn(){
+    this.error = '';
     console.log("user", this.username, this.password)
     this.auth.login({
       username: this.username,
@@ -27,8 +30,8 @@ export class LoginComponent implements OnInit {
     .subscribe((res: any) => {
       this.localstorage.set("token",res.token);
       this.router.navigate(['/send-sms']);
-    },() => {
-      
+    },(err) => {
+        this.error = err.error ? err.error.msg : err.message;
     });
   }
 
