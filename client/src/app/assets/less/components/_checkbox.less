@@ -1,0 +1,64 @@
+
+// ---------------------------
+// CHECKBOX STYLES -----------
+// ---------------------------
+
+
+
+input[type=checkbox] {
+    // margin-right: 8px;
+    margin-right: 8px;
+    margin-top: 2px;
+    -webkit-appearance: none;
+    outline: 0;
+    width: 15px;
+    position: relative;
+    &:before {
+        content: "";
+        // font-family: 'FontAwesome';
+        // background-color: #fff;
+        padding: 0;
+        position: absolute;
+        left: 0;
+        color: #dcdcdc;
+        font-size: 1.35em;
+        cursor: pointer;
+        background-image: url('./assets/img/checkbox.png');
+        background-size: cover;
+        // @media screen and (min-width: @sm-tab){
+        // 	top: -4px;
+        // }
+        top: 0;
+        width: 15px;
+        height: 15px;
+    	text-align: center;
+    }
+    &:checked {
+        &:before {
+            background-image: url('./assets/img/checkbox-checked.png');
+            background-size: initial;
+            // color: @accent-secondary;
+        }
+    }
+    &.disable{
+        pointer-events: none;
+        opacity: 0.4;
+    }
+    &:focus{
+    	outline: 0;
+    }
+}
+
+// Safari fixes
+
+@media only screen 
+  and (min-device-width: 320px) 
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+	input[type=checkbox] {
+		border: 0;
+	    &:before {
+	        font-size: 1.5em;
+	    }
+	}
+}

@@ -1,0 +1,201 @@
+// ---------------------------
+// FORM ELEMENTS -----------
+// ---------------------------
+
+// Select
+.vl-select{
+  	background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 0.4em 0.6em;
+    font-size: 0.9em;
+    color: @text-color;
+  	box-shadow: none;
+    min-width: 90px;
+    width: 100%;
+    display: block;
+    white-space: normal;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#444' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
+    background-position: 100% 50%;
+    background-repeat: no-repeat;
+    outline: 0;
+  	&:active,&:focus{
+  		box-shadow: none;
+  	}
+    // &:hover{
+    //   color: @text-color;
+    // }
+    &.select-variant, &.border-bottom{
+        border-bottom: 1px solid #ddd;
+        font-size: 1.1em;
+        font-weight: 400;
+        padding-bottom: 0.3em;
+    }
+    &.nav-color{
+      background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#fff' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
+    }
+}
+
+// inputs & textarea
+
+.vl-textarea,.vl-text{
+    background-color: #fff;
+    width: 100%;
+    border: 1px solid #eeeeeebd;
+    border-radius: 4px;
+    padding: 0.5em;
+    font-size: 0.85em;
+    color: @grey-text;
+    resize: none;
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: #cacaca;
+      font-weight: 300;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+      color: #cacaca;
+      font-weight: 300;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+      color: #cacaca;
+      font-weight: 300;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+      color: #cacaca;
+      font-weight: 300;
+    }
+    &:active,&:focus{
+      outline: 0;
+    }
+}
+
+
+// Labels
+
+.title-label{
+  display: block;
+  font-size: 1.05em;
+  font-weight: 400;
+  margin: 0.8em 0;
+}
+
+// form lables
+.form-label{
+  font-weight: 400;
+  color: #9b9ea0;
+  font-size: 1.1em;
+}
+
+
+// Custom toggle check
+
+.toggle {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  border-radius: 100px;
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: inset 0 0 2px 1px rgba(0,0,0,.16);
+  &__check {
+    position: absolute;
+    display: block;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    z-index: 2;
+    &:checked{
+      & ~ .track{
+        box-shadow: inset 0 0 0 20px rgb(50, 187, 180);
+      }
+      & ~ .switch{
+        right: 2px;
+        left: 22px;
+        transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+        transition-property: left, right;
+        transition-delay: .05s, 0s;
+      }
+    }
+  }
+}
+
+
+// Floating input-label
+
+.float-label{
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
+    transform: translateY(1.6em);
+    display: inline-block;
+    cursor: text;
+    font-size: 1.05em;
+    color: #000;
+    font-weight: 400;
+    &.filled{
+      transform: translateY(0.5em);
+      font-weight: 500;
+      font-size: 0.9em;
+      margin-bottom: 3px;
+    }
+    &.lab-color{
+      color: @text-darker;
+    }
+    &.focused{
+    color: @text-lighter;
+    }
+  }
+  .float-input{
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1);
+    font-size: 1em;
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: #000;
+      }
+      &::-moz-placeholder { /* Firefox 19+ */
+        color: #000;
+      }
+  }
+
+
+
+// Toggle switch
+
+input[type="checkbox"].toggle__check{
+  width: inherit;
+}
+
+.switch {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  bottom: 2px;
+  right: 22px;
+  background-color: #d8d8d8;
+  border-radius: 36px;
+  z-index: 1;
+  transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+  transition-property: left, right;
+  transition-delay: 0s, .05s;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.82);
+}
+
+.track {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  transition: .35s cubic-bezier(0.785, 0.135, 0.150, 0.860);
+  box-shadow: inset 0 0 0 2px rgba(202, 199, 199, 0.11);
+  border-radius: 40px;
+}
+
+.has-error{
+  .form-control{
+    box-shadow: none;
+    &:focus{
+      box-shadow: none;
+    }
+  }
+}

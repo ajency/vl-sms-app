@@ -1,0 +1,24 @@
+
+  <!-- Additional options -->
+  <div class="message-box mb-3">
+    <label class="vl-label label-color d-block mb-1 xx-small text-uppercase heavier">Message</label>
+    <textarea [(ngModel)]="smsMessage" (keyup)="sentSMS = false" class="vl-textarea vl-shadow" rows="4" placeholder="Start typing your message here..."></textarea>
+  </div>
+  <div class="phone-box mb-3">
+    <label class="vl-label label-color d-block mb-1 xx-small text-uppercase heavier">Additional phone numbers<span class="lighter text-capitalize"> (Comma Separated)</span></label>
+    <input [(ngModel)]="additionContacts" pattern="[0-9]+" (keyup)="validateExtraContacts()" type="tel" class="vl-text vl-shadow" placeholder="eg. 9812435687, 981234567">
+  </div>
+  <div class="publish-link mb-3">
+    <label class="x-small text-color m-b-0 cursor-pointer d-flex"><input type="checkbox" class="fnb-checkbox checkbox"> Publish notification on the website</label>
+  </div>
+  <div class="send-message">
+    <button [disabled]="!smsMessage || !validContacts" (click)="sendSMS()" type="button" [ngClass]="{'secondary-btn': !smsError, 'danger-btn': smsError}" class="btn vl-btn secondary-btn text-uppercase lighter fullwidth">
+      <i class="fa fa-circle-o-notch fa-spin mr-1" [ngClass]="{'d-none': !sendingSMS}" ></i> 
+      <i class="fa fa-check pr-1 success-icon" [ngClass]="{'d-none': !sentSMS || sendingSMS || smsError}"  aria-hidden="true"></i>
+      <i class="fa fa-times pr-1 failure-icon" [ngClass]="{'d-none': !smsError}" aria-hidden="true"></i> 
+        <span *ngIf="!smsError && !sentSMS" >Send message</span>
+        <span *ngIf="!smsError && sentSMS" >Request successful</span>
+        <span *ngIf="smsError" >Request Failed! Please try again.</span>
+    </button>
+  </div>
+

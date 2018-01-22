@@ -1,0 +1,25 @@
+
+// ---------------------------
+// STATUS/LABEL -----------
+// ---------------------------
+
+
+// Status labels
+
+.status-label{
+	padding: 0.3em 0.6em;
+    border-radius: 4px;
+    color: @cloud-color;
+    font-weight: 500;
+    font-size: 0.8em;
+    &.confirmed{
+    	background-color: @success;
+    }
+    &.pending,&.unconfirmed{
+    	background-color: @warning;
+    }
+}
+
+
+
+

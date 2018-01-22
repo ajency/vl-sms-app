@@ -1,0 +1,110 @@
+// ---------------------------
+// SMS APP -----------
+// ---------------------------
+
+@import '_var';
+
+
+// Top filter select
+
+.vl-participant{
+	background-color: #f8fafb;
+    border: 1px solid #dfe7ed;
+	&__filter{
+		background-color: #edf0f3;
+	    padding: 1.5em 0;
+	}	
+}
+
+.show-participant{
+	font-size: 0.85em;
+	padding: 0.4em 1.5em;
+}
+
+// No data
+
+.no-data{
+	min-height: 70vh;
+	padding-bottom: 0 !important;
+}
+
+.empty-box{
+	.fa{
+		font-size: 6em;
+		color: #a5b6c7;
+    	margin-bottom: 0.5em;
+	}
+}
+
+.results-header{
+	&__details{
+		color: @grey-text;
+		font-size: 0.9em;
+	}
+	.date-range{
+		&:before{
+			content: '';
+			display: inline-block;
+		    width: 4px;
+		    height: 4px;
+		    background-color: @grey-text;
+		    border-radius: 50%;
+		    position: relative;
+		    vertical-align: middle;
+		    margin-right: 5px;
+		}
+	}
+}
+
+.result--title{
+	font-size: 1.4em;
+}
+
+
+// Dropdown tag name class
+
+main-dropdowns{
+	width: 100%;
+    padding: 0 15px;
+}
+
+
+.external-link{
+	color: #2d7ace;
+}
+
+
+
+
+@media screen and (max-width: @mobile){
+	.no-data{
+		min-height: 60vh;
+		padding: 0 !important;
+	}
+	.empty-box{
+		.fa{
+			font-size: 3em;
+		}
+	}
+	.app-detail{
+		margin: 0.5em 0;
+    	font-size: 1.5em;
+	}
+	.result--title{
+		font-size: 1.25em;
+	}
+}
+@media screen and (max-width: 360px){
+	.no-data{
+		min-height: 50vh;
+	}
+}
+
+@media screen and (min-width: @mobile) and (max-width: @tab){
+	.vl-participants__data{
+		flex-direction: column;
+	}
+	.passenger-data,.compose-msg{
+		max-width: 100%;
+	}
+}

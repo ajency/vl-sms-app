@@ -1,0 +1,138 @@
+
+<header class="vl-header">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4 text-center align-self-center">
+				<h5 class="vl-logo m-b-0"><img src="./assets/img/logo.png" width="180"></h5>
+			</div>
+			<div class="col-sm-4 text-center align-self-center">
+				<div class="app-detail thinner">
+					<i class="fa fa-commenting" aria-hidden="true"></i>
+					SMS App
+				</div>
+			</div>
+			<div class="col-sm-4 text-center align-self-center">
+				<a href="#" class="back-link cloud-color thinner"><i class="fa fa-angle-left p-r-5 label-size" aria-hidden="true"></i> Back to the app</a>
+			</div>
+		</div>
+	</div>
+</header>
+
+
+<div class="container vl-participant">
+	<div class="row vl-participant__filter">
+		<main-dropdowns [frompage]="route.routeConfig.path" [tripid]="tripId" [departureid]="departureId" (onOutput)="initDatatable($event)" (onDepartures)="checkDepartureError($event)">
+		</main-dropdowns>
+	</div>
+	<div class="row vl-participants__data pb-5" [ngClass]="{'no-data': !participantsAvailable}">
+		<!-- If not values selected -->
+		<div *ngIf="!participantsAvailable" class="col-sm-12 align-self-center">
+			<div class="empty-box text-center">
+				<i class="fa fa-commenting" aria-hidden="true"></i>
+				<p class="label-size m-b-0 text-lighter" [hidden]="errorMessage">Please select a <b>trip</b> and <b>departure</b> above and click on 'Show Participants'.</p>
+				<p class="label-size m-b-0 text-lighter" [hidden]="!errorMessage">{{errorMessage}}</p>
+			</div>
+		</div>
+
+		<!-- Results -->
+		<div *ngIf="participantsAvailable" class="col-sm-12 mb-2">
+			<div class="results-header pt-3 pb-3">
+				<h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails && tripDetails.name ? tripDetails.name : naText}}</h5>
+				<ul class="d-flex text-medium results-header__details">
+					<li class="pr-2"><b>{{tripDetails && tripDetails.code ? tripDetails.code : naText}}</b></li>
+					<!-- <li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li> -->
+					<li class="lighter date-range">
+						<!-- <b>1</b> Oct to <b>3</b> Oct -->
+						{{ ( depDetails && depDetails.starts_at ? (depDetails.starts_at  | amParse: dateFormat | amDateFormat:'DD MMM') : naText ) }} to {{ ( depDetails && depDetails.ends_at ? (depDetails.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' ) : naText ) }}
+					</li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Loader -->
+		<div class="col-sm-12 d-none">
+			<div class="bar-loader mb-4 mt-4 text-center fullwidth">
+				<div class="loading-pulse"></div>
+			</div>
+		</div>
+		<!-- loader -->
+
+		<div *ngIf="participantsAvailable" class="col-sm-8 passenger-data">
+			<!-- Datables -->
+			<data-table
+				[items]="participants"
+				[itemCount]="participantCount"
+				(reload)="reloadItems($event)"
+				(rowClick)="rowClick($event)"
+				(headerClick) = "headerClick($event)"
+				(headerCheckClick) = "onSelectChange($event)"
+
+				[pagination]="false"
+				[indexColumn]="false"
+				[selectColumn]="true"
+				[multiSelect]="true"
+				[rowColors]="updateRows"
+				class="passenger-data__details"
+				>
+				<data-table-column
+				property="passenger_name"
+				header="Passenger Name"
+				sortable="true">
+					<ng-template #dataTableCell let-item="item">
+						<div [ngClass]="{'disable': item['redundant_contact']}">{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}} 
+							<span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact" onmouseenter="$(this).tooltip('show')">
+								<i class="fa fa-star text-warning" aria-hidden="true"></i>
+							</span>
+						</div>
+					</ng-template>
+				</data-table-column>
+				
+				<data-table-column
+				property="phone_no"
+				header="Phone No.">
+					<ng-template  #dataTableCell let-item="item">
+						<div>
+							<span>{{item.phone_no ? item.phone_no : naText}}</span>
+							<span class="text-lighter xx-small d-block">({{item.phone_type ? item.phone_type : naText}})</span>
+						</div>
+					</ng-template>
+				</data-table-column>
+				
+				<data-table-column
+				property="booking_id"
+				header="Booking ID"
+				sortable="true">
+					<ng-template #dataTableCell let-item="item">
+						<span [ngClass]="{'d-none': item['redundant_contact']}" class="booking-id">{{item.booking_id ? item.booking_id : naText}} <i class="fa fa-external-link external-link p-l-5" aria-hidden="true"></i></span>
+					</ng-template>
+				</data-table-column>
+				
+				<data-table-column
+				property="booking_status"
+				header="Booking Status"
+				styleClass="test"
+				sortable="true">
+					<ng-template  #dataTableCell let-item="item">
+						<span class="status-label" [ngClass]="{'d-none': item['redundant_contact'], 'confirmed': item.booking_status == 'confirmed', 'pending': item.booking_status != 'confirmed'}">{{ ( item.booking_status ? item.booking_status : naText ) | titleCase}}</span>
+					</ng-template>
+				</data-table-column>
+				
+				<!-- <data-table-column
+				header="Actions">
+				<ng-template #dataTableHeader let-item="item">
+					<i>Actions</i>
+				</ng-template>
+				<ng-template #dataTableCell let-item="item">
+					<button (click)="carClicked(item)" class="btn btn-sm btn-default">Buy</button>
+				</ng-template>
+				</data-table-column> -->
+			
+			</data-table>
+		</div>
+		<div [ngClass]="{'col-sm-4': participantsAvailable, 'compose-msg': participantsAvailable}">
+			<send-sms [participants]="participants" [checkupdate]="checkUpdate" *ngIf="participantsAvailable" (onSendSms)="sendSMS($event)"></send-sms>
+		</div>
+
+	</div>
+</div>
+

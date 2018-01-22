@@ -1,0 +1,78 @@
+.login-holder {
+  min-height: 90vh;
+  background-color: #f8fafb;
+}
+.form-signin {
+  padding: 2.5em;
+  width: 450px;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+.form-signin__title {
+  font-size: 1.25em;
+  text-transform: capitalize;
+  margin: -41px -41px 0 -41px;
+  margin-bottom: 1em;
+  padding: 15px;
+  background-color: #171d27;
+  color: #fff;
+}
+.form-signin .login-card {
+  padding-top: 1em;
+}
+.form-signin .vl-text {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 0;
+  border: 1px solid #cacaca;
+  margin-bottom: 1em;
+}
+.form-signin .vl-text::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #b9b9b9;
+}
+.form-signin .vl-text::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #b9b9b9;
+}
+.form-signin .vl-text:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #b9b9b9;
+}
+.form-signin .vl-text:-moz-placeholder {
+  /* Firefox 18- */
+  color: #b9b9b9;
+}
+.form-signin .remember input[type='checkbox']:before {
+  top: -12px;
+}
+.form-signin .vl-btn {
+  padding: 0.6em;
+  border-radius: 0;
+}
+.invalid-login {
+  background-color: #d0021b;
+  color: #ffffff;
+  text-transform: capitalize;
+  font-weight: 400;
+  font-size: 0.85em;
+  padding: 8px;
+  margin-bottom: 0em;
+}
+@media screen and (max-width: 769px) {
+  .form-signin {
+    width: auto;
+  }
+}
+@media screen and (max-width: 480px) {
+  .form-signin {
+    margin-top: 3em;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.02), 0 5px 5px 0 rgba(0, 0, 0, 0.11);
+  }
+  .form-signin__title {
+    font-size: 1.1em;
+  }
+  .login-holder {
+    min-height: auto;
+  }
+}
+/*# sourceMappingURL=login.component.css.map */
