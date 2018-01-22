@@ -78,7 +78,7 @@
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
 						<div [ngClass]="{'disable': item['redundant_contact']}">{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}} 
-							<span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact">
+							<span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact" onmouseenter="$(this).tooltip('show')">
 								<i class="fa fa-star text-warning" aria-hidden="true"></i>
 							</span>
 						</div>
@@ -130,6 +130,7 @@
 		<div [ngClass]="{'col-sm-4': participantsAvailable, 'compose-msg': participantsAvailable}">
 			<send-sms [participants]="participants" [checkupdate]="checkUpdate" *ngIf="participantsAvailable" (onSendSms)="sendSMS($event)"></send-sms>
 		</div>
+
 	</div>
 </div>
 
