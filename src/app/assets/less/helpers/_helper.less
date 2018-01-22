@@ -330,11 +330,20 @@
       left: 0;
       right: 0;
       margin: 0 auto;
+      transform: translate3d(0,100px,0);
+      transition: all 0.5s ease;
     }
     &.active{
       z-index: 10;
       opacity: 1;
+      .alert{
+        transform: translate3d(0,0,0);
+      }
     }
+}
+
+.blackout{
+  filter: grayscale(1);
 }
 
 .vl-btn.vl-btn.offline-btn{
