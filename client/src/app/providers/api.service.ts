@@ -15,19 +15,19 @@ export class ApiService {
   }
 
   public getTrips(body: any){
-    return this.app.request(`${this.apiUrl}/v1/api/trips`,'post',body,this._getToken());
+    return this.app.request(`${this.apiUrl}/api/trips`,'post',body,this._getToken());
   }
 
   public getDepartures( body: any){
-    return this.app.request(`${this.apiUrl}/v1/api/departures`,'post',body, this._getToken());
+    return this.app.request(`${this.apiUrl}/api/departures`,'post',body, this._getToken());
   }
 
   public getParticipants(id: string){
-    return this.app.request(`${this.apiUrl}/v1/api/trip-passengers`,'post',{departure_id: id}, this._getToken());
+    return this.app.request(`${this.apiUrl}/api/trip-passengers`,'post',{departure_id: id}, this._getToken());
   }
 
   public sendSMStoClients(body: any){
-    return this.app.request(`${this.apiUrl}/v1/api//send-sms`,'post', body, this._getToken());
+    return this.app.request(`${this.apiUrl}/api/send-sms`,'post', body, this._getToken());
   }
 
 }
