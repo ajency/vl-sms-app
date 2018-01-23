@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-sms-notification',
@@ -7,9 +8,24 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SmsNotificationComponent implements OnInit {
 
-  constructor() { }
+  public tripId: string;
+  public departureId: string;
+
+  constructor(public route: ActivatedRoute) { }
 
   ngOnInit() {
+  }
+
+  checkError(error){
+    console.log("check error:", error);
+  }
+
+  setLoader(){
+    console.log("set loader");
+  }
+
+  loadNotification(event){
+    console.log("load notification event", event);
   }
 
 }

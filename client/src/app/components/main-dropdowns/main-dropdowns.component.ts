@@ -64,7 +64,7 @@ export class MainDropdownsComponent {
                             console.log("trips ", res);
                             this.trips = res.data;
 
-                            if(this.frompage == 'send-sms'){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                            if(this.frompage == 'send-sms' || this.frompage == 'sms-notifications'){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
                               this.tripid = inittripid  ? inittripid : this.trips[0].id;
                             }
                             
