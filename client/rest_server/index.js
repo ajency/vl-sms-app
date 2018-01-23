@@ -2,7 +2,7 @@ const express = require('express');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const dataHandler = require("./data");
-
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 app.use(logger('dev'));
@@ -146,7 +146,8 @@ apiRoutes.post('/send-sms',function(req,res){
 
 app.use('/v1/api',apiRoutes);
 
-
-app.set('port', process.env.port || 3020);
+app.set('port',PORT);
 
 app.listen(app.get('port'));
+
+console.log("server listening on port", PORT);

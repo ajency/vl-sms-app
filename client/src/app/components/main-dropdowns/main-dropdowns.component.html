@@ -1,14 +1,15 @@
 <div class="row vl-participant__filter">
 		<div class="col-sm-4">
-			<select class="vl-select" placeholder="Select a tour" [(ngModel)]="tripid" (change)="updateDepartures()" [disabled]="trips.length == 0">
-				<option value="" disabled="true" [selected]="!tripid">Select a tour</option>
+			<select class="vl-select" placeholder="Select a tour" [(ngModel)]="tripid" (change)="updateDepartures()" [disabled]="trips.length == 0 || tripError != ''">
+				<option value="" disabled="true" *ngIf="!tripError" [selected]="!tripid">Select a tour</option>
+				<option value="" disabled="true" *ngIf="tripError" [selected]="tripError != ''">No trip found</option>
 				<option *ngFor="let option of trips" [value]="option.id">{{option.code}} - {{option.name}}</option>
 			</select>
 		</div>
 		<div class="col-sm-4">
-			<select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" [disabled]="departures.length == 0">
-				<option value="" disabled="true" *ngIf="!departureError" [selected]="!departureid">Select a departure</option>
-				<option value="" disabled="true" *ngIf="departureError" [selected]="!departureid || departureError">{{departureError}}</option>
+			<select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" [disabled]="departures.length == 0 || departureError != ''">
+				<option value="" disabled="true" *ngIf="!departureError" [selected]="departureid == ''">Select a departure</option>
+				<option value="" disabled="true" *ngIf="departureError" [selected]="departureError != ''">No departure found</option>
 				<option *ngFor="let option of departures" [value]="option.departure_id">{{option.starts_at | amParse: dateFormat | amDateFormat:'DD MMM' }} - {{option.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' }}</option>
 			</select>
 		</div>

@@ -94,13 +94,17 @@ export class DefaultComponent implements OnInit {
     this.loadingParticipants = false;
   }
 
-  checkDepartureError(event){
-    if(event && event.data.length){
-      this.errorMessage = '';
-    }
-    else{
-      this.errorMessage = event.msg;
-    }
+  // checkDepartureError(event){
+  //   if(event && event.data.length){
+  //     this.errorMessage = '';
+  //   }
+  //   else{
+  //     this.errorMessage = event.msg;
+  //   }
+  // }
+
+  checkError(error){
+    this.errorMessage = error;
   }
 
   reloadItems(params) {
