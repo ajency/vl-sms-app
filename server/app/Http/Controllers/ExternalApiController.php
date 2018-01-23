@@ -10,7 +10,7 @@ class ExternalApiController extends Controller
             "status" => "success",
             "msg"    => "ok",
             "data"   => [
-                [
+             
                     [
                         "id"   => "1",
                         "name" => "Little Rann of Kutch 1",
@@ -43,7 +43,7 @@ class ExternalApiController extends Controller
                     ],
 
                 ],
-            ],
+         
         ];
     }
 
@@ -52,7 +52,7 @@ class ExternalApiController extends Controller
         return [
             "status" => "success",
             "msg"    => "ok",
-            "data"   => [[
+            "data"   => [
                 [
                     "departure_id" => 1,
                     "starts_at"    => '2017-09-16T09:00:00',
@@ -83,7 +83,8 @@ class ExternalApiController extends Controller
                     "starts_at"    => '2017-12-16T09:00:00',
                     "ends_at"      => '2018-01-01T10:00:00',
                 ],
-            ]],
+            ]
+            
         ];
     }
 
@@ -107,7 +108,8 @@ class ExternalApiController extends Controller
                 ["booking_id" => "TYF08456413", "passenger_id" => "1245", "passenger_name" => "Jackson J.", "primary" => true, "phone_no" => "914523759842", "phone_type" => 'Father mobile', "booking_status" => 'unconfirmed'],
                 ["booking_id" => "UDO09456413", "passenger_id" => "1245", "passenger_name" => "Thomas K.", "primary" => false, "phone_no" => "914265984442", "phone_type" => 'Father mobile', "booking_status" => 'confirmed'],
                 ["booking_id" => "SEA07456413", "passenger_id" => "1245", "passenger_name" => "Linda T", "primary" => false, "phone_no" => "914514588442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
-            ]];
+              ]
+            ];
 
     }
 
