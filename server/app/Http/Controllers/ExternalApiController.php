@@ -10,7 +10,7 @@ class ExternalApiController extends Controller
             "status" => "success",
             "msg"    => "ok",
             "data"   => [
-                [
+             
                     [
                         "id"   => "1",
                         "name" => "Little Rann of Kutch 1",
@@ -43,7 +43,7 @@ class ExternalApiController extends Controller
                     ],
 
                 ],
-            ],
+         
         ];
     }
 
