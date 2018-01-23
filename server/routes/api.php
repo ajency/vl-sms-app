@@ -24,6 +24,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     // Route::get('trip-passengers', 'ExternalApiController@participants');
 });
 
-Route::get('trip-passengers', 'ExternalApiController@participants');
-Route::get('trips', 'ExternalApiController@trips');
-Route::get('departures', 'ExternalApiController@departures');
+Route::post('trip-passengers', 'ExternalApiController@participants');
+Route::post('trips', 'ExternalApiController@trips');
+Route::post('departures', 'ExternalApiController@departures');
