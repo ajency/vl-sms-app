@@ -7,13 +7,14 @@
 			</select> -->
 
 			<ng-select
-						[items]="items"
-						[disabled]="disabled"
+						[items]="trips"
+						[active]="activeTrip"
+						[disabled]="trips.length == 0 || tripError != ''"
 						(data)="refreshValue($event)"
-						(selected)="selected($event)"
+						(selected)="tripSelected($event)"
 						(removed)="removed($event)"
 						(typed)="typed($event)"
-						placeholder="Select a tour">
+						[placeholder]="tripError ? 'No trip found' : 'Select a tour'">
 			</ng-select>
 		</div>
 		<div class="col-sm-4">

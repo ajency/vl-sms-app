@@ -21,6 +21,7 @@ export class MainDropdownsComponent {
 
   public trips: Array<any> = [];
   public departures: Array<any> = [];
+  public activeTrip: Array<{id: string, text: string}>;
 
   public tripSub: any;
   public depSub: any;
@@ -29,35 +30,9 @@ export class MainDropdownsComponent {
   public tripFromParent: boolean = false;
   public depFromParent: boolean = false;
   public departureError: string = '';
-
-  public items = [
-    {id: '1', text: 'item 1'},
-    {id: '2', text: 'item 2'},
-    {id: '3', text: 'item 3'},
-    {id: '4', text: 'item 4'},
-    {id: '5', text: 'item 5'},
-    {id: '6', text: 'item 6'},
-    {id: '7', text: 'item 7'},
-    {id: '8', text: 'item 8'},
-    {id: '9', text: 'item 9'},
-    {id: '10', text: 'item 10'},
-    {id: '11', text: 'item 11'},
-    {id: '12', text: 'item 12'}
-  ]
-
-  // public items:Array<string> = ['Amsterdam', 'Antwerp', 'Athens', 'Barcelona',
-  // 'Berlin', 'Birmingham', 'Bradford', 'Bremen', 'Brussels', 'Bucharest',
-  // 'Budapest', 'Cologne', 'Copenhagen', 'Dortmund', 'Dresden', 'Dublin',
-  // 'Düsseldorf', 'Essen', 'Frankfurt', 'Genoa', 'Glasgow', 'Gothenburg',
-  // 'Hamburg', 'Hannover', 'Helsinki', 'Kraków', 'Leeds', 'Leipzig', 'Lisbon',
-  // 'London', 'Madrid', 'Manchester', 'Marseille', 'Milan', 'Munich', 'Málaga',
-  // 'Naples', 'Palermo', 'Paris', 'Poznań', 'Prague', 'Riga', 'Rome',
-  // 'Rotterdam', 'Seville', 'Sheffield', 'Sofia', 'Stockholm', 'Stuttgart',
-  // 'The Hague', 'Turin', 'Valencia', 'Vienna', 'Vilnius', 'Warsaw', 'Wrocław',
-  // 'Zagreb', 'Zaragoza', 'Łódź'];
+  public tripPlaceholder: string = "Hello there";
 
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation) {
-    // console.log("moment", Moment);
     this.dateFormat = this.api.dateFormat;
    }
 
@@ -87,13 +62,20 @@ export class MainDropdownsComponent {
     this.tripError = '';
     this.tripSub = this.api.getTrips({}) 
                           .subscribe((res: any) => {
-                            console.log("trips ", res);
-                            this.trips = res.data;
+                            
+                            this.trips = this.formatTrips(res.data);
+                            console.log("trips ", this.trips);
 
                             if(this.frompage == 'send-sms' || this.frompage == 'sms-notifications'){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
                               this.tripid = inittripid  ? inittripid : this.trips[0].id;
+                              this.activeTrip = [ this.trips[0] ];
+                            }
+                            else{
+                              this.activeTrip = this._getActiveTrip(this.tripid);
                             }
                             
+                            // check if tripid passed in from url or otherwise is present in the trips array
+                            // before fetching the departures array for the specified trip id
                             let trip = this.trips.find(val => val.id == this.tripid);
 
                             console.log("found trip: ", trip);
@@ -109,8 +91,32 @@ export class MainDropdownsComponent {
                             this.updateDepartures(this.departureid);
                           },() => {
                             this.tripError = '';
-                            this.updateDepartures(this.departureid);
+                            // this.updateDepartures(this.departureid);
                           });
+  }
+
+  private _getActiveTrip(id: string): Array<any>{
+    let actrip = [];
+    this.trips.map((val) => {
+      if(val.id == id){
+        actrip.push(val);
+      }
+    });
+
+    return actrip;
+  }
+
+  formatTrips(data){
+    let trips = [];
+
+    data.map((val) => {
+      trips.push({
+        id: val['id'],
+        text: `${val['code']} - ${val['name']}`
+      })
+    });
+
+    return trips;
   }
 
   updateDepartures(initdepid: string = ''): void{ // gets the data for the 2nd select dropdown for the departure
@@ -169,8 +175,7 @@ export class MainDropdownsComponent {
                             });
     }
     else{
-      this.departureid = ''; // set this because its n ng model
-      this.departureError = 'No departure found';
+      this.departureError = 'No trip specified';
     }
   }
 
@@ -214,7 +219,11 @@ export class MainDropdownsComponent {
     let meta = {};
     this.trips.map((val) => {
       if(val.id == this.tripid){
-        meta = val;
+        meta['id'] = val['id'];
+
+        let txtparts = val['text'].split(' - ');
+        meta['code'] = txtparts[0];
+        meta['name'] = txtparts[1];
       }
     });
     return meta;
@@ -262,8 +271,11 @@ export class MainDropdownsComponent {
     console.log("refreshvalue:", data);
   }
 
-  selected(data){
-    console.log("selected", data);
+  tripSelected(data){
+    this.activeTrip = [data];
+    this.tripid = data['id'];
+    console.log("selected", data, this.activeTrip);
+    this.updateDepartures()
   }
 
   removed(data){

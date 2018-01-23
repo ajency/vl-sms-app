@@ -16,9 +16,9 @@ export class AuthGuard implements CanActivate {
 
         let token = this.localstorage.get('token');
 
-        globals.apitoken = token ? token.toString() : 'n/a';
+        globals.apitoken = token ? token.toString() : '';
         
-        // console.log("token:" , token);
+        console.log("token:" , token);
 
         if(route.routeConfig.path == 'login'){
             if(token){

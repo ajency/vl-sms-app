@@ -1878,4 +1878,21 @@ input[type="checkbox"].toggle__check {
 .tooltip {
   font-size: 0.65em;
 }
+
+/* ng2-select dropdown styles */
+.ui-select-choices{
+	display: block !important;
+}
+
+.ui-select-match .btn-secondary{
+  background-color: #fff;
+}
+
+.ui-select-match-text.pull-left{
+  color: #000 !important;
+}
+
+.dropdown-toggle.pull-right{
+  color: #000 !important;
+}
 /*# sourceMappingURL=styles.css.map */
