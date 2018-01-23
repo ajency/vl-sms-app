@@ -32,8 +32,15 @@ export class LoginComponent implements OnInit {
     })
     .subscribe((res: any) => {
       this.loginIn = false;
-      this.localstorage.set("token",res.token);
-      this.router.navigate(['/send-sms']);
+
+      if(res.status === 'success'){
+        this.localstorage.set("token",res.token);
+        this.router.navigate(['/send-sms']);
+      }
+      else{
+        this.error = res.msg;
+      }
+
     },(err) => {
         this.loginIn = false;
         this.error = err.error ? err.error.msg : err.message;
