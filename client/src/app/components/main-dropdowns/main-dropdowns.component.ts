@@ -30,6 +30,32 @@ export class MainDropdownsComponent {
   public depFromParent: boolean = false;
   public departureError: string = '';
 
+  public items = [
+    {id: '1', text: 'item 1'},
+    {id: '2', text: 'item 2'},
+    {id: '3', text: 'item 3'},
+    {id: '4', text: 'item 4'},
+    {id: '5', text: 'item 5'},
+    {id: '6', text: 'item 6'},
+    {id: '7', text: 'item 7'},
+    {id: '8', text: 'item 8'},
+    {id: '9', text: 'item 9'},
+    {id: '10', text: 'item 10'},
+    {id: '11', text: 'item 11'},
+    {id: '12', text: 'item 12'}
+  ]
+
+  // public items:Array<string> = ['Amsterdam', 'Antwerp', 'Athens', 'Barcelona',
+  // 'Berlin', 'Birmingham', 'Bradford', 'Bremen', 'Brussels', 'Bucharest',
+  // 'Budapest', 'Cologne', 'Copenhagen', 'Dortmund', 'Dresden', 'Dublin',
+  // 'Düsseldorf', 'Essen', 'Frankfurt', 'Genoa', 'Glasgow', 'Gothenburg',
+  // 'Hamburg', 'Hannover', 'Helsinki', 'Kraków', 'Leeds', 'Leipzig', 'Lisbon',
+  // 'London', 'Madrid', 'Manchester', 'Marseille', 'Milan', 'Munich', 'Málaga',
+  // 'Naples', 'Palermo', 'Paris', 'Poznań', 'Prague', 'Riga', 'Rome',
+  // 'Rotterdam', 'Seville', 'Sheffield', 'Sofia', 'Stockholm', 'Stuttgart',
+  // 'The Hague', 'Turin', 'Valencia', 'Vienna', 'Vilnius', 'Warsaw', 'Wrocław',
+  // 'Zagreb', 'Zaragoza', 'Łódź'];
+
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation) {
     // console.log("moment", Moment);
     this.dateFormat = this.api.dateFormat;
@@ -230,6 +256,22 @@ export class MainDropdownsComponent {
                           };break;
       }
     }
+  }
+
+  refreshValue(data){
+    console.log("refreshvalue:", data);
+  }
+
+  selected(data){
+    console.log("selected", data);
+  }
+
+  removed(data){
+    console.log("removed:", data);
+  }
+
+  typed(data){
+    console.log("typed:", data);
   }
 
 }

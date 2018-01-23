@@ -9,6 +9,8 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule, routedComponents, miscComponents } from './app-routing.module';
 import { DataTableModule } from './custom-data-table';
 
+import { SelectModule } from 'ng2-select';
+
 import { AppService, AuthService, ApiService } from './providers';
 
 import { AuthGuard } from './guards/auth-guard.service';
@@ -29,6 +31,7 @@ import { TitleCasePipe } from './pipes/title-case.pipe';
       storageType: 'localStorage'
     }),
     MomentModule,
+    SelectModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,

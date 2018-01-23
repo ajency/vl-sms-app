@@ -1,10 +1,20 @@
 <div class="row vl-participant__filter">
 		<div class="col-sm-4">
-			<select class="vl-select" placeholder="Select a tour" [(ngModel)]="tripid" (change)="updateDepartures()" [disabled]="trips.length == 0 || tripError != ''">
+			<!-- <select class="vl-select" placeholder="Select a tour" [(ngModel)]="tripid" (change)="updateDepartures()" [disabled]="trips.length == 0 || tripError != ''">
 				<option value="" disabled="true" *ngIf="!tripError" [selected]="!tripid">Select a tour</option>
 				<option value="" disabled="true" *ngIf="tripError" [selected]="tripError != ''">No trip found</option>
 				<option *ngFor="let option of trips" [value]="option.id">{{option.code}} - {{option.name}}</option>
-			</select>
+			</select> -->
+
+			<ng-select
+						[items]="items"
+						[disabled]="disabled"
+						(data)="refreshValue($event)"
+						(selected)="selected($event)"
+						(removed)="removed($event)"
+						(typed)="typed($event)"
+						placeholder="Select a tour">
+			</ng-select>
 		</div>
 		<div class="col-sm-4">
 			<select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" (change)="updateLocation('departure')" [disabled]="departures.length == 0 || departureError != ''">
