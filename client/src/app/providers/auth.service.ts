@@ -8,7 +8,7 @@ export class AuthService {
   constructor(private app: AppService) { }
 
   public login(body: any){
-    return this.app.request(`${globals.apiUrl}/v1/api/login`,'post',body);
+    return this.app.request(`${globals.apiUrl}/api/login`,'post',body);
   }
 
 }
