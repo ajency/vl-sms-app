@@ -15,6 +15,13 @@ export class SendSmsComponent {
   public smsMessage: string;
   public additionContacts: string;
 
+  public sendingSMS: boolean = false;
+  public sentSMS: boolean = false;
+  public publishNotification: boolean = false;
+
+  public validContacts: boolean = true;
+  public smsError: boolean;
+
   constructor(private api: ApiService) { }
 
   ngOnInit() {
@@ -47,9 +54,6 @@ export class SendSmsComponent {
     return smsjson;
   }
 
-  public validContacts: boolean = true;
-  public smsError: boolean;
-
   validateExtraContacts(){
     this.sentSMS = false;
 
@@ -67,9 +71,6 @@ export class SendSmsComponent {
     return parsecontacts;
   }
 
-  public sendingSMS: boolean = false;
-  public sentSMS: boolean = false;
-
   sendSMS(){
     this.smsError = false;
 
@@ -81,7 +82,8 @@ export class SendSmsComponent {
 
     let body = {
       // api_key: '<api-key>', 
-      // method: 'sms.json', 
+      // method: 'sms.json',
+      publishnotification: this.publishNotification, 
       json: smsjson
     };
 

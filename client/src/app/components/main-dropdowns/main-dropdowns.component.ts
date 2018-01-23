@@ -63,8 +63,11 @@ export class MainDropdownsComponent {
                           .subscribe((res: any) => {
                             console.log("trips ", res);
                             this.trips = res.data;
-                            // this.tripid = inittripid  ? inittripid : this.trips[0].id;
-      
+
+                            if(this.frompage == 'send-sms'){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                              this.tripid = inittripid  ? inittripid : this.trips[0].id;
+                            }
+                            
                             let trip = this.trips.find(val => val.id == this.tripid);
 
                             console.log("found trip: ", trip);
@@ -131,8 +134,6 @@ export class MainDropdownsComponent {
                                   this.triggerOutput(); // if departure id is passed in from parent component trigger the output event to load participant data
                                 }
                                 else{
-                                  // this.departureid = initdepid;
-                                  // this.triggerOutput(); // if departure id is passed in from parent component trigger the output event to load participant data
                                   this.departureError = 'Invalid departure for selected trip';
                                   this.departureid = '';
                                   this.onError.emit(this.departureError);
@@ -173,7 +174,7 @@ export class MainDropdownsComponent {
                                     console.log("participants api respsonse:",res);
                                     oevent['response'] = res;
                                     
-                                    this.updateLocation('departure');
+                                    // this.updateLocation('departure');
                                   
                                     this.onOutput.emit(oevent);
                                   },(err) => {
