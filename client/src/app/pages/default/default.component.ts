@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
 import { ApiService } from '../../providers/api.service';
 
@@ -30,7 +30,7 @@ export class DefaultComponent implements OnInit {
 
   public loadingParticipants: boolean = false;
 
-  constructor(public route: ActivatedRoute, private api: ApiService, private element: ElementRef, private router: Router) {
+  constructor(private api: ApiService, private element: ElementRef, private router: Router) {
     this.dateFormat = this.api.dateFormat;
 
     console.log("element:", element);
@@ -40,31 +40,6 @@ export class DefaultComponent implements OnInit {
 
   ngOnInit() {
     this.updateRows = this.updateRows.bind(this);
-
-    let tripslug = this.route.snapshot.paramMap.get("trip_slug");
-
-    this.route.queryParams.subscribe((params) => {
-      console.log("trip_slug: ", tripslug);
-      console.log("departure_id:", params["departure_id"]);
-
-      if(tripslug){
-        let slugelements = tripslug.split('-');
-        if(slugelements.length >= 3){
-          this.tripCode = slugelements[1];
-          this.tripId = slugelements[slugelements.length - 1];
-  
-          console.log("trip code:" , this.tripCode, " trip id: ", this.tripId, this.route);
-        }
-      }
-
-      if(params['departure_id']){
-        this.departureId = params['departure_id'];
-        // this.initDatatable({});
-      }
-
-    });
-
-
   }
 
   setParticipantLoader(){

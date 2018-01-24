@@ -2,6 +2,8 @@ import { Component, OnInit, EventEmitter, Input, Output , NgZone } from '@angula
 import { PlatformLocation } from '@angular/common';
 import { ApiService } from '../../providers/api.service';
 
+import { ActivatedRoute } from '@angular/router';
+import { prettyUrlRoutes } from '../../app-routing.module';
 
 @Component({
   selector: 'main-dropdowns',
@@ -10,9 +12,9 @@ import { ApiService } from '../../providers/api.service';
 })
 export class MainDropdownsComponent {
 
-  @Input() tripid: string;
-  @Input() departureid: string;
-  @Input() frompage: string;
+  public tripid: string;
+  public departureid: string;
+  private frompage: string;
 
   @Output() onOutput = new EventEmitter<any>();
   @Output() onDepartures = new EventEmitter<any>();
@@ -21,7 +23,7 @@ export class MainDropdownsComponent {
 
   public trips: Array<any> = [];
   public departures: Array<any> = [];
-  public activeTrip: Array<{id: string, text: string}>;
+  public activeTrip: Array<{id: string, text: string}>; // reference for the trip select dropdown component
 
   public tripSub: any;
   public depSub: any;
@@ -32,13 +34,38 @@ export class MainDropdownsComponent {
   public departureError: string = '';
   public tripPlaceholder: string = "Hello there";
 
-  constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation) {
+  public tripcode: string;
+
+  constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
    }
 
   ngOnInit() {
-    
+    this.frompage = this.route.routeConfig.path;
     // set flags to indicate if trip id & departure id are passed in from parent component
+    let tripslug = this.route.snapshot.paramMap.get("trip_slug");
+
+    this.route.queryParams.subscribe((params) => {
+      console.log("trip_slug: ", tripslug);
+      console.log("departure_id:", params["departure_id"]);
+
+      if(tripslug){
+        let slugelements = tripslug.split('-');
+        if(slugelements.length >= 3){
+          this.tripcode = slugelements[1];
+          this.tripid = slugelements[slugelements.length - 1];
+  
+          console.log("trip code:" , this.tripcode, " trip id: ", this.tripid, this.route);
+        }
+      }
+
+      if(params['departure_id']){
+        this.departureid = params['departure_id'];
+      }
+
+    });
+
+
     this.tripFromParent = this.tripid ? true : false;
     this.depFromParent = this.departureid ? true : false;
 
@@ -65,30 +92,32 @@ export class MainDropdownsComponent {
                             
                             this.trips = this.formatTrips(res.data);
                             console.log("trips ", this.trips);
-
-                            if(this.frompage == 'send-sms' || this.frompage == 'sms-notifications'){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
-                              this.tripid = inittripid  ? inittripid : this.trips[0].id;
-                              this.activeTrip = [ this.trips[0] ];
+                            
+                            if(this._matchUrl('exact')){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                              // this.tripid = inittripid  ? inittripid : this.trips[0].id;
+                              // this.activeTrip = [ this.trips[0] ];
                             }
                             else{
                               this.activeTrip = this._getActiveTrip(this.tripid);
-                            }
-                            
-                            // check if tripid passed in from url or otherwise is present in the trips array
-                            // before fetching the departures array for the specified trip id
-                            let trip = this.trips.find(val => val.id == this.tripid);
 
-                            console.log("found trip: ", trip);
-                            if(trip){
-                              this.onError.emit(this.tripError); // emit blank error
-                            }
-                            else{
-                              this.tripError = "Could not find trip specified!";
-                              this.tripid = '';
-                              this.onError.emit(this.tripError);
-                            }
+                              // check if tripid passed in from url or otherwise is present in the trips array
+                              // before fetching the departures array for the specified trip id
+                              let trip = this.trips.find(val => val.id == this.tripid);
+
+                              console.log("found trip: ", trip);
+                              if(trip){
+                                this.onError.emit(this.tripError); // emit blank error
+                              }
+                              else{
+                                this.tripError = "Could not find trip specified!";
+                                this.tripid = '';
+                                this.onError.emit(this.tripError);
+                              }
 
                             this.updateDepartures(this.departureid);
+
+                            }
+                            
                           },() => {
                             this.tripError = '';
                             // this.updateDepartures(this.departureid);
@@ -240,7 +269,7 @@ export class MainDropdownsComponent {
   }
 
   updateLocation(type: string){
-    if(this.frompage.indexOf('send-sms') === 0){
+    if(this._matchUrl()){
       console.log("############################################## url update ", type , this.frompage);
       let tripmeta = this.getTripMeta();
       let depmeta = this.getDepMeta();
@@ -265,6 +294,25 @@ export class MainDropdownsComponent {
                           };break;
       }
     }
+  }
+
+  private _matchUrl(exact: string = ''){
+    let match = false;
+    if(exact === 'exact'){
+      prettyUrlRoutes.map((val) => {
+        if(this.frompage === val){
+          match = true;
+        }
+      });
+    }
+    else{
+      prettyUrlRoutes.map((val) => {
+        if(this.frompage.indexOf(val) === 0){
+          match = true;
+        }
+      });
+    }
+    return match;
   }
 
   refreshValue(data){

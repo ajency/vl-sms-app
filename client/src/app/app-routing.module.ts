@@ -29,6 +29,8 @@ const routes: Routes = [
 })
 export class AppRoutingModule {}
 
-export const routedComponents = [LoginComponent, DefaultComponent, SmsNotificationComponent, NotfoundComponent];
+export const routedComponents = [ LoginComponent, DefaultComponent, SmsNotificationComponent, NotfoundComponent ];
 
-export const miscComponents = [MainDropdownsComponent, SendSmsComponent]
+export const miscComponents = [ MainDropdownsComponent, SendSmsComponent ]
+
+export const prettyUrlRoutes = [ 'send-sms', 'sms-notifications' ];

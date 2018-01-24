@@ -19,7 +19,7 @@
 
   <div class="container vl-participant">
       <div class="row vl-participant__filter">
-        <main-dropdowns [frompage]="route.routeConfig.path" [tripid]="tripId" [departureid]="departureId" (onOutput)="loadNotification($event)" (onError)="checkError($event)" (loadingParticipants)="setLoader()">
+        <main-dropdowns (onOutput)="loadNotification($event)" (onError)="checkError($event)" (loadingParticipants)="setLoader()">
         </main-dropdowns>
       </div>
 
