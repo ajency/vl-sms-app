@@ -219,6 +219,7 @@ export class MainDropdownsComponent {
                                   this.departureid = '';
                                   this.onError.emit(this.departureError);
                                 }
+                                this.updateLocation('departure');
                               }
 
                             });
