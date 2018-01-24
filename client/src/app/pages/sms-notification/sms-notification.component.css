@@ -1,110 +1,110 @@
 .vl-participant {
-    background-color: #f8fafb;
-    border: 1px solid #dfe7ed;
-  }
-  .vl-participant__filter {
-    background-color: #edf0f3;
-    padding: 1.5em 0;
-  }
-  .show-participant {
-    font-size: 0.85em;
-    padding: 0.4em 1.5em;
-  }
+  border: 1px solid #dfe7ed;
+}
+.vl-participant__filter {
+  background-color: #f3f3f3;
+  padding: 1.5em 0;
+}
+.show-participant {
+  font-size: 0.85em;
+  padding: 0.4em 1.5em;
+}
+.no-data {
+  min-height: 70vh;
+  padding-bottom: 0 !important;
+}
+.empty-box .fa {
+  font-size: 6em;
+  color: #a5b6c7;
+  margin-bottom: 0.5em;
+}
+.results-header__details {
+  color: #8d8e8f;
+  font-size: 0.9em;
+}
+.results-header .date-range:before {
+  content: '';
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background-color: #8d8e8f;
+  border-radius: 50%;
+  position: relative;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.result--title {
+  font-size: 1.4em;
+}
+main-dropdowns {
+  width: 100%;
+  padding: 0 15px;
+}
+.external-link {
+  color: #2d7ace;
+}
+.vl-participant {
+  background: #fff;
+  margin-top: 1.5em;
+}
+.vl-sms__header {
+  background: #fff;
+  padding: 1em 0;
+}
+.notification-element {
+  background: #ffffff;
+  border: 1px solid #eee;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.notification-element:nth-child(odd) {
+  background: #fafafa;
+}
+.notification-message {
+  padding-bottom: 5px;
+  color: #343f53;
+}
+.notification-time {
+  color: #b3b0b0;
+  font-size: 0.8rem;
+}
+@media screen and (max-width: 480px) {
   .no-data {
-    min-height: 70vh;
-    padding-bottom: 0 !important;
+    min-height: 60vh;
+    padding: 0 !important;
   }
   .empty-box .fa {
-    font-size: 6em;
-    color: #a5b6c7;
-    margin-bottom: 0.5em;
+    font-size: 3em;
   }
-  .results-header__details {
-    color: #8d8e8f;
-    font-size: 0.9em;
-  }
-  .results-header .date-range:before {
-    content: '';
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    background-color: #8d8e8f;
-    border-radius: 50%;
-    position: relative;
-    vertical-align: middle;
-    margin-right: 5px;
+  .app-detail {
+    margin: 0.5em 0;
+    font-size: 1.5em;
   }
   .result--title {
-    font-size: 1.4em;
+    font-size: 1.25em;
   }
-  main-dropdowns {
-    width: 100%;
-    padding: 0 15px;
+  .vl-participant {
+    margin-top: 0;
   }
-  .external-link {
-    color: #2d7ace;
+}
+@media screen and (max-width: 360px) {
+  .no-data {
+    min-height: 50vh;
   }
-
-  .vl-participant{
-    background: #fff;
-    margin-top: 1.5em;
+}
+@media screen and (min-width: 480px) and (max-width: 769px) {
+  .vl-participants__data {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
   }
-  .vl-participant__filter{
-    background: #f8fafb;
+  .passenger-data,
+  .compose-msg {
+    max-width: 100%;
   }
-  .vl-sms__header{
-    background: #fff;
-    padding: 1em 0;
-  }
-  .notification-element{
-    background: rgb(255, 255, 255);
-    border: 1px solid rgb(206, 206, 206);
-    padding-left: 20px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-  }
-  .notification-message{
-    padding-bottom: 5px;
-  }
-  .notification-time{
-    color: rgb(179, 176, 176);
-    font-size: 0.8rem;
-  }
-  div.notification-element:nth-child(odd){
-    background: #f8fafb;
-  }
-  @media screen and (max-width: 480px) {
-    .no-data {
-      min-height: 60vh;
-      padding: 0 !important;
-    }
-    .empty-box .fa {
-      font-size: 3em;
-    }
-    .app-detail {
-      margin: 0.5em 0;
-      font-size: 1.5em;
-    }
-    .result--title {
-      font-size: 1.25em;
-    }
-  }
-  @media screen and (max-width: 360px) {
-    .no-data {
-      min-height: 50vh;
-    }
-  }
-  @media screen and (min-width: 480px) and (max-width: 769px) {
-    .vl-participants__data {
-      -webkit-box-orient: vertical;
-      -webkit-box-direction: normal;
-      -webkit-flex-direction: column;
-          -ms-flex-direction: column;
-              flex-direction: column;
-    }
-    .passenger-data,
-    .compose-msg {
-      max-width: 100%;
-    }
-  }
-  /*# sourceMappingURL=default.component.css.map */
+}
+/*# sourceMappingURL=default.component.css.map */
+/*# sourceMappingURL=sms-notification.component.css.map */
