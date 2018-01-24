@@ -36,6 +36,10 @@ export class MainDropdownsComponent {
 
   public tripcode: string;
 
+  private _exactMatch: boolean = false;
+  private _occurenceMatch: boolean = false;
+  private _exactPath: string = '';
+
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
    }
@@ -63,6 +67,22 @@ export class MainDropdownsComponent {
         this.departureid = params['departure_id'];
       }
 
+      let exact = this._matchUrl('exact');
+      this._exactMatch = exact.match;
+      let occurence = this._matchUrl();
+      this._occurenceMatch = occurence.match;
+
+      console.log("exact match", exact, " occurence match", occurence);
+
+      if(this._exactMatch){
+        this._exactPath = exact.val;
+      }
+      else if(this._occurenceMatch){
+        this._exactPath = occurence.val;
+      }
+      else{
+        console.warn("%%%%%%%%%%%%%%%%%%%%%%%%%%%% no match found for url updates!!! %%%%%%%%%%%%%%%%%%%%%%%%%%%");
+      }
     });
 
 
@@ -93,7 +113,7 @@ export class MainDropdownsComponent {
                             this.trips = this.formatTrips(res.data);
                             console.log("trips ", this.trips);
                             
-                            if(this._matchUrl('exact')){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                            if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
                               // this.tripid = inittripid  ? inittripid : this.trips[0].id;
                               // this.activeTrip = [ this.trips[0] ];
                             }
@@ -269,7 +289,7 @@ export class MainDropdownsComponent {
   }
 
   updateLocation(type: string){
-    if(this._matchUrl()){
+    if(this._occurenceMatch){
       console.log("############################################## url update ", type , this.frompage);
       let tripmeta = this.getTripMeta();
       let depmeta = this.getDepMeta();
@@ -278,7 +298,7 @@ export class MainDropdownsComponent {
         case 'trip': {  
                           if(!this.tripFromParent){
                             this.platformlocation
-                                .pushState({tripid: this.tripid}, 'update tripid', `send-sms/trip-${tripmeta['code']}-${tripmeta['id']}`);
+                                .pushState({tripid: this.tripid}, 'update tripid', `${this._exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}`);
                           }else{
                             this.tripFromParent = false;
                           }
@@ -286,7 +306,7 @@ export class MainDropdownsComponent {
         case 'departure': {
                             if(!this.depFromParent){
                               this.platformlocation
-                                .pushState({departureid: this.departureid}, 'update departureid', `send-sms/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
+                                .pushState({departureid: this.departureid}, 'update departureid', `${this._exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
                             }else{
                               this.depFromParent = false;
                             }
@@ -296,23 +316,25 @@ export class MainDropdownsComponent {
     }
   }
 
-  private _matchUrl(exact: string = ''){
-    let match = false;
+  private _matchUrl(exact: string = ''): any{
+    let result = { match: false, val: ''};
     if(exact === 'exact'){
-      prettyUrlRoutes.map((val) => {
+      prettyUrlRoutes.map((val: string) => {
         if(this.frompage === val){
-          match = true;
+          result['match'] = true;
+          result['val'] = val;
         }
       });
     }
     else{
       prettyUrlRoutes.map((val) => {
         if(this.frompage.indexOf(val) === 0){
-          match = true;
+          result['match'] = true;
+          result['val'] = val;
         }
       });
     }
-    return match;
+    return result;
   }
 
   refreshValue(data){
