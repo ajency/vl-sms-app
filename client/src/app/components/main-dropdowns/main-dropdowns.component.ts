@@ -59,12 +59,18 @@ export class MainDropdownsComponent {
           this.tripcode = slugelements[1];
           this.tripid = slugelements[slugelements.length - 1];
   
-          console.log("trip code:" , this.tripcode, " trip id: ", this.tripid, this.route);
+          
         }
+      }
+      else{
+        this.tripid = '';
       }
 
       if(params['departure_id']){
         this.departureid = params['departure_id'];
+      }
+      else{
+        this.departureid = '';
       }
 
       let exact = this._matchUrl('exact');
@@ -83,6 +89,8 @@ export class MainDropdownsComponent {
       else{
         console.warn("%%%%%%%%%%%%%%%%%%%%%%%%%%%% no match found for url updates!!! %%%%%%%%%%%%%%%%%%%%%%%%%%%");
       }
+
+      console.log("trip code:" , this.tripcode, " trip id: ", this.tripid, " departure id: ", this.departureid, " router: ", this.route);
     });
 
 
@@ -219,6 +227,7 @@ export class MainDropdownsComponent {
                                   this.departureid = '';
                                   this.onError.emit(this.departureError);
                                 }
+                                this.updateLocation('departure');
                               }
 
                             });
