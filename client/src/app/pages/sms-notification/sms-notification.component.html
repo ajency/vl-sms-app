@@ -17,7 +17,7 @@
     </div>
   </header> -->
 
-  <div class="container vl-participant">
+  <div class="container vl-participant sms-notfication">
       <div class="row vl-participant__filter vl-sms__header">
           <div class="col-sm-8 align-self-center">
               <h5 class="vl-logo m-b-0"><img src="./assets/img/sms-notifcation-logo.png" width="120"></h5>
@@ -30,7 +30,7 @@
         <main-dropdowns (onOutput)="loadNotification($event)" (onError)="checkError($event)" (loadingParticipants)="setLoader()">
         </main-dropdowns>
       </div>
-      <div class="row vl-participants__data pb-5" [ngClass]="{'no-data': !notifications.length}">
+      <div class="row vl-participants__data pb-3" [ngClass]="{'no-data': !notifications.length}">
         		<!-- If not values selected -->
         <div *ngIf="!loadinNotifications && !notifications.length" class="col-sm-12 align-self-center">
           <div class="empty-box text-center">
@@ -72,7 +72,13 @@
             <div class="notification-message">{{notification.message || naText}}</div>
             <span class="notification-time">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
           </div>
+
+          <div class="col-sm-12 text-center sms-footer m-t-30 m-b-10">
+            <p class="text-lighter default-size m-b-0">Online Booking System by Vacation Labs | &copy; 2017 Vacation Labs</p>
+          </div>
+
         </div>
 
       </div>
   </div>
+  <br><br>
