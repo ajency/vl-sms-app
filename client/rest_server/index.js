@@ -143,6 +143,37 @@ apiRoutes.post('/send-sms',function(req,res){
     },2000);
 });
 
+apiRoutes.post('/sms-notifications',function(req,res){
+    var data = dataHandler('notifications');
+   
+    var response = {
+        status: 'success',
+        msg: 'ok',
+        data: data
+    };
+
+
+    if(Math.round(Math.random()) > 0.5){
+        response['status'] = 'error';
+        response['msg'] = "Random entropy error";
+        response['data'] = [];
+        res.status(200).json(response);
+    }
+    else{
+        res.status(200).json(response);
+    }
+    // if(data.length){
+    //     response['msg'] = "ok";
+    // }
+    // else{
+    //     response['msg'] = "No participants found for departure!";
+    // }
+
+
+
+    
+});
+
 
 app.use('/v1/api',apiRoutes);
 

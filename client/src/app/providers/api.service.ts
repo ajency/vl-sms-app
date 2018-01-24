@@ -30,4 +30,8 @@ export class ApiService {
     return this.app.request(`${this.apiUrl}/send-sms`,'post', body, this._getToken());
   }
 
+  public getSMSnotifications(body: any){
+    return this.app.request(`${this.apiUrl}/sms-notifications`,'post', body, this._getToken());
+  }
+
 }

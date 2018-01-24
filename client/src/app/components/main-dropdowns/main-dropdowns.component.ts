@@ -36,6 +36,10 @@ export class MainDropdownsComponent {
 
   public tripcode: string;
 
+  private _exactMatch: boolean = false;
+  private _occurenceMatch: boolean = false;
+  public exactPath: string = '';
+
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
    }
@@ -55,14 +59,38 @@ export class MainDropdownsComponent {
           this.tripcode = slugelements[1];
           this.tripid = slugelements[slugelements.length - 1];
   
-          console.log("trip code:" , this.tripcode, " trip id: ", this.tripid, this.route);
+          
         }
+      }
+      else{
+        this.tripid = '';
       }
 
       if(params['departure_id']){
         this.departureid = params['departure_id'];
       }
+      else{
+        this.departureid = '';
+      }
 
+      let exact = this._matchUrl('exact');
+      this._exactMatch = exact.match;
+      let occurence = this._matchUrl();
+      this._occurenceMatch = occurence.match;
+
+      console.log("exact match", exact, " occurence match", occurence);
+
+      if(this._exactMatch){
+        this.exactPath = exact.val;
+      }
+      else if(this._occurenceMatch){
+        this.exactPath = occurence.val;
+      }
+      else{
+        console.warn("%%%%%%%%%%%%%%%%%%%%%%%%%%%% no match found for url updates!!! %%%%%%%%%%%%%%%%%%%%%%%%%%%");
+      }
+
+      console.log("trip code:" , this.tripcode, " trip id: ", this.tripid, " departure id: ", this.departureid, " router: ", this.route);
     });
 
 
@@ -93,7 +121,7 @@ export class MainDropdownsComponent {
                             this.trips = this.formatTrips(res.data);
                             console.log("trips ", this.trips);
                             
-                            if(this._matchUrl('exact')){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                            if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
                               // this.tripid = inittripid  ? inittripid : this.trips[0].id;
                               // this.activeTrip = [ this.trips[0] ];
                             }
@@ -199,6 +227,7 @@ export class MainDropdownsComponent {
                                   this.departureid = '';
                                   this.onError.emit(this.departureError);
                                 }
+                                this.updateLocation('departure');
                               }
 
                             });
@@ -229,19 +258,35 @@ export class MainDropdownsComponent {
 
     this.loadingParticipants.emit(true);
 
-    this.participantSub = this.api.getParticipants(this.departureid)
-                                  .subscribe((res: any) => {
-                                    console.log("participants api respsonse:",res);
-                                    oevent['response'] = res;
+    if(this.exactPath === 'send-sms'){
+      this.participantSub = this.api.getParticipants(this.departureid)
+                                    .subscribe((res: any) => {
+                                      console.log("participants api respsonse:",res);
+                                      oevent['response'] = res;
+                                      
+                                      // this.updateLocation('departure');
                                     
-                                    // this.updateLocation('departure');
-                                  
-                                    this.onOutput.emit(oevent);
-                                  },(err) => {
-                                    oevent['response'] = err;
-                                    this.onOutput.emit(oevent);
-                                  });
-
+                                      this.onOutput.emit(oevent);
+                                    },(err) => {
+                                      oevent['response'] = err;
+                                      this.onOutput.emit(oevent);
+                                    });
+    }
+    else if(this.exactPath === 'sms-notifications'){
+      this.participantSub = this.api.getSMSnotifications({})
+                                    .subscribe((res: any) => {
+                                      console.log("notifcations api respsonse:",res);
+                                      oevent['response'] = res;
+                                                                          
+                                      this.onOutput.emit(oevent);
+                                    },(err) => {
+                                      oevent['response'] = err;
+                                      this.onOutput.emit(oevent);
+                                    });
+    }
+    else{
+      this.onOutput.emit(oevent);
+    }
   }
 
   getTripMeta(){
@@ -268,8 +313,16 @@ export class MainDropdownsComponent {
     return meta;
   }
 
+  onDepartureUpdate(){
+    this.updateLocation('departure');
+
+    if(this.exactPath === 'sms-notifications'){
+      this.triggerOutput()
+    }
+  }
+
   updateLocation(type: string){
-    if(this._matchUrl()){
+    if(this._occurenceMatch){
       console.log("############################################## url update ", type , this.frompage);
       let tripmeta = this.getTripMeta();
       let depmeta = this.getDepMeta();
@@ -278,7 +331,7 @@ export class MainDropdownsComponent {
         case 'trip': {  
                           if(!this.tripFromParent){
                             this.platformlocation
-                                .pushState({tripid: this.tripid}, 'update tripid', `send-sms/trip-${tripmeta['code']}-${tripmeta['id']}`);
+                                .pushState({tripid: this.tripid}, 'update tripid', `${this.exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}`);
                           }else{
                             this.tripFromParent = false;
                           }
@@ -286,7 +339,7 @@ export class MainDropdownsComponent {
         case 'departure': {
                             if(!this.depFromParent){
                               this.platformlocation
-                                .pushState({departureid: this.departureid}, 'update departureid', `send-sms/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
+                                .pushState({departureid: this.departureid}, 'update departureid', `${this.exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
                             }else{
                               this.depFromParent = false;
                             }
@@ -296,23 +349,25 @@ export class MainDropdownsComponent {
     }
   }
 
-  private _matchUrl(exact: string = ''){
-    let match = false;
+  private _matchUrl(exact: string = ''): any{
+    let result = { match: false, val: ''};
     if(exact === 'exact'){
-      prettyUrlRoutes.map((val) => {
+      prettyUrlRoutes.map((val: string) => {
         if(this.frompage === val){
-          match = true;
+          result['match'] = true;
+          result['val'] = val;
         }
       });
     }
     else{
       prettyUrlRoutes.map((val) => {
         if(this.frompage.indexOf(val) === 0){
-          match = true;
+          result['match'] = true;
+          result['val'] = val;
         }
       });
     }
-    return match;
+    return result;
   }
 
   refreshValue(data){
