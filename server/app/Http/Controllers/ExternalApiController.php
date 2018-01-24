@@ -39,13 +39,13 @@ class ExternalApiController extends Controller
     public function departures(Request $request)
     {
 
-        $filters      = json_decode($request->input('filters'), true);
+        $filters      = $request->input('filters');
         $filters_data = json_decode($filters, true);
 
         $current_date = date('Y-m-d');
         $fromdate     = date('Y-m-d', strtotime('-60 days', strtotime($current_date))); // last 60 days
         $trip_id      = $filters_data['trip_id'];
-        $trip_id      = 25224;
+        //$trip_id      = 25224;
 
         $res = $this->client->request('GET',  $this->api_url.'/api/v1/admin/departures.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&departure_from=' . $fromdate . '&limit=1000&trip_ids=' . $trip_id);
 
@@ -75,11 +75,11 @@ class ExternalApiController extends Controller
     public function participants()
     {
 
-        $res = $this->client->request('GET',  $this->api_url.'/api/v1/admin/departures/39420?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
+       /* $res = $this->client->request('GET',  $this->api_url.'/api/v1/admin/departures/39420?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
 
         $data = json_decode($res->getBody(), true);
         print_r($data);
-        $final_data = array();
+        $final_data = array();*/
         /* foreach ($data['departures'] as  $dvalue) {
         $final_data[]= [
         "departure_id"   => $dvalue['id'],
@@ -94,7 +94,7 @@ class ExternalApiController extends Controller
         "data"   => $final_data
         ];*/
 
-        /*return [
+        return [
     "status" => "success",
     "msg"    => "ok",
     "data"   => [
@@ -114,7 +114,7 @@ class ExternalApiController extends Controller
     ["booking_id" => "SEA07456413", "passenger_id" => "1245", "passenger_name" => "Linda T", "primary" => false, "phone_no" => "914514588442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
     ]
     ];
-     */
+     
     }
 
 }
