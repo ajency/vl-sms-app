@@ -143,6 +143,27 @@ apiRoutes.post('/send-sms',function(req,res){
     },2000);
 });
 
+apiRoutes.post('/sms-notifications',function(req,res){
+    var data = dataHandler('notifications');
+   
+    var response = {
+        status: 'success',
+        msg: 'ok',
+        data: data
+    };
+
+    // if(data.length){
+    //     response['msg'] = "ok";
+    // }
+    // else{
+    //     response['msg'] = "No participants found for departure!";
+    // }
+
+
+    res.status(200).json(response);
+    
+});
+
 
 app.use('/v1/api',apiRoutes);
 

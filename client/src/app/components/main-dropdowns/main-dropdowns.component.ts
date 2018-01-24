@@ -38,7 +38,7 @@ export class MainDropdownsComponent {
 
   private _exactMatch: boolean = false;
   private _occurenceMatch: boolean = false;
-  private _exactPath: string = '';
+  public exactPath: string = '';
 
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
@@ -75,10 +75,10 @@ export class MainDropdownsComponent {
       console.log("exact match", exact, " occurence match", occurence);
 
       if(this._exactMatch){
-        this._exactPath = exact.val;
+        this.exactPath = exact.val;
       }
       else if(this._occurenceMatch){
-        this._exactPath = occurence.val;
+        this.exactPath = occurence.val;
       }
       else{
         console.warn("%%%%%%%%%%%%%%%%%%%%%%%%%%%% no match found for url updates!!! %%%%%%%%%%%%%%%%%%%%%%%%%%%");
@@ -249,19 +249,35 @@ export class MainDropdownsComponent {
 
     this.loadingParticipants.emit(true);
 
-    this.participantSub = this.api.getParticipants(this.departureid)
-                                  .subscribe((res: any) => {
-                                    console.log("participants api respsonse:",res);
-                                    oevent['response'] = res;
+    if(this.exactPath === 'send-sms'){
+      this.participantSub = this.api.getParticipants(this.departureid)
+                                    .subscribe((res: any) => {
+                                      console.log("participants api respsonse:",res);
+                                      oevent['response'] = res;
+                                      
+                                      // this.updateLocation('departure');
                                     
-                                    // this.updateLocation('departure');
-                                  
-                                    this.onOutput.emit(oevent);
-                                  },(err) => {
-                                    oevent['response'] = err;
-                                    this.onOutput.emit(oevent);
-                                  });
-
+                                      this.onOutput.emit(oevent);
+                                    },(err) => {
+                                      oevent['response'] = err;
+                                      this.onOutput.emit(oevent);
+                                    });
+    }
+    else if(this.exactPath === 'sms-notifications'){
+      this.participantSub = this.api.getSMSnotifications({})
+                                    .subscribe((res: any) => {
+                                      console.log("notifcations api respsonse:",res);
+                                      oevent['response'] = res;
+                                                                          
+                                      this.onOutput.emit(oevent);
+                                    },(err) => {
+                                      oevent['response'] = err;
+                                      this.onOutput.emit(oevent);
+                                    });
+    }
+    else{
+      this.onOutput.emit(oevent);
+    }
   }
 
   getTripMeta(){
@@ -288,6 +304,14 @@ export class MainDropdownsComponent {
     return meta;
   }
 
+  onDepartureUpdate(){
+    this.updateLocation('departure');
+
+    if(this.exactPath === 'sms-notifications'){
+      this.triggerOutput()
+    }
+  }
+
   updateLocation(type: string){
     if(this._occurenceMatch){
       console.log("############################################## url update ", type , this.frompage);
@@ -298,7 +322,7 @@ export class MainDropdownsComponent {
         case 'trip': {  
                           if(!this.tripFromParent){
                             this.platformlocation
-                                .pushState({tripid: this.tripid}, 'update tripid', `${this._exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}`);
+                                .pushState({tripid: this.tripid}, 'update tripid', `${this.exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}`);
                           }else{
                             this.tripFromParent = false;
                           }
@@ -306,7 +330,7 @@ export class MainDropdownsComponent {
         case 'departure': {
                             if(!this.depFromParent){
                               this.platformlocation
-                                .pushState({departureid: this.departureid}, 'update departureid', `${this._exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
+                                .pushState({departureid: this.departureid}, 'update departureid', `${this.exactPath}/trip-${tripmeta['code']}-${tripmeta['id']}?departure_id=${depmeta['departure_id']}`);
                             }else{
                               this.depFromParent = false;
                             }

@@ -18,13 +18,13 @@
 			</ng-select>
 		</div>
 		<div class="col-sm-4">
-			<select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" (change)="updateLocation('departure')" [disabled]="departures.length == 0 || departureError != ''">
+			<select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" (change)="onDepartureUpdate()" [disabled]="departures.length == 0 || departureError != ''">
 				<option value="" disabled="true" *ngIf="!departureError" [selected]="departureid == ''">Select a departure</option>
 				<option value="" disabled="true" *ngIf="departureError" [selected]="departureError != ''">No departure found</option>
 				<option *ngFor="let option of departures" [value]="option.departure_id">{{option.starts_at | amParse: dateFormat | amDateFormat:'DD MMM' }} - {{option.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' }}</option>
 			</select>
 		</div>
-		<div class="col-sm-3 filter-action">
+		<div class="col-sm-3 filter-action" [hidden]="exactPath == 'sms-notifications'">
 			<button [disabled]="!departureid" (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
 		</div>
 	</div>
