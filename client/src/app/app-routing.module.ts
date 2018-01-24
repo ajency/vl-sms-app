@@ -15,11 +15,11 @@ import { AuthGuard } from './guards/auth-guard.service';
 
 const routes: Routes = [
     { path: '', redirectTo: '/send-sms', pathMatch: 'full' },
-    { path: 'login', component: LoginComponent, canActivate: [AuthGuard] },
-    { path: 'send-sms', component: DefaultComponent, canActivate: [AuthGuard]},
-    { path: 'send-sms/:trip_slug', component: DefaultComponent, canActivate: [AuthGuard]},
-    { path: 'sms-notifications', component: SmsNotificationComponent, canActivate: [AuthGuard]},
-    { path: 'sms-notifications/:trip_slug', component: SmsNotificationComponent, canActivate: [AuthGuard]},
+    { path: 'login', component: LoginComponent, data: {title: "VL SMS App - Login"}, canActivate: [AuthGuard] },
+    { path: 'send-sms', component: DefaultComponent, data: {title: "VL SMS App - Send SMS"}, canActivate: [AuthGuard]},
+    { path: 'send-sms/:trip_slug', component: DefaultComponent, data: {title: "VL SMS App - Send SMS slug"}, canActivate: [AuthGuard]},
+    { path: 'sms-notifications', component: SmsNotificationComponent, data: {title: "VL SMS App - Notifications"}, canActivate: [AuthGuard]},
+    { path: 'sms-notifications/:trip_slug', component: SmsNotificationComponent, data: {title: "VL SMS App - Notifications slug"}, canActivate: [AuthGuard]},
     { path: '**', component: NotfoundComponent}
 ];
 
