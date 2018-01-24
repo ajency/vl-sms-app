@@ -27,3 +27,4 @@ Route::group(['middleware' => 'auth:api'], function () {
 Route::post('trip-passengers', 'ExternalApiController@participants');
 Route::post('trips', 'ExternalApiController@trips');
 Route::post('departures', 'ExternalApiController@departures');
+Route::post('send-sms', 'SmsController@sendSms');
