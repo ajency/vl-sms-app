@@ -1,5 +1,11 @@
 <router-outlet></router-outlet>
 
+<div class="guard-check" [class.active]="navigationGuardCheck">
+  <div class="alert alert-primary container flex-row justify-center">
+    Checking page permissions
+    <!-- <a href="" class="btn vl-btn  offline-btn text-uppercase lighter">Refresh</a> -->
+  </div>
+</div>
 
 
 <div class="offline-mode" [class.active]="!online">

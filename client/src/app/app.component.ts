@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute } from '@angular/router'
+import { Router, NavigationEnd, GuardsCheckStart, GuardsCheckEnd, ActivatedRoute } from '@angular/router'
 import { Title }  from '@angular/platform-browser';
 
 import 'rxjs/add/operator/filter';
@@ -16,6 +16,7 @@ declare var window: any;
 export class AppComponent {
   title = 'app';
 
+  public navigationGuardCheck: boolean = false;
   public online: boolean = true;
   constructor(private titleservice: Title, private router: Router, private activateroute: ActivatedRoute){
 
@@ -35,6 +36,22 @@ export class AppComponent {
                 console.log("router event",event);
                 this.titleservice.setTitle(event["title"]);
               });
+
+
+    this.router.events
+              .filter((event) => event instanceof GuardsCheckStart)
+              .subscribe((event) => {
+                console.log("guard start")
+                this.navigationGuardCheck = true;
+              });
+
+    this.router.events
+              .filter((event) => event instanceof GuardsCheckEnd)
+              .subscribe((event) => {
+                console.log("guard end")
+                this.navigationGuardCheck = false;
+              });
+
     this.checkNetwork();
   }
 
