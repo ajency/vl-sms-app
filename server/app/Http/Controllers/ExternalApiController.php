@@ -40,13 +40,11 @@ class ExternalApiController extends Controller
     {
 
         $filters      = $request->input('filters');
-        $filters_data = json_decode($filters, true);
-
+        
         $current_date = date('Y-m-d');
         $fromdate     = date('Y-m-d', strtotime('-60 days', strtotime($current_date))); // last 60 days
-        $trip_id      = $filters_data['trip_id'];
-        //$trip_id      = 25224;
-
+        $trip_id      = $filters['trip_id'];
+       
         $res = $this->client->request('GET',  $this->api_url.'/api/v1/admin/departures.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&departure_from=' . $fromdate . '&limit=1000&trip_ids=' . $trip_id);
 
         $data = json_decode($res->getBody(), true);
