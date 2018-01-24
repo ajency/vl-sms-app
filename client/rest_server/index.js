@@ -152,6 +152,16 @@ apiRoutes.post('/sms-notifications',function(req,res){
         data: data
     };
 
+
+    if(Math.round(Math.random()) > 0.5){
+        response['status'] = 'error';
+        response['msg'] = "Random entropy error";
+        response['data'] = [];
+        res.status(200).json(response);
+    }
+    else{
+        res.status(200).json(response);
+    }
     // if(data.length){
     //     response['msg'] = "ok";
     // }
@@ -160,7 +170,7 @@ apiRoutes.post('/sms-notifications',function(req,res){
     // }
 
 
-    res.status(200).json(response);
+
     
 });
 

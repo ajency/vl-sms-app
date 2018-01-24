@@ -44,6 +44,18 @@
   .external-link {
     color: #2d7ace;
   }
+
+  .vl-participant{
+    background: #fff;
+    margin-top: 1.5em;
+  }
+  .vl-participant__filter{
+    background: #f8fafb;
+  }
+  .vl-sms__header{
+    background: #fff;
+    padding: 1em 0;
+  }
   .notification-element{
     background: rgb(255, 255, 255);
     border: 1px solid rgb(206, 206, 206);
@@ -57,6 +69,9 @@
   .notification-time{
     color: rgb(179, 176, 176);
     font-size: 0.8rem;
+  }
+  div.notification-element:nth-child(odd){
+    background: #f8fafb;
   }
   @media screen and (max-width: 480px) {
     .no-data {
