@@ -2368,4 +2368,21 @@ input[type=checkbox].custom-checkbox:before {
     top: -0.5em;
   }
 }
+
+.guard-check{
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  margin: 0 auto;
+  height: 100%;
+  opacity: 0;
+  background-color: rgba(12, 12, 12, 0.5);
+}
+
+.guard-check.active{    
+  z-index: 9;
+  opacity: 1;
+}
 /*# sourceMappingURL=app.component.css.map */

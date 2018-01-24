@@ -11,4 +11,8 @@ export class AuthService {
     return this.app.request(`${globals.apiUrl}/login`,'post',body);
   }
 
+  public validateToken(body: any){
+    return this.app.request(`${globals.apiUrl}/validate-token`,'post',body);
+  }
+
 }

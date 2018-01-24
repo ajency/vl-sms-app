@@ -60,6 +60,24 @@ apiRoutes.post('/login',function(req,res){
     
 });
 
+apiRoutes.post('/validate-token',function(req,res){
+
+    if(req.body.token === 'passwordXXXXX'){
+        res.status(200).json({
+            status: "success",
+            msg: "ok",
+            token: 'passwordXXXXX'
+        });
+    }
+    else{
+        res.status(200).json({
+            status: "error",
+            msg: "user doesn't exist"
+        });
+    }
+    
+});
+
 apiRoutes.post('/trips',function(req,res){
     res.status(200).json(
         {
