@@ -719,19 +719,20 @@ input[type=radio].fnb-radio.disabled:before {
 }
 .vl-select {
   background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 6px;
+  border: 1px solid #868e96;
+  border-radius: 4px;
   padding: 0.4em 0.6em;
   font-size: 0.9em;
-  color: #6b6b6b;
+  color: #000000;
   box-shadow: none;
   min-width: 90px;
   width: 100%;
   display: block;
   white-space: normal;
   -webkit-appearance: none;
-  background-image: url("data:image/svg+xml;utf8,<svg version='1.1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' width='24' height='24' viewBox='0 0 24 24'><path fill='#444' d='M7.406 7.828l4.594 4.594 4.594-4.594 1.406 1.406-6 6-6-6z'></path></svg>");
-  background-position: 100% 50%;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='#6b6b6b'><polygon points='0,0 100,0 50,50'/></svg>");
+  background-size: 9px;
+  background-position: calc(100% - 8px) 14px;
   background-repeat: no-repeat;
   outline: 0;
 }
@@ -910,383 +911,40 @@ input[type="checkbox"].toggle__check {
 .has-error .form-control:focus {
   box-shadow: none;
 }
-.arrow_box {
-  position: relative;
-  background: #27b7b0;
-  border: 2px solid #27b7b0;
-}
-.arrow_box:after,
-.arrow_box:before {
-  left: 100%;
-  top: 50%;
-  border: solid transparent;
-  content: " ";
-  height: 0;
-  width: 0;
-  position: absolute;
-  pointer-events: none;
-}
-.arrow_box:after {
-  border-color: rgba(39, 183, 176, 0);
-  border-left-color: #27b7b0;
-  border-width: 8px;
-  margin-top: -8px;
-}
-.arrow_box:before {
-  border-color: rgba(39, 183, 176, 0);
-  border-left-color: #27b7b0;
-  border-width: 11px;
-  margin-top: -11px;
-}
-.confirmation-content {
-  font-size: 1em;
-}
-.form-disabled {
-  pointer-events: none;
-}
-.popover.confirmation {
-  pointer-events: auto;
-}
-.sign-up-row .float-label,
-.require-modal .float-label,
-.sign-up-row .fnb-select,
-.require-modal .fnb-select {
-  color: rgba(0, 0, 0, 0.72);
-  font-weight: 500;
-}
-.contact-mobile-input {
-  padding-bottom: 0;
-}
-.add-number .intl-tel-input.separate-dial-code .selected-dial-code {
-  padding-left: 10px;
-}
-.sign-up-row .float-label {
-  font-size: 1em;
-  font-weight: 500;
-}
-.sign-up-row .float-label.filled {
-  font-size: 0.85em;
-}
-.sign-up-row .fnb-select {
-  padding-left: 0;
-  font-size: 1em;
-}
-.sign-up-row .form-group {
-  margin: 0.8em 0;
-}
-.sign-up-row .form-group.phoneNumber {
-  margin: 0 0 0.8em 0;
-}
-.sign-up-row .form-group.city,
-.sign-up-row .form-group.area {
-  margin: 1.5em 0;
-}
-.sign-up-row .form-group.describe-section {
-  margin-bottom: 0;
-}
-.describe-section__title {
-  color: rgba(0, 0, 0, 0.72);
-  margin-bottom: 0.5em;
-  font-weight: 500;
-}
-@media screen and (min-width: 768px) {
-  .describe-section__title {
-    font-size: 1.03em;
-  }
-}
-.describe-section .points {
-  margin: 0.5em 0;
-}
-.describe-section .points .checkbox:before {
-  top: -10px;
-  font-size: 1.15em;
-}
-@media screen and (max-width: 480px) {
-  .describe-section .points .checkbox:before {
-    background-color: #f8f8f8;
-    color: #afafaf;
-  }
-}
-.describe-section .points .checkbox:checked:before {
-  color: #00b990;
-}
-.describe-section .points__text {
-  font-size: 0.95em;
-  color: #6b6b6b;
-}
-.number-code {
-  margin-top: 5px;
-}
-.number-code input {
-  padding-top: 0;
-  font-size: 1em;
-}
-.number-code__region {
-  width: 10%;
+.ui-select-container .ui-select-search:focus {
   outline: 0;
-  border-right: 1px solid #efefef;
-  padding-right: 0px;
+  box-shadow: none;
+  border-color: transparent;
 }
-.number-code__region:focus,
-.number-code__region:active {
-  border-right: 1px solid #efefef;
-}
-.number-code__value {
-  padding-left: 10px;
-}
-.select-required {
-  position: relative;
-}
-.select-required:after {
-  position: absolute;
-  top: 8px;
-  right: -10px;
-}
-.describe-best + .btn-group .multiselect-selected-text {
-  color: #5a5a5a;
-}
-.describe-best + .btn-group .multiselect-container {
-  padding: 0.5em 0;
-}
-.describe-best + .btn-group .multiselect-container label.checkbox {
-  padding: 5px 28px 4px 28px;
-}
-.describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox'] {
-  margin-right: 6px;
-  position: relative;
-}
-.describe-best + .btn-group .multiselect-container label.checkbox input[type='checkbox']:before {
-  top: -7px;
-}
-.register-holder {
-  background-color: rgba(238, 238, 238, 0.39);
-}
-@media screen and (min-width: 769px) {
-  .sign-up-adv {
-    margin-top: 4em;
-  }
-}
-.sign-page .alert {
-  border-radius: 0;
-}
-@media screen and (min-width: 768px) {
-  .sign-page .alert {
-    margin: 1em 2em;
-    font-size: 0.9em;
-  }
-}
-@media screen and (max-width: 480px) {
-  .sign-page .alert {
-    font-size: 0.85em;
-  }
-}
-.sign-page .alert-success {
-  color: #fff;
-  text-shadow: 0px 0px 1px #000;
-}
-.sign-page .alert-success .close {
-  text-shadow: 0px 0px 1px #000;
-  opacity: 1;
-  background-color: transparent;
-}
-.sign-page .signup-container {
-  -webkit-box-align: start;
-  -webkit-align-items: flex-start;
-      -ms-flex-align: start;
-          align-items: flex-start;
-}
-.sign-page .signup-container .float-label.filled {
-  margin-bottom: 0;
-}
-@media screen and (min-width: 769px) {
-  _::-webkit-full-page-media,
-  _:future,
-  :root .email-col {
-    margin: 0 -1px;
-  }
-}
-@media screen and (max-width: 650px) {
-  .log-sign .welcome-text {
-    font-size: 1.4em;
-  }
-  .log-sign .have-acc,
-  .log-sign .no-post-text {
-    font-size: 1em;
-  }
-  .log-sign .social-btn {
-    width: 80%;
-  }
-  .formTitle.formTitle {
-    font-size: 1.2em;
-    line-height: 1.5;
-    margin-top: 30px;
-  }
-  .sign-up-row {
-    padding: 0 1.5em;
-  }
-  .sign-up-row .form-group {
-    margin: 0.5em 0;
-    padding-top: 0;
-    padding-bottom: 0;
-  }
-  .sign-up-row .form-group.city,
-  .sign-up-row .form-group.area {
-    margin: 0.5em 0 0.8em 0;
-  }
-  .sign-up-row .form-group.area {
-    padding-top: 0.5em;
-  }
-  .sign-up-row .describe-section {
-    margin: 1em 0 0 0;
-  }
-  .sign-up-row .describe-section__title {
-    margin-bottom: 0;
-  }
-  .sign-up-row .describe-section .points {
-    margin: 0.8em 0;
-  }
-  .accept-row.accept-row {
-    -webkit-box-align: start;
-    -webkit-align-items: flex-start;
-        -ms-flex-align: start;
-            align-items: flex-start;
-    padding-top: 1em;
-  }
-  .accept_terms {
-    padding-left: 0.8em;
-    margin-top: -8px;
-    font-size: 0.95em;
-  }
-  .signBtn {
-    margin-bottom: -20px;
-  }
-}
-.require-modal {
-  overflow-y: auto;
-}
-@media (min-width: 768px) {
-  .require-modal .modal-dialog {
-    width: 550px;
-  }
-}
-.require-modal .float-label {
-  font-size: 1em;
-}
-.require-modal .float-label.filled {
-  font-size: 0.9em;
-}
-.require-modal .fnb-select {
-  font-size: 1em;
-}
-@media screen and (max-width: 480px) {
-  .require-modal .fnb-select {
-    font-size: 0.95em;
-    padding-left: 0;
-  }
-}
-.require-modal .verify-container {
-  margin-top: 2em;
-  text-align: center;
-}
-@media screen and (max-width: 480px) {
-  .require-modal .verify-container {
-    text-align: right;
-    margin-top: 0;
-    margin-bottom: -25px;
-    position: relative;
-    top: 10px;
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: end;
-    -webkit-justify-content: flex-end;
-        -ms-flex-pack: end;
-            justify-content: flex-end;
-  }
-}
-@media screen and (max-width: 480px) {
-  .require-modal .phone-col {
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: reverse;
-    -webkit-flex-direction: column-reverse;
-        -ms-flex-direction: column-reverse;
-            flex-direction: column-reverse;
-  }
-}
-.require-modal .modal-content {
-  padding: 1em 1.5em;
-}
-.require-modal .modal-header {
-  position: relative;
-}
-.require-modal__title {
-  text-align: center;
-  margin-top: 0.5em;
-  font-size: 1.25em;
-  font-weight: 500;
-}
-.require-modal .close {
-  position: absolute;
-  top: 0;
-  right: -5px;
-  font-size: 1.1em;
-}
-.require-modal .modal-body {
-  padding: 0;
-}
-.require-modal .describe-section .points__text {
-  font-size: 0.9em;
-}
-@media screen and (max-width: 480px) {
-  .require-modal__title {
-    font-size: 1.2em;
-  }
-  .require-modal .verifyPhone {
-    font-size: 0.9em;
-  }
-  .require-modal .describe-section__title {
-    margin-bottom: 0;
-  }
-  .require-modal .describe-section .points {
-    margin: 0.8em 0;
-  }
-}
-.forget-page .lock {
-  font-size: 3.5em;
-}
-.forget-page .welcome-text {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 0.8em;
-}
-.forgot-points li {
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
-  padding: 0 5px;
-}
-@media screen and (max-width: 480px) {
-  .forget-holder {
-    background-color: #fff;
-    height: 90vh;
-  }
-}
-.note-popover {
+.ui-select-container .dropdown-menu {
   display: block;
-  top: -5.5em;
-  color: #746b6b;
-  width: 300px;
-  font-size: 1em;
 }
-@media screen and (min-width: 769px) {
-  .note-popover {
-    font-size: 0.95em;
-  }
+.ui-select-container:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.ui-select-container .ui-select-choices-row.active .dropdown-item > div {
+  color: #fff;
+}
+.ui-select-container .dropdown-item > div {
+  font-size: 0.9em;
+  color: #7d7d7d;
+}
+.ui-select-match:focus {
+  box-shadow: none;
+  outline: 0;
+}
+.ui-select-match .ui-select-toggle {
+  background-color: #fff;
+  color: #000;
+  font-size: 0.95em;
+}
+.ui-select-match .ui-select-toggle .dropdown-toggle {
+  color: #696666;
+}
+.ui-select-match .ui-select-toggle:focus {
+  box-shadow: none;
+  border-color: transparent;
 }
 .m-t-0 {
   margin-top: 0px;
@@ -1877,22 +1535,5 @@ input[type="checkbox"].toggle__check {
 }
 .tooltip {
   font-size: 0.65em;
-}
-
-/* ng2-select dropdown styles */
-.ui-select-choices{
-	display: block !important;
-}
-
-.ui-select-match .btn-secondary{
-  background-color: #fff;
-}
-
-.ui-select-match-text.pull-left{
-  color: #000 !important;
-}
-
-.dropdown-toggle.pull-right{
-  color: #000 !important;
 }
 /*# sourceMappingURL=styles.css.map */
