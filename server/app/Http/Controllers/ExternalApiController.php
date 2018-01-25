@@ -21,14 +21,15 @@ class ExternalApiController extends Controller
         $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=1000&order_by[]=state.asc,code.asc,id.desc&search_fields[]=name,code,supplier_name&search=tri');
 
         $data = json_decode($res->getBody(), true);
-
-        foreach ($data['trips'] as $dvalue) {
+        if($dvalue['code']!=null)
+        {foreach ($data['trips'] as $dvalue) {
             $final_data[] = [
                 "id"   => $dvalue['id'],
                 "name" => $dvalue['name'],
                 "code" => $dvalue['code'],
             ];
         }
+    }
 
         return [
             "status" => "success",
@@ -55,7 +56,7 @@ class ExternalApiController extends Controller
 
             $end_date = explode('T', $dvalue['ends_at'])[0];
 
-            if ($end_date <= $current_date) {
+            if ($end_date >= $current_date) {
                 $final_data[] = [
                     "departure_id" => $dvalue['id'],
                     "starts_at"    => $dvalue['starts_at'],
@@ -102,6 +103,10 @@ class ExternalApiController extends Controller
                 $name_pri      = isset($dvalue['primary_contact_person']['full_name']) ? $dvalue['primary_contact_person']['full_name'] : "";
                 $phone_pri     = isset($dvalue['primary_contact_person']['phone']) ? $dvalue['primary_contact_person']['phone'] : "";
                 $phone_alt_pri = isset($dvalue['primary_contact_person']['phone_alt']) ? $dvalue['primary_contact_person']['phone_alt'] : "";
+
+                if($phone_pri=='no phone given')
+                    $phone_pri='';
+
                 //primary phoneno data
                 $final_data[] = [
                     "booking_id"        => $dvalue['booking_ref'],
@@ -115,14 +120,14 @@ class ExternalApiController extends Controller
                 ];
 
                 //alt phoneno -data
-                if ($phone_alt_pri != '') {
+                if ($phone_alt_pri != '' && $phone_alt_pri != null) {
 
                     $final_data[] = [
                         "booking_id"        => $dvalue['booking_ref'],
                         "booking_ref_url"   => $booking_ref_url,
                         "passenger_name"    => $name_pri,
                         "primary"           => true,
-                        "phone_no"          => $phone_pri,
+                        "phone_no"          => $phone_alt_pri,
                         "phone_type"        => '',
                         "booking_status"    => $booking_status,
                         "redundant_contact" => true,
@@ -143,19 +148,10 @@ class ExternalApiController extends Controller
                                 $first_name_other = isset($cus_value['first_name']) ? $cus_value['first_name'] : "";
                                 $last_name_other  = isset($cus_value['last_name']) ? $cus_value['last_name'] : "";
 
-                                $final_data[] = [
-                                    "booking_id"        => $dvalue['booking_ref'],
-                                    "booking_ref_url"   => $booking_ref_url,
-                                    "passenger_name"    => $first_name_other . ' ' . $last_name_other,
-                                    "primary"           => false,
-                                    "phone_no"          => "914521258442",
-                                    "phone_type"        => '',
-                                    "booking_status"    => $booking_status,
-                                    "redundant_contact" => '',
-                                ];
-                            }
+                                $other_passenger_details['vl_first_name'] = $first_name_other;
+                                $other_passenger_details['vl_last_name']  = $last_name_other;
 
-                            if (strpos($cus_key, 'vl_first_name') !== false) {
+                            } else if (strpos($cus_key, 'vl_first_name') !== false) {
 
                                 $other_passenger_details['vl_first_name'] = $cus_value;
 
