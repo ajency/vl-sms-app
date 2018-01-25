@@ -21,15 +21,16 @@ class ExternalApiController extends Controller
         $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=1000&order_by[]=state.asc,code.asc,id.desc&search_fields[]=name,code,supplier_name&search=tri');
 
         $data = json_decode($res->getBody(), true);
-        if($dvalue['code']!=null)
-        {foreach ($data['trips'] as $dvalue) {
-            $final_data[] = [
-                "id"   => $dvalue['id'],
-                "name" => $dvalue['name'],
-                "code" => $dvalue['code'],
-            ];
+
+        foreach ($data['trips'] as $dvalue) {
+            if ($dvalue['code'] != null) {
+                $final_data[] = [
+                    "id"   => $dvalue['id'],
+                    "name" => $dvalue['name'],
+                    "code" => $dvalue['code'],
+                ];
+            }
         }
-    }
 
         return [
             "status" => "success",
@@ -104,8 +105,9 @@ class ExternalApiController extends Controller
                 $phone_pri     = isset($dvalue['primary_contact_person']['phone']) ? $dvalue['primary_contact_person']['phone'] : "";
                 $phone_alt_pri = isset($dvalue['primary_contact_person']['phone_alt']) ? $dvalue['primary_contact_person']['phone_alt'] : "";
 
-                if($phone_pri=='no phone given')
-                    $phone_pri='';
+                if ($phone_pri == 'no phone given') {
+                    $phone_pri = '';
+                }
 
                 //primary phoneno data
                 $final_data[] = [
