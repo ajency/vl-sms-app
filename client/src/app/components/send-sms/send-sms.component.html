@@ -1,8 +1,9 @@
 
   <!-- Additional options -->
-  <div class="message-box mb-3">
+  <div class="message-box mb-3 relative">
     <label class="vl-label label-color d-block mb-1 xx-small text-uppercase heavier">Message</label>
     <textarea [(ngModel)]="smsMessage" (keyup)="sentSMS = false" class="vl-textarea vl-shadow" rows="4" placeholder="Start typing your message here..."></textarea>
+    <span class="character-count label-color xx-small">0/160</span>
   </div>
   <div class="phone-box mb-3">
     <label class="vl-label label-color d-block mb-1 xx-small text-uppercase heavier">Additional phone numbers<span class="lighter text-capitalize"> (Comma Separated)</span></label>

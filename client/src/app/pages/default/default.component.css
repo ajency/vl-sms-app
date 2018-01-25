@@ -48,6 +48,10 @@ main-dropdowns {
 .external-link {
   color: #2d7ace;
 }
+.power-off {
+  font-size: 1.5em;
+  color: #f11717;
+}
 @media screen and (max-width: 480px) {
   .no-data {
     min-height: 60vh;

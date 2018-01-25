@@ -3,6 +3,12 @@
 	padding: 0.45em 1em;
 }
 
+.character-count{
+	position: absolute;
+    right: 0.8em;
+    bottom: 0.8em;
+}
+
 
 @media screen and (min-width: 480px) and (max-width: 769px){
 	.send-message .vl-btn{
