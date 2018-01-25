@@ -190,10 +190,10 @@ export class MainDropdownsComponent {
       this.depSub = this.api.getDepartures({
                                         filters: {
                                                 trip_id: this.tripid,
-                                                departure_date: {
-                                                  start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
-                                                  // end: '2017-01-02'
-                                                } 
+                                                // departure_date: {
+                                                //   start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
+                                                //   // end: '2017-01-02'
+                                                // } 
                                         }
                             })
                             .subscribe((res: any) => {

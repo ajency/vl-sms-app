@@ -43,7 +43,9 @@
 					<!-- <li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li> -->
 					<li class="lighter date-range">
 						<!-- <b>1</b> Oct to <b>3</b> Oct -->
-						{{ ( depDetails && depDetails.starts_at ? (depDetails.starts_at  | amParse: dateFormat | amDateFormat:'DD MMM') : naText ) }} to {{ ( depDetails && depDetails.ends_at ? (depDetails.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' ) : naText ) }}
+						<b>{{ ( depDetails && depDetails.starts_at ? (depDetails.starts_at  | amParse: dateFormat | amDateFormat:'DD') : naText ) }}</b> {{ ( depDetails && depDetails.starts_at ? (depDetails.starts_at  | amParse: dateFormat | amDateFormat:'MMM') : naText ) }}
+						 to 
+						 <b>{{ ( depDetails && depDetails.ends_at ? (depDetails.ends_at | amParse: dateFormat | amDateFormat:'DD' ) : naText ) }}</b> {{ ( depDetails && depDetails.ends_at ? (depDetails.ends_at | amParse: dateFormat | amDateFormat:'MMM' ) : naText ) }}
 					</li>
 				</ul>
 			</div>
