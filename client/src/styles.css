@@ -950,13 +950,14 @@ input[type="checkbox"].toggle__check {
 }
 .ui-select-container .ui-select-choices-row > a {
   padding: 8px 20px !important;
-  border-bottom: 1px solid #eee;
+  border-bottom: 2px solid #eee;
 }
 .ui-select-container .dropdown-item > div {
   font-size: 0.85em;
 }
 .ui-select-container .dropdown-item > div b {
-  color: #7d7d7d;
+  color: #96999e;
+  font-weight: 500;
 }
 .ui-select-match:focus {
   box-shadow: none;
