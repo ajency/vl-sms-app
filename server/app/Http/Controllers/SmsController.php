@@ -26,11 +26,13 @@ class SmsController extends Controller
         $environment = env('APP_ENV', 'dev');
 
         $client = new Client();
-        foreach ($phone_number as $ph_value) {
-            $sms_no_arr[] = array('to' => $ph_value);
-        }
+        $sms_no_arr=array();
+       
 
         if ($environment == 'prod') {
+             foreach ($phone_number as $ph_value) {
+                $sms_no_arr[] = array('to' => $ph_value);
+            }
             $json_data = json_encode([
                 "message" => $message,
                 "sender"  => $sender_id,
@@ -38,8 +40,10 @@ class SmsController extends Controller
             ]);
         } else {
 
+
             $test_no=env('SMS_TEST_NO','');
             $test_no_arr = explode(',', $test_no);
+
             foreach ($test_no_arr as $ph_value) {
                 $sms_no_arr[] = array('to' => $ph_value);
             }
