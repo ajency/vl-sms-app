@@ -274,6 +274,9 @@ span {
 .vl-btn.medium-btn {
   padding: 0.5em 1.5em;
 }
+.vl-btn:disabled {
+  opacity: 0.4;
+}
 .social-btn {
   padding: 0.8em 2em;
   border: 0;
