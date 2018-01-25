@@ -37,13 +37,17 @@ class SmsController extends Controller
                 "sms"     => $sms_no_arr,
             ]);
         } else {
+
+            $test_no=env('SMS_TEST_NO','');
+            $test_no_arr = explode(',', $test_no);
+            foreach ($test_no_arr as $ph_value) {
+                $sms_no_arr[] = array('to' => $ph_value);
+            }
+
             $json_data = json_encode([
                 "message" =>  $message,
                 "sender"  => $sender_id,
-                "sms"     => [
-                    [
-                        "to" => "919923036263",
-                    ]],
+                "sms"     => $sms_no_arr,
             ]);
 
         }
