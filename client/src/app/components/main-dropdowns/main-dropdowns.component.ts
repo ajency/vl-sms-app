@@ -147,7 +147,7 @@ export class MainDropdownsComponent {
                             }
                             
                           },() => {
-                            this.tripError = '';
+                            this.tripError = 'A request error has occured!';
                             // this.updateDepartures(this.departureid);
                           });
   }
@@ -211,7 +211,7 @@ export class MainDropdownsComponent {
                               else{
                                 this.departureid = ''; // set this because its n ng model
                                 this.departureError = 'No departure found';
-                                this.onError.emit(res.msg);
+                                this.onError.emit("No departures found for trip!");
                               }
 
                               if(initdepid){
