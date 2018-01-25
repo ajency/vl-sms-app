@@ -70,49 +70,70 @@ class ExternalApiController extends Controller
         ];
     }
 
-    public function participants()
+    public function participants(Request $request)
     {
-
-       /* $res = $this->client->request('GET',  $this->api_url.'/api/v1/admin/departures/39420?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
+        $departure_id = $request->input('departure_id');
+        
+        $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures/' . $departure_id . '?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
 
         $data = json_decode($res->getBody(), true);
-        print_r($data);
-        $final_data = array();*/
-        /* foreach ($data['departures'] as  $dvalue) {
-        $final_data[]= [
-        "departure_id"   => $dvalue['id'],
-        "starts_at" => $dvalue['starts_at'],
-        "ends_at" => $dvalue['ends_at'],
-        ];
+        //print_r($data);
+        $final_data = array();
+
+        foreach ($data['bookings'] as $dvalue) {
+            if (!empty($dvalue['primary_contact_person'])) {
+                $name_pri=isset($dvalue['primary_contact_person']['full_name']) ? $dvalue['primary_contact_person']['full_name'] : "";
+                $phone_pri=isset($dvalue['primary_contact_person']['phone']) ? $dvalue['primary_contact_person']['phone'] : "";
+                $booking_status=isset($dvalue['state']) ? $dvalue['state'] : "";
+                $final_data[] = [
+                    "booking_id"        => $dvalue['booking_ref'],
+                    "booking_ref_url"   => '',
+                    "passenger_name"    => $name_pri,
+                    "primary"           => true,
+                    "phone_no"          => $phone_pri,
+                    "phone_type"        => '',
+                    "booking_status"    => $booking_status,
+                    "redundant_contact" => '',
+                ];
+            }
+            if (!empty($dvalue['passengers'])) {
+                
+                $booking_status=isset($dvalue['state']) ? $dvalue['state'] : "";
+
+                foreach ($dvalue['passengers'] as $passenger_val) {
+
+                    if (!empty($passenger_val['custom_form_values'])) {
+
+                        foreach ($passenger_val['custom_form_values'] as $cus_key => $cus_value) {
+
+                            if (strpos($cus_key, 'vl_full_name_with_title') !== false) {
+
+                                $first_name_other=isset($cus_value['first_name'])?$cus_value['first_name']:"";
+                                $last_name_other=isset($cus_value['last_name'])?$cus_value['last_name']:"";
+
+                                $final_data[] = [
+                                    "booking_id"        => $dvalue['booking_ref'],
+                                    "booking_ref_url"   => '',
+                                    "passenger_name"    => $first_name_other . '' . $last_name_other,
+                                    "primary"           => false,
+                                    "phone_no"          => "914521258442",
+                                    "phone_type"        => '',
+                                    "booking_status"    => $booking_status,
+                                    "redundant_contact" => '',
+                                ];
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return [
-        "status" => "success",
-        "msg"    => "ok",
-        "data"   => $final_data
-        ];*/
+            "status" => "success",
+            "msg"    => "ok",
+            "data"   => $final_data,
+        ];
 
-        return [
-    "status" => "success",
-    "msg"    => "ok",
-    "data"   => [
-    ["booking_id" => "BD5681236413", "passenger_id" => "1245", "passenger_name" => "Darcy P.", "primary" => true, "phone_no" => "914521258442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
-    ["booking_id" => "BD461256413", "passenger_id" => "1245", "passenger_name" => "Loraine S.", "primary" => true, "phone_no" => "914526518442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
-    ["booking_id" => "FD368456413", "passenger_id" => "1245", "passenger_name" => "Blossom D.", "primary" => false, "phone_no" => "914525658442", "phone_type" => 'Emergency mobile', "booking_status" => 'confirmed'],
-    ["redundant_contact" => true, "booking_id" => "BD268456413", "passenger_id" => "1245", "passenger_name" => "Gerald N.", "primary" => false, "phone_no" => "914522658442", "phone_type" => 'Emergency mobile', "booking_status" => 'pending_confirmation'],
-    ["booking_id" => "DE5456413", "passenger_id" => "1245", "passenger_name" => "Helga T.", "primary" => false, "phone_no" => "914254658442", "phone_type" => 'Emergency mobile', "booking_status" => 'confirmed'],
-    ["redundant_contact" => true, "booking_id" => "GH6456413", "passenger_id" => "1245", "passenger_name" => "Jean R.", "primary" => true, "phone_no" => "914523665442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
-    ["booking_id" => "LM58456413", "passenger_id" => "1245", "passenger_name" => "Nadia L.", "primary" => true, "phone_no" => "914548558442", "phone_type" => 'mobile-self', "booking_status" => 'pending-confirmation'],
-    ["booking_id" => "NKJ8456413", "passenger_id" => "1245", "passenger_name" => "Nicole D.", "primary" => true, "phone_no" => "914523628442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
-    ["redundant_contact" => true, "booking_id" => "VUD38456413", "passenger_id" => "1245", "passenger_name" => "Sania K.", "primary" => false, "phone_no" => "914517858442", "phone_type" => 'Father mobile', "booking_status" => 'confirmed'],
-    ["redundant_contact" => true, "booking_id" => "YUDD8456413", "passenger_id" => "1245", "passenger_name" => "Hermoine F.", "primary" => false, "phone_no" => "914523635442", "phone_type" => 'Father mobile', "booking_status" => 'unconfirmed'],
-    ["redundant_contact" => true, "booking_id" => "HJBF456413", "passenger_id" => "1245", "passenger_name" => "Duglus F.", "primary" => false, "phone_no" => "914845658442", "phone_type" => 'Father mobile', "booking_status" => 'pending_confirmation'],
-    ["booking_id" => "TYF08456413", "passenger_id" => "1245", "passenger_name" => "Jackson J.", "primary" => true, "phone_no" => "914523759842", "phone_type" => 'Father mobile', "booking_status" => 'unconfirmed'],
-    ["booking_id" => "UDO09456413", "passenger_id" => "1245", "passenger_name" => "Thomas K.", "primary" => false, "phone_no" => "914265984442", "phone_type" => 'Father mobile', "booking_status" => 'confirmed'],
-    ["booking_id" => "SEA07456413", "passenger_id" => "1245", "passenger_name" => "Linda T", "primary" => false, "phone_no" => "914514588442", "phone_type" => 'mobile-self', "booking_status" => 'confirmed'],
-    ]
-    ];
-     
     }
 
 }
