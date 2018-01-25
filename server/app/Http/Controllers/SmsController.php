@@ -10,10 +10,10 @@ class SmsController extends Controller
 
     public function sendSms(Request $request)
     {
-        
+
         $phone_number = $request->input('to');
 
-        $message =$request->input('message');
+        $message = $request->input('message');
 
         return $this->initiateSmsGuzzle($phone_number, $message);
 
@@ -25,12 +25,11 @@ class SmsController extends Controller
         $sender_id   = env('SMS_SENDER_ID', '');
         $environment = env('APP_ENV', 'dev');
 
-        $client = new Client();
-        $sms_no_arr=array();
-       
+        $client     = new Client();
+        $sms_no_arr = array();
 
         if ($environment == 'prod') {
-             foreach ($phone_number as $ph_value) {
+            foreach ($phone_number as $ph_value) {
                 $sms_no_arr[] = array('to' => $ph_value);
             }
             $json_data = json_encode([
@@ -40,8 +39,7 @@ class SmsController extends Controller
             ]);
         } else {
 
-
-            $test_no=env('SMS_TEST_NO','');
+            $test_no     = env('SMS_TEST_NO', '');
             $test_no_arr = explode(',', $test_no);
 
             foreach ($test_no_arr as $ph_value) {
@@ -49,7 +47,7 @@ class SmsController extends Controller
             }
 
             $json_data = json_encode([
-                "message" =>  $message,
+                "message" => $message,
                 "sender"  => $sender_id,
                 "sms"     => $sms_no_arr,
             ]);
@@ -58,13 +56,9 @@ class SmsController extends Controller
 
         $response = $client->post('https://global.solutionsinfini.com/api/v4/?api_key=' . $api_key . '&method=sms.json&json=' . $json_data);
 
-        if ($response['status'] == 'OK') {
-            return [
-                "status" => "success",
-                "msg"    => "ok",
-            ];
-        }
-
-        return $response;
+        return [
+            "status" => "success",
+            "msg"    => "ok",
+        ];
     }
 }
