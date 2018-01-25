@@ -48,8 +48,8 @@ export class SendSmsComponent {
     let smsclients = this.filterSMSContacts();
     let smsjson = {
       message: this.smsMessage,
-      // sender: 'xxxxx',
-      sms: smsclients
+      publishnotification: this.publishNotification, 
+      to: smsclients
     }
     return smsjson;
   }
@@ -74,18 +74,11 @@ export class SendSmsComponent {
   sendSMS(){
     this.smsError = false;
 
-    let smsjson = this.addMessage()
+    let body = this.addMessage()
 
     if(this.validContacts){
-      smsjson['sms'] = smsjson['sms'].concat(this.validateExtraContacts());
+      body['to'] = body['to'].concat(this.validateExtraContacts());
     }
-
-    let body = {
-      // api_key: '<api-key>', 
-      // method: 'sms.json',
-      publishnotification: this.publishNotification, 
-      json: smsjson
-    };
 
     this.sendingSMS = true;
 
