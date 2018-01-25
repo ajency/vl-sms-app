@@ -10,15 +10,13 @@ class SmsController extends Controller
 
     public function sendSms(Request $request)
     {
-        $json = $request->input('json');
+        
+        $phone_number = $request->input('to');
 
-        $phone_number = $json['sms'];
-
-        $message = $json['message'];
+        $message =$request->input('message');
 
         return $this->initiateSmsGuzzle($phone_number, $message);
 
-        // return redirect()->back()->with('message', 'Message has been sent successfully');
     }
 
     public function initiateSmsGuzzle($phone_number, $message)
@@ -40,7 +38,7 @@ class SmsController extends Controller
             ]);
         } else {
             $json_data = json_encode([
-                "message" => "test",
+                "message" =>  $message,
                 "sender"  => $sender_id,
                 "sms"     => [
                     [
