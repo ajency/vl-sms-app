@@ -82,10 +82,12 @@
 				header="Passenger Name"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
-						<div [ngClass]="{'disable': item['redundant_contact']}">{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}} 
-							<span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact" onmouseenter="$(this).tooltip('show')">
-								<i class="fa fa-star text-warning" aria-hidden="true"></i>
-							</span>
+						<div [ngClass]="{'disable': item['redundant_contact']}">
+							<div class="d-flex">
+								<div class="ellipsis" title="{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}}">{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}} </div><span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact" onmouseenter="$(this).tooltip('show')">
+									<i class="fa fa-star text-warning p-l-5" aria-hidden="true"></i>
+								</span>	
+							</div>
 						</div>
 					</ng-template>
 				</data-table-column>
