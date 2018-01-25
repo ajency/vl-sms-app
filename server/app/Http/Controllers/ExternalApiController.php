@@ -18,7 +18,6 @@ class ExternalApiController extends Controller
 
     public function trips()
     {
-
         $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=1000&order_by[]=state.asc,code.asc,id.desc&search_fields[]=name,code,supplier_name&search=tri');
 
         $data = json_decode($res->getBody(), true);
@@ -135,7 +134,7 @@ class ExternalApiController extends Controller
                 foreach ($dvalue['passengers'] as $passenger_val) {
 
                     if (!empty($passenger_val['custom_form_values'])) {
-
+                        $other_passenger_details = array();
                         foreach ($passenger_val['custom_form_values'] as $cus_key => $cus_value) {
 
                             if (strpos($cus_key, 'vl_full_name_with_title') !== false) {
@@ -146,7 +145,7 @@ class ExternalApiController extends Controller
                                 $final_data[] = [
                                     "booking_id"        => $dvalue['booking_ref'],
                                     "booking_ref_url"   => $booking_ref_url,
-                                    "passenger_name"    => $first_name_other . '' . $last_name_other,
+                                    "passenger_name"    => $first_name_other . ' ' . $last_name_other,
                                     "primary"           => false,
                                     "phone_no"          => "914521258442",
                                     "phone_type"        => '',
@@ -154,6 +153,37 @@ class ExternalApiController extends Controller
                                     "redundant_contact" => '',
                                 ];
                             }
+
+                            if (strpos($cus_key, 'vl_first_name') !== false) {
+
+                                $other_passenger_details['vl_first_name'] = $cus_value;
+
+                            } else if (strpos($cus_key, 'vl_last_name') !== false) {
+
+                                $other_passenger_details['vl_last_name'] = $cus_value;
+
+                            } else if (strpos($cus_key, 'vl_phone') !== false) {
+
+                                $other_passenger_details['vl_phone'] = $cus_value['country_code'] . $cus_value['number'];
+                                if (!isset($other_passenger_details['vl_first_name'])) {
+                                    $other_passenger_details['vl_first_name'] = $other_passenger_details['vl_phone'];
+                                    $other_passenger_details['vl_last_name']  = '';
+                                }
+
+                            }
+
+                        }
+                        if (!empty($other_passenger_details)) {
+                            $final_data[] = [
+                                "booking_id"        => $dvalue['booking_ref'],
+                                "booking_ref_url"   => $booking_ref_url,
+                                "passenger_name"    => $other_passenger_details['vl_first_name'] . ' ' . $other_passenger_details['vl_last_name'],
+                                "primary"           => false,
+                                "phone_no"          => isset($other_passenger_details['vl_phone']) ? $other_passenger_details['vl_phone'] : "",
+                                "phone_type"        => '',
+                                "booking_status"    => $booking_status,
+                                "redundant_contact" => '',
+                            ];
                         }
                     }
                 }
