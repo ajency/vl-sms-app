@@ -968,6 +968,7 @@ input[type="checkbox"].toggle__check {
 }
 .ui-select-match-text {
   font-size: 0.9em;
+  white-space: initial;
 }
 .ui-select-match-text b {
   color: #7d7d7d;
@@ -977,6 +978,14 @@ input[type="checkbox"].toggle__check {
   color: #000;
   font-size: 0.9em;
   border-color: #bbbbbb;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
 }
 .ui-select-match .ui-select-toggle .dropdown-toggle {
   color: #696666;
