@@ -47,11 +47,7 @@
             <h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails && tripDetails.name ? tripDetails.name : naText}}</h5>
             <ul class="d-flex text-medium results-header__details">
               <!-- <li class="pr-2"><b>{{tripDetails && tripDetails.code ? tripDetails.code : naText}}</b></li> -->
-              <!-- <li class="lighter date-range"><b>1</b> Oct to <b>3</b> Oct</li> -->
-              <li class="lighter">
-                <!-- <b>1</b> Oct to <b>3</b> Oct -->
-                {{ ( depDetails && depDetails.starts_at ? (depDetails.starts_at  | amParse: dateFormat | amDateFormat:'DD MMM') : naText ) }} to {{ ( depDetails && depDetails.ends_at ? (depDetails.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' ) : naText ) }}
-              </li>
+              <li class="lighter" [innerHTML]="depDetails.text || naText"></li>
             </ul>
           </div>
         </div>

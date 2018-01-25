@@ -8,8 +8,12 @@ select[disabled] {
 	/* background: rgb(208, 208, 208);  */
 	color:#c7cacc;
 	opacity: 0.6;
-	// border-color: #949494c7;
+	/* border-color: #949494c7; */
     background-color: #f3f3f3;
+}
+
+span.lighter{
+	color: #c7cacc
 }
 
 @media screen and (max-width: 500px){

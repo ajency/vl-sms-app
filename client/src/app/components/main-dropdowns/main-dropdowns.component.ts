@@ -4,7 +4,7 @@ import { ApiService } from '../../providers/api.service';
 
 import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
-import { DateFormatPipe } from 'angular2-moment';
+import { DateFormatPipe, ParsePipe } from 'angular2-moment';
 
 @Component({
   selector: 'main-dropdowns',
@@ -164,6 +164,17 @@ export class MainDropdownsComponent {
     return actrip;
   }
 
+  private _getActiveDeparture(id: string): Array<any>{
+    let acdep = [];
+    this.departures.map((val) => {
+      if(val.id == id){
+        acdep.push(val);
+      }
+    });
+
+    return acdep;
+  }
+
   formatTrips(data){
     let trips = [];
 
@@ -175,6 +186,40 @@ export class MainDropdownsComponent {
     });
 
     return trips;
+  }
+
+  formatdepartures(data){
+    let departures = [];
+
+    data.map((val) => {
+      let text = '';
+
+      let startday = new DateFormatPipe().transform( new ParsePipe().transform(val.starts_at, this.dateFormat),  'DD');
+      let startmonth = new DateFormatPipe().transform( new ParsePipe().transform(val.starts_at, this.dateFormat),  'MMM');
+      let endday = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat),  'DD');
+
+      if(startday === endday){
+        let starttime = new DateFormatPipe().transform( new ParsePipe().transform(val.starts_at, this.dateFormat), 'h:mm A' );
+        let endtime = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat), 'h:mm A' );
+        text=`<b>${startday}</b> ${startmonth}, ${starttime} <span class="lighter">to</span> ${endtime}`;
+      }
+      else{
+
+        let endmonth = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat),  'MMM');
+
+        text = `<b>${startday}</b> ${startmonth} <span class="lighter">to</span> <b>${endday}</b> ${endmonth}`
+      }
+
+      departures.push({
+        id: val['departure_id'],
+        departure_id: val['departure_id'],
+        text: text,
+        starts_at: val.starts_at,
+        ends_at: val.ends_at
+      })
+    });
+
+    return departures;
   }
 
   updateDepartures(initdepid: string = ''): void{ // gets the data for the 2nd select dropdown for the departure
@@ -198,8 +243,10 @@ export class MainDropdownsComponent {
                             })
                             .subscribe((res: any) => {
                               console.log("depatures", res);
-                              this.departures = res.data;
-                              // this.departureid = initdepid ? initdepid : this.departures[0].departure_id;
+
+                              this.departures = this.formatdepartures(res.data);
+
+
                               
                               this.updateLocation('trip');
                             
@@ -230,6 +277,8 @@ export class MainDropdownsComponent {
                                 }
                                 this.updateLocation('departure');
                               }
+
+                              this.activeDeparture = this._getActiveDeparture(initdepid || this.departureid);
 
                             });
     }
@@ -384,6 +433,14 @@ export class MainDropdownsComponent {
     this.tripid = data['id'];
     console.log("selected", data, this.activeTrip);
     this.updateDepartures()
+  }
+
+  public activeDeparture: Array<{id: string, text: string}> = [];
+
+  depSelected(data){
+    this.activeDeparture = [data];
+    this.departureid = data['id'];
+    this.onDepartureUpdate();
   }
 
   removed(data){
