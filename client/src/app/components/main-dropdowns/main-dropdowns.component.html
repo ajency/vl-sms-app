@@ -24,7 +24,7 @@
 				<option *ngFor="let option of departures" [value]="option.departure_id">{{option.starts_at | amParse: dateFormat | amDateFormat:'DD MMM' }} - {{option.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' }}</option>
 			</select>
 		</div>
-		<div class="col-sm-3 filter-action" [hidden]="exactPath == 'sms-notifications'">
+		<div class="col-sm-4 filter-action" [hidden]="exactPath == 'sms-notifications'">
 			<button [disabled]="!departureid" (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
 		</div>
 	</div>
