@@ -941,6 +941,7 @@ input[type="checkbox"].toggle__check {
 .ui-select-container .ui-select-choices {
   padding-top: 0;
   padding-bottom: 0;
+  max-height: 300px !important;
 }
 .ui-select-container .ui-select-choices li:last-child .dropdown-item {
   border-bottom: 0;
