@@ -27,6 +27,7 @@ export class SmsNotificationComponent implements OnInit {
   }
 
   checkError(error){
+    this.errorMessage = error;
     console.log("check error:", error);
   }
 
@@ -47,7 +48,7 @@ export class SmsNotificationComponent implements OnInit {
       this.notifications = event.response.data;
     }
     else{
-      this.errorMessage = event.response.msg || 'An error occured!';
+      this.errorMessage = 'An error occured!';
     }
 
     this.loadinNotifications = false;
