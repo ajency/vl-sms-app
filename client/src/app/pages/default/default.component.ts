@@ -63,20 +63,12 @@ export class DefaultComponent implements OnInit {
 
     }
     else{
-      this.errorMessage = event.response.msg || 'An error occured!';
+      // this.errorMessage = event.response.msg || 'An error occured!';
+      this.errorMessage = "No participants found for departure!";
     }
 
     this.loadingParticipants = false;
   }
-
-  // checkDepartureError(event){
-  //   if(event && event.data.length){
-  //     this.errorMessage = '';
-  //   }
-  //   else{
-  //     this.errorMessage = event.msg;
-  //   }
-  // }
 
   checkError(error){
     this.errorMessage = error;
@@ -88,11 +80,6 @@ export class DefaultComponent implements OnInit {
       this.participants = data;
       this.participantCount = data.length;
     });
-  }
-
-  // custom features:
-  carClicked(car) {
-      alert(car.model);
   }
 
   yearLimit = 1999;

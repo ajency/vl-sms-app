@@ -4,8 +4,15 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
 
+
+function disableLogs(){
+  console.log = function() {};
+  console.warn = function() {};
+}
+
 if (environment.production) {
   enableProdMode();
+  disableLogs();
 }
 
 platformBrowserDynamic().bootstrapModule(AppModule)

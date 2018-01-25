@@ -62,20 +62,21 @@ apiRoutes.post('/login',function(req,res){
 
 apiRoutes.post('/validate-token',function(req,res){
 
-    if(req.body.token === 'passwordXXXXX'){
-        res.status(200).json({
-            status: "success",
-            msg: "ok",
-            token: 'passwordXXXXX'
-        });
-    }
-    else{
-        res.status(200).json({
-            status: "error",
-            msg: "user doesn't exist"
-        });
-    }
+    // if(req.body.token === 'passwordXXXXX'){
+    //     res.status(200).json({
+    //         status: "success",
+    //         msg: "ok",
+    //         token: 'passwordXXXXX'
+    //     });
+    // }
+    // else{
+    //     res.status(200).json({
+    //         status: "error",
+    //         msg: "user doesn't exist"
+    //     });
+    // }
     
+    res.status(401).json({message: "Unauthenticated"});
 });
 
 apiRoutes.post('/trips',function(req,res){
