@@ -6,6 +6,7 @@
   padding: 2.5em;
   width: 450px;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  margin: 0 auto;
 }
 .form-signin__title {
   font-size: 1.25em;
@@ -73,6 +74,9 @@
   }
   .login-holder {
     min-height: auto;
+  }
+  .site-logo img {
+    width: 200px;
   }
 }
 /*# sourceMappingURL=login.component.css.map */
