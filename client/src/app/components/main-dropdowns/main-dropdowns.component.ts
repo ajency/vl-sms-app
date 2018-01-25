@@ -4,6 +4,7 @@ import { ApiService } from '../../providers/api.service';
 
 import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
+import { DateFormatPipe } from 'angular2-moment';
 
 @Component({
   selector: 'main-dropdowns',
@@ -42,7 +43,7 @@ export class MainDropdownsComponent {
 
   constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
-   }
+  }
 
   ngOnInit() {
     this.frompage = this.route.routeConfig.path;
@@ -169,7 +170,7 @@ export class MainDropdownsComponent {
     data.map((val) => {
       trips.push({
         id: val['id'],
-        text: `${val['code']} - ${val['name']}`
+        text: `<b>${val['code']}</b> - ${val['name']}`
       })
     });
 
@@ -190,7 +191,7 @@ export class MainDropdownsComponent {
                                         filters: {
                                                 trip_id: this.tripid,
                                                 departure_date: {
-                                                  start: '2017-01-01',
+                                                  start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
                                                   // end: '2017-01-02'
                                                 } 
                                         }
@@ -296,11 +297,15 @@ export class MainDropdownsComponent {
         meta['id'] = val['id'];
 
         let txtparts = val['text'].split(' - ');
-        meta['code'] = txtparts[0];
+        meta['code'] = this._stripBTag(txtparts[0]);
         meta['name'] = txtparts[1];
       }
     });
     return meta;
+  }
+
+  private _stripBTag(code: string){
+    return code.substring(3, (code.length - 4) );
   }
 
   getDepMeta(){
