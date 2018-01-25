@@ -76,15 +76,16 @@ class ExternalApiController extends Controller
         $departure_id = $request->input('departure_id');
 
         $status_arr = array(
-            "confirmed"            => "Confirmed",
-            "pending_confirmation" => "Pending Confirmation",
-            "pending_inquiry"      => "Pending Inquiry",
-            "cancelled"            => "Cancelled",
-            "rejected"             => "Rejected",
-            "complete"             => "Unconfirmed",
-            "incomplete"           => "Incomplete",
-            "cart_abandoned"       => "Cart Abandoned",
-        );
+            "confirmed"            => "confirmed",
+            "pending_confirmation" => "pending_confirmation",
+            "pending_inquiry"      => "pending_inquiry",
+            "cancelled"            => "cancelled",
+            "rejected"             => "rejected",
+            "complete"             => "unconfirmed",
+            "incomplete"           => "incomplete",
+            "cart_abandoned"       => "cart_abandoned",
+        ); //complete status label is different
+
         $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures/' . $departure_id . '?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
 
         $data = json_decode($res->getBody(), true);
