@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
 import { ApiService } from '../../providers/api.service';
+import { AppService } from '../../providers/app.service';
 
 @Component({
   selector: 'app-default',
@@ -30,7 +31,7 @@ export class DefaultComponent implements OnInit {
 
   public loadingParticipants: boolean = false;
 
-  constructor(private api: ApiService, private element: ElementRef, private router: Router) {
+  constructor(private api: ApiService, private element: ElementRef, private router: Router, private app: AppService) {
     this.dateFormat = this.api.dateFormat;
 
     console.log("element:", element);
@@ -120,5 +121,13 @@ export class DefaultComponent implements OnInit {
   sendSMS(event){
     console.log("sms clients ", event);
   }
+
+  logOut(event){
+    this.app.logout();
+  }
+
+  // getConfirmedClass(str: string){
+  //   return str.match(/confirmed/i) ? true : false;
+  // }
 
 }

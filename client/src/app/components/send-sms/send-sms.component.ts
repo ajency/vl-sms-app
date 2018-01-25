@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ApiService } from '../../providers/api.service';
 
 @Component({
@@ -12,7 +12,7 @@ export class SendSmsComponent {
   @Input() checkupdate: boolean;
   @Output() onSendSms = new EventEmitter<any>();
 
-  public smsMessage: string;
+  public smsMessage: string = '';
   public additionContacts: string;
 
   public sendingSMS: boolean = false;
@@ -21,6 +21,8 @@ export class SendSmsComponent {
 
   public validContacts: boolean = true;
   public smsError: boolean;
+
+  @ViewChild('smsTextCount') smsTextCount;
 
   constructor(private api: ApiService) { }
 
@@ -69,6 +71,20 @@ export class SendSmsComponent {
     this.validContacts = extracontacts.length ? validcontacts : true;
 
     return parsecontacts;
+  }
+
+  public smsMaxLength: number = 160;
+
+  checkSMSlength(event){
+    this.sentSMS = false
+    // console.log(this.smsTextCount.nativeElement.firstChild);
+    // this.smsTextCount.nativeElement.firstChild.innerText = this.smsMessage.length;
+
+    if(this.smsMessage.length >= this.smsMaxLength){
+      this.smsMessage = this.smsMessage.substr(0, this.smsMaxLength);
+    }
+
+    console.log("sms length", this.smsMessage.length);
   }
 
   sendSMS(){
