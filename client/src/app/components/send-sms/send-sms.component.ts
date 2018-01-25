@@ -88,7 +88,11 @@ export class SendSmsComponent {
   }
 
   sendSMS(){
-    this.smsError = false;
+
+    if(this.smsError){
+      this.smsError = false;
+      return;
+    }
 
     let body = this.addMessage()
 
