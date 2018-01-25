@@ -12,12 +12,12 @@ class ExternalApiController extends Controller
         $this->client       = $client;
         $this->api_key      = 'd2e6472accb6dae0ba363ae3fff153a2';
         $this->user_secrete = 'e2a6bf9a-eeeb-4956-887d-968645feed99';
-        $this->api_url=env('EXTERNAL_API_URL');
+        $this->api_url      = env('EXTERNAL_API_URL');
     }
     public function trips()
     {
 
-        $res = $this->client->request('GET',  $this->api_url.'/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=1000&order_by[]=state.asc,code.asc,id.desc&search_fields[]=name,code,supplier_name&search=tri');
+        $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=1000&order_by[]=state.asc,code.asc,id.desc&search_fields[]=name,code,supplier_name&search=tri');
 
         $data = json_decode($res->getBody(), true);
 
@@ -39,13 +39,13 @@ class ExternalApiController extends Controller
     public function departures(Request $request)
     {
 
-        $filters      = $request->input('filters');
-        
+        $filters = $request->input('filters');
+
         $current_date = date('Y-m-d');
         $fromdate     = date('Y-m-d', strtotime('-60 days', strtotime($current_date))); // last 60 days
         $trip_id      = $filters['trip_id'];
-       
-        $res = $this->client->request('GET',  $this->api_url.'/api/v1/admin/departures.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&departure_from=' . $fromdate . '&limit=1000&trip_ids=' . $trip_id);
+
+        $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&departure_from=' . $fromdate . '&limit=1000&trip_ids=' . $trip_id);
 
         $data = json_decode($res->getBody(), true);
 

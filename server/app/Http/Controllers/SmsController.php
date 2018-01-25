@@ -10,9 +10,11 @@ class SmsController extends Controller
 
     public function sendSms(Request $request)
     {
-        $phone_number = '919923036263';
+        $json = $request->input('json');
 
-        $message = "A message has been sent to you";
+        $phone_number = $json['sms'];
+
+        $message = $json['message'];
 
         return $this->initiateSmsGuzzle($phone_number, $message);
 
@@ -25,18 +27,29 @@ class SmsController extends Controller
         $sender_id = env('SMS_SENDER_ID', '');
 
         $client = new Client();
-
+        foreach ($phone_number as $ph_value) {
+            $sms_no_arr[] = array('to' => $ph_value);
+        }
         $json_data = json_encode([
-            "message" => "test",
+            "message" => $message,
             "sender"  => $sender_id,
-            "sms"     => [
-                [
-                    "to" => "919923036263",
-                ]],
+            "sms"     => $sms_no_arr,
         ]);
+
+        return [
+            "status" => "success",
+            "msg"    => "ok",
+        ]; // have to remove this
 
         $response = $client->post('https://global.solutionsinfini.com/api/v4/?api_key=' . $api_key . '&method=sms.json&json=' . $json_data);
 
-        return $response = json_decode($response->getBody(), true);
+        if ($response['status'] == 'OK') {
+            return [
+                "status" => "success",
+                "msg"    => "ok",
+            ];
+        }
+
+       return  $response;
     }
 }
