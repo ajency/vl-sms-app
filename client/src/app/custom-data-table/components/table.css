@@ -50,7 +50,7 @@
     cursor: pointer;
 }
 .column-header .column-sort-icon {
-	float: right;
+	// float: right;
 }
 .column-header.resizable .column-sort-icon {
     margin-right: 8px;
