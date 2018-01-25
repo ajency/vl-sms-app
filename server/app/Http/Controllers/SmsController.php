@@ -10,33 +10,53 @@ class SmsController extends Controller
 
     public function sendSms(Request $request)
     {
-        $phone_number = '919923036263';
+        
+        $phone_number = $request->input('to');
 
-        $message = "A message has been sent to you";
+        $message =$request->input('message');
 
         return $this->initiateSmsGuzzle($phone_number, $message);
 
-        // return redirect()->back()->with('message', 'Message has been sent successfully');
     }
 
     public function initiateSmsGuzzle($phone_number, $message)
     {
-        $api_key   = env('SMS_API_KEY', '');
-        $sender_id = env('SMS_SENDER_ID', '');
+        $api_key     = env('SMS_API_KEY', '');
+        $sender_id   = env('SMS_SENDER_ID', '');
+        $environment = env('APP_ENV', 'dev');
 
         $client = new Client();
+        foreach ($phone_number as $ph_value) {
+            $sms_no_arr[] = array('to' => $ph_value);
+        }
 
-        $json_data = json_encode([
-            "message" => "test",
-            "sender"  => $sender_id,
-            "sms"     => [
-                [
-                    "to" => "919923036263",
-                ]],
-        ]);
+        if ($environment == 'prod') {
+            $json_data = json_encode([
+                "message" => $message,
+                "sender"  => $sender_id,
+                "sms"     => $sms_no_arr,
+            ]);
+        } else {
+            $json_data = json_encode([
+                "message" =>  $message,
+                "sender"  => $sender_id,
+                "sms"     => [
+                    [
+                        "to" => "919923036263",
+                    ]],
+            ]);
+
+        }
 
         $response = $client->post('https://global.solutionsinfini.com/api/v4/?api_key=' . $api_key . '&method=sms.json&json=' . $json_data);
 
-        return $response = json_decode($response->getBody(), true);
+        if ($response['status'] == 'OK') {
+            return [
+                "status" => "success",
+                "msg"    => "ok",
+            ];
+        }
+
+        return $response;
     }
 }
