@@ -33,7 +33,7 @@ class ExternalApiController extends Controller
         
         // set offset is passed 
         if ($request->has('offset')){
-            $offset = $request->('offset');
+            $offset = $request->input('offset');
         }
         else{
             $offset = 0;
@@ -45,7 +45,7 @@ class ExternalApiController extends Controller
         
         // set limit is passed 
         if ($request->has('limit')){
-            $limit = $request->('limit');
+            $limit = $request->input('limit');
         }
         else{
             $limit = 100;
