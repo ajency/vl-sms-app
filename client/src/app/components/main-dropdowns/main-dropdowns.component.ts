@@ -38,7 +38,7 @@ export class MainDropdownsComponent {
   public departureError: string = '';
   public tripPlaceholder: string = "Hello there";
 
-  public tripcode: string;
+  public tripcode: string = '';
 
   private _exactMatch: boolean = false;
   private _occurenceMatch: boolean = false;
@@ -142,7 +142,7 @@ export class MainDropdownsComponent {
     }
     this.tripError = '';
     this.tripSub = this.api.getTrips({
-                            search: this._search,
+                            search: inittripid ? this.tripcode : this._search,
                             offset:0,
                             // limit:10
                           }) 
