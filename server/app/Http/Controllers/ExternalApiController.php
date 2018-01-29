@@ -18,7 +18,7 @@ class ExternalApiController extends Controller
 
     public function trips()
     {
-        $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=1000&order_by[]=state.asc,code.asc,id.desc&search_fields[]=name,code,supplier_name');
+        $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=10000&order_by[]=state.asc&order_by[]=code.asc&order_by[]=id.desc&search_fields[]=name&search_fields[]=code&search_fields[]=supplier_name');
 
         $data = json_decode($res->getBody(), true);
 
