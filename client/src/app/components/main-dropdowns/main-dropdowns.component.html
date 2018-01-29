@@ -7,6 +7,7 @@
 			</select> -->
 
 			<ng-select
+						#tripSelect
 						[items]="trips"
 						[active]="activeTrip"
 						[disabled]="trips.length == 0 || tripError != ''"
