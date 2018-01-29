@@ -112,6 +112,7 @@ export class MainDropdownsComponent {
 
     this._searchfilter = this.app.searchFilter((model: string) => 
     { 
+      console.log("model:", model);
       this._search = model;
       this.updateTrips('',true); 
       return model;
@@ -135,12 +136,18 @@ export class MainDropdownsComponent {
 
   public disableDep: boolean = true;
   public tripError: string;
+  public selectIsOpen: boolean = false;
 
   updateTrips(inittripid: string = '', opendrop: boolean = false): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
       this.tripSub.unsubscribe();
     }
     this.tripError = '';
+    this.tripid = inittripid ? inittripid : '';
+    
+    this.trips = [];
+    this._asynctrips.next(this.trips);
+
     this.tripSub = this.api.getTrips({
                             search: inittripid ? this.tripcode : this._search,
                             offset:0,
@@ -170,16 +177,19 @@ export class MainDropdownsComponent {
 
                               // check if tripid passed in from url or otherwise is present in the trips array
                               // before fetching the departures array for the specified trip id
-                              let trip = this.trips.find(val => val.id == this.tripid);
 
-                              console.log("found trip: ", trip);
-                              if(trip){
-                                this.onError.emit(this.tripError); // emit blank error
-                              }
-                              else{
-                                this.tripError = "Could not find trip specified!";
-                                this.tripid = '';
-                                this.onError.emit(this.tripError);
+                              if(inittripid){
+                                let trip = this.trips.find(val => val.id == this.tripid);
+
+                                console.log("found trip: ", trip);
+                                if(trip){
+                                  this.onError.emit(this.tripError); // emit blank error
+                                }
+                                else{
+                                  this.tripError = "Could not find trip specified!";
+                                  this.tripid = '';
+                                  this.onError.emit(this.tripError);
+                                }
                               }
 
                             this.updateDepartures(this.departureid);
@@ -492,7 +502,12 @@ export class MainDropdownsComponent {
 
   typed(data){
     console.log("typed:", data);
-    this._searchfilter.triggersearch(data);
+    // if(data.length === 0){
+    //   this.updateTrips('',true)
+    // }
+    // else{
+      this._searchfilter.triggersearch(data);
+    // }
   }
 
 }
