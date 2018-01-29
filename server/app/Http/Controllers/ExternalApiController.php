@@ -132,6 +132,9 @@ class ExternalApiController extends Controller
         $data = json_decode($res->getBody(), true);
         //print_r($data);
         $final_data = array();
+        $primary_contact_person = array();
+        
+        $primary_alt_contact = array();
 
         foreach ($data['bookings'] as $dvalue) {
 
@@ -149,7 +152,7 @@ class ExternalApiController extends Controller
                 }
 
                 //primary phoneno data
-                $final_data[] = [
+                $primary_contact_person = [
                     "booking_id"        => $dvalue['booking_ref'],
                     "booking_ref_url"   => $booking_ref_url,
                     "passenger_name"    => $name_pri,
@@ -160,10 +163,13 @@ class ExternalApiController extends Controller
                     "redundant_contact" => false,
                 ];
 
+                $final_data[] = $primary_contact_person;
+
+
                 //alt phoneno -data
                 if ($phone_alt_pri != '' && $phone_alt_pri != null) {
 
-                    $final_data[] = [
+                    $primary_alt_contact = [
                         "booking_id"        => $dvalue['booking_ref'],
                         "booking_ref_url"   => $booking_ref_url,
                         "passenger_name"    => $name_pri,
@@ -173,6 +179,8 @@ class ExternalApiController extends Controller
                         "booking_status"    => $booking_status,
                         "redundant_contact" => true,
                     ];
+
+                    $final_data[] = $primary_alt_contact;
                 }
 
             }
@@ -211,8 +219,8 @@ class ExternalApiController extends Controller
                             }
 
                         }
-                        if (!empty($other_passenger_details)) {
-                            $final_data[] = [
+                        if (!empty($other_passenger_details) ) {
+                            $final_other_passenger_data = [
                                 "booking_id"        => $dvalue['booking_ref'],
                                 "booking_ref_url"   => $booking_ref_url,
                                 "passenger_name"    => $other_passenger_details['vl_first_name'] . ' ' . $other_passenger_details['vl_last_name'],
@@ -222,6 +230,12 @@ class ExternalApiController extends Controller
                                 "booking_status"    => $booking_status,
                                 "redundant_contact" => '',
                             ];
+
+                            if ( ($final_other_passenger_data['phone_no'] != $primary_contact_person['phone_no']) || ( isset($primary_alt_contact['phone_no']) and $final_other_passenger_data['phone_no'] != $primary_alt_contact['phone_no']) ){
+
+                                $final_data[] = $final_other_passenger_data;
+
+                            }
                         }
                     }
                 }
