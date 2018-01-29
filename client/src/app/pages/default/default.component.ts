@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { DataTable, DataTableResource } from '../../custom-data-table';
 import { ApiService } from '../../providers/api.service';
 import { AppService } from '../../providers/app.service';
+import { globals } from '../../app.global';
 
 @Component({
   selector: 'app-default',
@@ -62,6 +63,9 @@ export class DefaultComponent implements OnInit {
 
       this.participantsAvailable = true;
 
+    }
+    else if(typeof event.response === 'string'){
+      this.errorMessage = globals.serverErrMsg;
     }
     else{
       // this.errorMessage = event.response.msg || 'An error occured!';

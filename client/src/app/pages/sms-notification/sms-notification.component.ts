@@ -47,6 +47,9 @@ export class SmsNotificationComponent implements OnInit {
 
       this.notifications = event.response.data;
     }
+    else if(typeof event.response === 'string'){
+      this.errorMessage = globals.serverErrMsg;
+    }
     else{
       this.errorMessage = 'An error occured!';
     }

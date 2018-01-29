@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, Input, Output , NgZone } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ApiService } from '../../providers/api.service';
-
+import { globals } from '../../app.global';
 import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
 import { DateFormatPipe, ParsePipe } from 'angular2-moment';
@@ -148,7 +148,8 @@ export class MainDropdownsComponent {
                             }
                             
                           },() => {
-                            this.tripError = 'A request error has occured!';
+                            this.tripError = globals.serverErrMsg;
+                            this.onError.emit(this.tripError);
                             // this.updateDepartures(this.departureid);
                           });
   }
@@ -280,6 +281,9 @@ export class MainDropdownsComponent {
 
                               this.activeDeparture = this._getActiveDeparture(initdepid || this.departureid);
 
+                            }, () => {
+                              this.departureError = globals.serverErrMsg;
+                              this.onError.emit(this.departureError);
                             });
     }
     else{
