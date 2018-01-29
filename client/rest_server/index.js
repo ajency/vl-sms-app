@@ -80,11 +80,23 @@ apiRoutes.post('/validate-token',function(req,res){
 });
 
 apiRoutes.post('/trips',function(req,res){
+    let data = [];
+    if(req.body.search === 'TEST'){
+        data = [{
+            id: "5512",
+            name: "test trip",
+            code: "TEST"
+        }];
+    }
+    else{
+        data = dataHandler('trips').trips;
+    }
+
     res.status(200).json(
         {
             status: "success",
             msg: "ok",
-            data:  dataHandler('trips').trips
+            data:  data
             }
             
     );

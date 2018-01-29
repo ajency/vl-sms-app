@@ -1,6 +1,7 @@
-import { Component, OnInit, EventEmitter, Input, Output , NgZone } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ApiService } from '../../providers/api.service';
+import { AppService } from '../../providers/app.service';
 import { globals } from '../../app.global';
 import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
@@ -22,6 +23,8 @@ export class MainDropdownsComponent {
   @Output() onError = new EventEmitter<any>();
   @Output() loadingParticipants = new EventEmitter<any>();
 
+  public _asynctrips = new EventEmitter<any>();
+
   public trips: Array<any> = [];
   public departures: Array<any> = [];
   public activeTrip: Array<{id: string, text: string}>; // reference for the trip select dropdown component
@@ -41,7 +44,12 @@ export class MainDropdownsComponent {
   private _occurenceMatch: boolean = false;
   public exactPath: string = '';
 
-  constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
+  private _searchfilter: any;
+  private _search: string = '';
+
+  @ViewChild('tripSelect') tripSelect: any;
+
+  constructor(private app: AppService, private api: ApiService, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
   }
 
@@ -101,27 +109,58 @@ export class MainDropdownsComponent {
     console.log("main drops init:  from page: ", this.frompage, " tripid: ",this.tripFromParent, "departureid: ", this.depFromParent);
 
     this.updateTrips(this.tripid);
+
+    this._searchfilter = this.app.searchFilter((model: string) => 
+    { 
+      this._search = model;
+      this.updateTrips('',true); 
+      return model;
+    });
+    this._searchfilter.subscription
+                      .subscribe((res) => {
+                        // console.log("search response",res);
+                      },(err) => {
+                        // console.warn("search subscription err", err)
+                      });
   }
 
   // ngOnChanges(){
 
   // }
 
-  public disableDep: boolean = true;
+  ngOnDestroy(){
+    this._searchfilter.subscription.complete();
+    this._searchfilter.subscription.unsubscribe();
+  }
 
+  public disableDep: boolean = true;
   public tripError: string;
 
-  updateTrips(inittripid: string = ''): void{ // gets the data for the 1st select dropdown for the list of trips
+  updateTrips(inittripid: string = '', opendrop: boolean = false): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
       this.tripSub.unsubscribe();
     }
     this.tripError = '';
-    this.tripSub = this.api.getTrips({}) 
+    this.tripSub = this.api.getTrips({
+                            search: this._search,
+                            offset:0,
+                            // limit:10
+                          }) 
                           .subscribe((res: any) => {
                             
                             this.trips = this.formatTrips(res.data);
+
+                            this._asynctrips.next(this.trips);
+
                             console.log("trips ", this.trips);
                             
+                            if(opendrop){
+                              setTimeout(() => {
+                                this.tripSelect.open();
+                              },300);
+                            }
+           
+            
                             if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
                               // this.tripid = inittripid  ? inittripid : this.trips[0].id;
                               // this.activeTrip = [ this.trips[0] ];
@@ -453,6 +492,7 @@ export class MainDropdownsComponent {
 
   typed(data){
     console.log("typed:", data);
+    this._searchfilter.triggersearch(data);
   }
 
 }

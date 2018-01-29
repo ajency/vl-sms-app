@@ -3,8 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Router } from '@angular/router';
+
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/catch';
+
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/switchMap';
 
 @Injectable()
 export class AppService {
@@ -53,6 +61,23 @@ export class AppService {
   public logout(){
     this.localstorage.remove("token");
     this.router.navigate(['/login']);
+  }
+
+  public searchFilter(callback: any = (model: string) => {return model;}): any{
+    let searchterms = new Subject<string>();
+
+    let searchsubscription = searchterms.debounceTime(500)
+                                        .distinctUntilChanged()
+                                        .switchMap(callback)
+                                        .catch((err) => {
+                                          console.warn("err:", err);
+                                          return '';
+                                        })
+    return {
+      subscription: searchsubscription,
+      terms: searchterms,
+      triggersearch: (value) => { value.trim(); searchterms.next(value); }
+    }
   }
 
 }
