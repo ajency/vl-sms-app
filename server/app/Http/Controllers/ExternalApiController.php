@@ -16,9 +16,48 @@ class ExternalApiController extends Controller
         $this->api_url      = env('EXTERNAL_API_URL');
     }
 
-    public function trips()
+    public function trips(Request $request)
     {
-        $res = $this->client->request('GET', $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&offset=0&count=true&totalCount=true&limit=10000&order_by[]=state.asc&order_by[]=code.asc&order_by[]=id.desc&search_fields[]=name&search_fields[]=code&search_fields[]=supplier_name');
+        $request_url = $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&count=true&totalCount=true&order_by[]=state.asc&order_by[]=code.asc&order_by[]=id.desc&search_fields[]=name&search_fields[]=code&search_fields[]=supplier_name';
+
+        
+        // set search query is passed 
+        if ($request->has('search')){
+            $search_query = $request->input('search');
+            $request_url = $request_url .'&search=' . $search_query ;
+        }
+        else{
+            $search_query = '';
+        }
+
+        
+        // set offset is passed 
+        if ($request->has('offset')){
+            $offset = $request->('offset');
+        }
+        else{
+            $offset = 0;
+        } 
+
+        if($offset){
+            $request_url = $request_url .'&offset=' . $offset ;
+        }
+        
+        // set limit is passed 
+        if ($request->has('limit')){
+            $limit = $request->('limit');
+        }
+        else{
+            $limit = 100;
+        } 
+
+        if($limit){
+            $request_url = $request_url .'&limit=' . $limit ;
+        }
+        
+
+
+        $res = $this->client->request('GET', $request_url );
 
         $data = json_decode($res->getBody(), true);
 
