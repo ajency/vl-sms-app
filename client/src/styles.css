@@ -1594,4 +1594,7 @@ input[type="checkbox"].toggle__check {
 .tooltip {
   font-size: 0.65em;
 }
+.ui-select-choices-row > a{
+	white-space: normal !important;
+}
 /*# sourceMappingURL=styles.css.map */
