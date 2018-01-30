@@ -46,6 +46,11 @@
               <span>{{firstPage}}</span> to <span>{{lastPage}}</span> of <span>{{totalItems}}</span> results
             </div>
           </div>
+          <div class="content-loader align-items-center d-none d-flex justify-content-center">
+            <div>
+              <i class="fa fa-spinner fa-pulse"></i>
+            </div>
+          </div>
         </li>
         <li *ngFor="let o of options" role="menuitem">
           <div class="ui-select-choices-row"
