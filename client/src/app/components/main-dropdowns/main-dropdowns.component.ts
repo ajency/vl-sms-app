@@ -129,10 +129,18 @@ export class MainDropdownsComponent {
   public tripError: string;
   public selectIsOpen: boolean = false;
 
+  public tripPageCount: number = 0;
+  public tripTotalCount: number = 0;
+
   private _offset: number = 0;
-  
-  get offset(): number {
-    return this._offset;
+  private _limit: number = 10;
+
+  get limit(): number{
+    return this._limit;
+  }
+
+  get page(): number {
+    return (this._offset / this._limit) + 1;
   }
 
   set offset(offset: number) {
@@ -140,12 +148,12 @@ export class MainDropdownsComponent {
   }
   
   prevPage(){
-    this._offset--;
+    this._offset -= this._limit;
     this.updateTrips('', true);
   }
 
   nextPage(){
-    this._offset++;
+    this._offset += this._limit;
     this.updateTrips('', true);
   }
 
@@ -162,11 +170,13 @@ export class MainDropdownsComponent {
     this.tripSub = this.api.getTrips({
                             search: inittripid ? this.tripcode : this._search,
                             offset:this._offset,
-                            limit:10
+                            limit: this._limit
                           }) 
                           .subscribe((res: any) => {
                             
                             this.trips = this.formatTrips(res.data);
+                            this.tripPageCount = res.count;
+                            this.tripTotalCount = res.totalCount;
 
                             this._asynctrips.next(this.trips);
 
@@ -203,7 +213,7 @@ export class MainDropdownsComponent {
                                 }
                               }
 
-                            this.updateDepartures(this.departureid);
+                              this.updateDepartures(this.departureid);
 
                             }
                             

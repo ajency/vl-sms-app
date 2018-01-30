@@ -19,9 +19,9 @@
 			<custom-select
 						#tripSelect
 						[items]="trips"
-						[pageIndex]="offset + 1"
-						[pageCount]="trips.length"
-						totalItems="500"
+						[pageIndex]="page"
+						[pageCount]="limit"
+						[totalItems]="tripTotalCount"
 						(onPrev)="prevPage()"
 						(onNext)="nextPage()"
 						[active]="activeTrip"
