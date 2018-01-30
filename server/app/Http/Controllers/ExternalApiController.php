@@ -77,6 +77,8 @@ class ExternalApiController extends Controller
             "status" => "success",
             "msg"    => "ok",
             "data"   => $final_data,
+            "count"  =>  $data['count'],
+            "totalCount" => $data['totalCount']  
         ];
     }
 
