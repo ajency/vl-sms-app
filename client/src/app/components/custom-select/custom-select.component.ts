@@ -50,6 +50,8 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
       });
       this.itemObjects = this._items.map((item: any) => (typeof item === 'string' ? new SelectItem(item) : new SelectItem({ id: item[this.idField], text: item[this.textField], children: item[this.childrenField] })));
     }
+
+    this._setpageIndices();
   }
 
   @Input()
@@ -390,26 +392,30 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   private _setpageIndices(){
     this.firstPage = ( (this.pageIndex - 1) * this.pageCount ) + 1;
 
-      if (this.pageCount < this.totalItems) {
-        this.lastPage = this.pageCount * this.pageIndex
-          if (this.lastPage > this.totalItems) {
-            this.lastPage = this.totalItems;
-          }
-        }
-    // this.lastPage = ( res.results_per_page < res.result_count ) ? ( (res.results_per_page * res.page > res.result_count) ? res.result_count : res.results_per_page * res.page ) : res.result_count; //TBD refactor this
-   
+    if (this.pageCount < this.totalItems) {
+      this.lastPage = this.pageCount * this.pageIndex
+      if (this.lastPage > this.totalItems) {
+        this.lastPage = this.totalItems;
+      }
+    }
+    
+    this.loadingItems = false;
   }
 
-  ngOnChanges(){
-    this._setpageIndices();
-  }
+  // ngOnChanges(){
+  //   this._setpageIndices();
+  // }
+
+  public loadingItems: boolean = false;
 
   public prevPage(){
+    this.loadingItems = true;
     console.log("page:", --this.pageIndex);
     this.onPrev.emit(this.pageIndex);
   }
 
   public nextPage(){
+    this.loadingItems = true;
     console.log("page:", ++this.pageIndex);
     this.onNext.emit(this.pageIndex);
   }
