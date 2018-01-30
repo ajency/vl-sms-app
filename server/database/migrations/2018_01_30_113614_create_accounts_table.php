@@ -1,10 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
-class CreateUserMetasTable extends Migration
+class CreateAccountsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,17 @@ class CreateUserMetasTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_metas', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned();
-            $table->string('meta_key');
-            $table->longText('meta_value');
+            $table->string('api_key');
+            $table->longText('user_secret');
             $table->timestamps();
 
             $table->foreign('user_id')
                 ->references('id')
                 ->on('users')
                 ->onDelete('cascade');
-
         });
     }
 
@@ -35,6 +34,6 @@ class CreateUserMetasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_metas');
+        Schema::dropIfExists('accounts');
     }
 }
