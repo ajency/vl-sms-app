@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataTable, DataTableResource } from '../../custom-data-table';
+import { DataTable, DataTableResource } from '../../components/custom-data-table';
 import { ApiService } from '../../providers/api.service';
 import { AppService } from '../../providers/app.service';
 import { globals } from '../../app.global';

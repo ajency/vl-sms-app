@@ -416,36 +416,36 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   ngOnChanges(changes){
     // this._setpageIndices();
 
-    // for (let propName in changes) {
-    //   let chng = changes[propName];
-    //   // let cur  = JSON.stringify(chng.currentValue);
-    //   // let prev = JSON.stringify(chng.previousValue);
-    //   // console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+    for (let propName in changes) {
+      let chng = changes[propName];
+      // let cur  = JSON.stringify(chng.currentValue);
+      // let prev = JSON.stringify(chng.previousValue);
 
-    //   if(propName === 'items'){
-    //     if(chng.length){
-    //       // this._setloader();
-    //       this._loader ? this._loader.classList.add("d-none") : null;
-    //       console.log("hide loader", chng.length);
-    //     }
-    //   }
-    // }
+      if(propName === 'items'){
+        // console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+        if(chng.currentValue.length && chng.previousValue.length === 0){
+          // this._setloader();
+          this._loader ? this._loader.classList.add("d-none") : null;
+          console.log("hide loader", chng.length);
+        }
+      }
+    }
   }
 
   public loadingItems: boolean = false;
 
   public prevPage(){
     this.loadingItems = true;
-    // this._setloader();
-    // this._loader.classList.remove("d-none");
+    this._setloader();
+    this._loader.classList.remove("d-none");
     console.log("page:", --this.pageIndex);
     this.onPrev.emit(this.pageIndex);
   }
 
   public nextPage(){
     this.loadingItems = true;
-    // this._setloader();
-    // this._loader.classList.remove("d-none");
+    this._setloader();
+    this._loader.classList.remove("d-none");
     console.log("page:", ++this.pageIndex);
     this.onNext.emit(this.pageIndex);
   }
