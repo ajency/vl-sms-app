@@ -4,23 +4,32 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use App\Helpers\GlobalHelper;
 
 class ExternalApiController extends Controller
 {
+    protected $request;
 
-    public function __construct(Client $client)
+    public function __construct(Client $client,Request $request)
     {
+        $this->request = $request;
+
         $this->client       = $client;
-        $this->api_key      = env('USER_API_KEY');
-        $this->user_secrete = env('USER_SECRET_KEY');
         $this->api_url      = env('EXTERNAL_API_URL');
     }
 
     public function trips(Request $request)
     {
+        $globalhelper=new GlobalHelper;    
+        $user = $globalhelper->getUserApiSecret($this->request->user()->id);
+        
+        if(empty($user)){
+          return [ "message" => "Unauthenticated."];
+        }   
+
         $final_data = array();
 
-        $request_url = $this->api_url . '/admin/trips.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&count=true&totalCount=true&order_by[]=state.asc&order_by[]=code.asc&order_by[]=id.desc&search_fields[]=name&search_fields[]=code&search_fields[]=supplier_name';
+        $request_url = $this->api_url . '/admin/trips.json?ac_api_key=' . $user['api_key'] . '&user_secret=' . $user['user_secret'] . '&count=true&totalCount=true&order_by[]=state.asc&order_by[]=code.asc&order_by[]=id.desc&search_fields[]=name&search_fields[]=code&search_fields[]=supplier_name';
 
         
         // set search query is passed 
@@ -84,6 +93,12 @@ class ExternalApiController extends Controller
 
     public function departures(Request $request)
     {
+        $globalhelper=new GlobalHelper;    
+        $user = $globalhelper->getUserApiSecret($this->request->user()->id);
+        
+        if(empty($user)){
+          return [ "message" => "Unauthenticated."];
+        } 
 
         $filters = $request->input('filters');
 
@@ -91,7 +106,7 @@ class ExternalApiController extends Controller
         $fromdate     = date('Y-m-d', strtotime('-60 days', strtotime($current_date))); // last 60 days
         $trip_id      = $filters['trip_id'];
 
-        $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures.json?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&departure_from=' . $fromdate . '&limit=1000&trip_ids=' . $trip_id);
+        $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures.json?ac_api_key=' . $user['api_key'] . '&user_secret=' . $user['user_secret'] . '&departure_from=' . $fromdate . '&limit=1000&trip_ids=' . $trip_id);
 
         $data = json_decode($res->getBody(), true);
 
@@ -117,7 +132,14 @@ class ExternalApiController extends Controller
     }
 
     public function participants(Request $request)
-    {
+    {   
+        $globalhelper=new GlobalHelper;    
+        $user = $globalhelper->getUserApiSecret($this->request->user()->id);
+        
+        if(empty($user)){
+          return [ "message" => "Unauthenticated."];
+        } 
+
         $departure_id = $request->input('departure_id');
 
         $status_arr = array(
@@ -131,7 +153,7 @@ class ExternalApiController extends Controller
             "cart_abandoned"       => "cart_abandoned",
         ); //complete status label is different
 
-        $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures/' . $departure_id . '?ac_api_key=' . $this->api_key . '&user_secret=' . $this->user_secrete . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
+        $res = $this->client->request('GET', $this->api_url . '/api/v1/admin/departures/' . $departure_id . '?ac_api_key=' . $user['api_key'] . '&user_secret=' . $user['user_secret'] . '&include_booking_custom_forms=all&include_bookings=true&include_trip=true');
 
         $data = json_decode($res->getBody(), true);
         //print_r($data);
