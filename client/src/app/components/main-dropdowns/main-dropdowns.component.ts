@@ -397,7 +397,7 @@ export class MainDropdownsComponent {
                                     });
     }
     else if(this.exactPath === 'sms-notifications'){
-      this.participantSub = this.api.getSMSnotifications({})
+      this.participantSub = this.api.getSMSnotifications({"departure_id": this.departureid})
                                     .subscribe((res: any) => {
                                       console.log("notifcations api respsonse:",res);
                                       oevent['response'] = res;
