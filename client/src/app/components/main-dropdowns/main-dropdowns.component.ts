@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
 import { DateFormatPipe, ParsePipe } from 'angular2-moment';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
 @Component({
   selector: 'main-dropdowns',
   templateUrl: './main-dropdowns.component.html',
@@ -110,19 +113,8 @@ export class MainDropdownsComponent {
 
     this.updateTrips(this.tripid);
 
-    this._searchfilter = this.app.searchFilter((model: string) => 
-    { 
-      console.log("model:", model);
-      this._search = model;
-      this.updateTrips('',true); 
-      return model;
-    });
-    this._searchfilter.subscription
-                      .subscribe((res) => {
-                        // console.log("search response",res);
-                      },(err) => {
-                        // console.warn("search subscription err", err)
-                      });
+    // this._subscribeSearch();
+
   }
 
   // ngOnChanges(){
@@ -130,8 +122,7 @@ export class MainDropdownsComponent {
   // }
 
   ngOnDestroy(){
-    this._searchfilter.subscription.complete();
-    this._searchfilter.subscription.unsubscribe();
+    this._unsubscribeSearch();
   }
 
   public disableDep: boolean = true;
@@ -520,14 +511,41 @@ export class MainDropdownsComponent {
     console.log("removed:", data);
   }
 
+  private _unsubscribeSearch(){
+    if(this._searchfilter){
+      this._searchfilter.subscription.complete();
+      this._searchfilter.subscription.unsubscribe();
+    }
+  }
+
+  private _subscribeSearch(){
+    this._searchfilter = this.app.searchFilter((model: string) => 
+                        { 
+                          console.log("model:", model);
+                          this._search = model;
+                          this.updateTrips('',true); 
+                          // return model;
+                          if(model){
+                            return model;
+                          }
+                          else{
+                            return Observable.of<any>([])
+                          }
+                        });
+  }
+
   typed(data){
     console.log("typed:", data);
-    // if(data.length === 0){
-    //   this.updateTrips('',true)
-    // }
-    // else{
+    this._offset = 0;
+    if(data.length === 0){
+      this._unsubscribeSearch();
+      this._subscribeSearch();
+      this._search = '';
+      this.updateTrips('',true)
+    }
+    else{
       this._searchfilter.triggersearch(data);
-    // }
+    }
   }
 
 }
