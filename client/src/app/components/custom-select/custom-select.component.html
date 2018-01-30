@@ -29,6 +29,7 @@
            *ngIf="inputMode"
            placeholder="{{active.length <= 0 ? placeholder : ''}}">
      <!-- options template -->
+     <!-- <div [hidden]="!loadingItems">loading...</div> -->
      <ul *ngIf="optionsOpened && options && options.length > 0 && !firstItemHasChildren"
           class="ui-select-choices dropdown-menu" role="menu">
         <li *ngIf="pageCount < totalItems">
@@ -55,6 +56,16 @@
   
       <ul *ngIf="optionsOpened && options && options.length > 0 && firstItemHasChildren"
           class="ui-select-choices dropdown-menu" role="menu">
+          <li *ngIf="pageCount < totalItems">
+            <button (click)="prevPage()">
+              Prev
+            </button>
+            <button (click)="nextPage()">
+              Next
+            </button>
+  
+            <span>{{firstPage}}</span> to <span>{{lastPage}}</span> of <span>{{totalItems}}</span> results
+          </li>
         <li *ngFor="let c of options; let index=index" role="menuitem">
           <div class="divider dropdown-divider" *ngIf="index > 0"></div>
           <div class="dropdown-header">{{c.text}}</div>
@@ -108,6 +119,16 @@
      <!-- options template -->
      <ul *ngIf="optionsOpened && options && options.length > 0 && !firstItemHasChildren"
           class="ui-select-choices dropdown-menu" role="menu">
+          <li *ngIf="pageCount < totalItems">
+            <button (click)="prevPage()">
+              Prev
+            </button>
+            <button (click)="nextPage()">
+              Next
+            </button>
+  
+            <span>{{firstPage}}</span> to <span>{{lastPage}}</span> of <span>{{totalItems}}</span> results
+          </li>
         <li *ngFor="let o of options" role="menuitem">
           <div class="ui-select-choices-row"
                [class.active]="isActive(o)"
@@ -122,6 +143,16 @@
   
       <ul *ngIf="optionsOpened && options && options.length > 0 && firstItemHasChildren"
           class="ui-select-choices dropdown-menu" role="menu">
+          <li *ngIf="pageCount < totalItems">
+            <button (click)="prevPage()">
+              Prev
+            </button>
+            <button (click)="nextPage()">
+              Next
+            </button>
+  
+            <span>{{firstPage}}</span> to <span>{{lastPage}}</span> of <span>{{totalItems}}</span> results
+          </li>
         <li *ngFor="let c of options; let index=index" role="menuitem">
           <div class="divider dropdown-divider" *ngIf="index > 0"></div>
           <div class="dropdown-header">{{c.text}}</div>

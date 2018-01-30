@@ -66,7 +66,7 @@ export class AppService {
   public searchFilter(callback: any = (model: string) => {return model;}): any{
     let searchterms = new Subject<string>();
 
-    let searchsubscription = searchterms.debounceTime(1500)
+    let searchsubscription = searchterms.debounceTime(500)
                                         .distinctUntilChanged()
                                         .switchMap(callback)
                                         .catch((err) => {

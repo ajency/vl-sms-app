@@ -537,7 +537,7 @@ export class MainDropdownsComponent {
   typed(data){
     console.log("typed:", data);
     this._offset = 0;
-    if(data.length === 0){
+    if(data.length === 0){ // do this to compensate for a bug in the observable stream returned for search
       this._unsubscribeSearch();
       this._subscribeSearch();
       this._search = '';
