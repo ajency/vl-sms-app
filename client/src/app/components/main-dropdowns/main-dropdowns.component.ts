@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
 import { DateFormatPipe, ParsePipe } from 'angular2-moment';
 
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
+
 @Component({
   selector: 'main-dropdowns',
   templateUrl: './main-dropdowns.component.html',
@@ -110,19 +113,8 @@ export class MainDropdownsComponent {
 
     this.updateTrips(this.tripid);
 
-    this._searchfilter = this.app.searchFilter((model: string) => 
-    { 
-      console.log("model:", model);
-      this._search = model;
-      this.updateTrips('',true); 
-      return model;
-    });
-    this._searchfilter.subscription
-                      .subscribe((res) => {
-                        // console.log("search response",res);
-                      },(err) => {
-                        // console.warn("search subscription err", err)
-                      });
+    // this._subscribeSearch();
+
   }
 
   // ngOnChanges(){
@@ -130,13 +122,40 @@ export class MainDropdownsComponent {
   // }
 
   ngOnDestroy(){
-    this._searchfilter.subscription.complete();
-    this._searchfilter.subscription.unsubscribe();
+    this._unsubscribeSearch();
   }
 
   public disableDep: boolean = true;
   public tripError: string;
   public selectIsOpen: boolean = false;
+
+  public tripPageCount: number = 0;
+  public tripTotalCount: number = 0;
+
+  private _offset: number = 0;
+  private _limit: number = 10;
+
+  get limit(): number{
+    return this._limit;
+  }
+
+  get page(): number {
+    return (this._offset / this._limit) + 1;
+  }
+
+  set offset(offset: number) {
+    this._offset = offset;
+  }
+  
+  prevPage(){
+    this._offset -= this._limit;
+    this.updateTrips('', true);
+  }
+
+  nextPage(){
+    this._offset += this._limit;
+    this.updateTrips('', true);
+  }
 
   updateTrips(inittripid: string = '', opendrop: boolean = false): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
@@ -150,12 +169,14 @@ export class MainDropdownsComponent {
 
     this.tripSub = this.api.getTrips({
                             search: inittripid ? this.tripcode : this._search,
-                            offset:0,
-                            // limit:10
+                            offset:this._offset,
+                            limit: this._limit
                           }) 
                           .subscribe((res: any) => {
                             
                             this.trips = this.formatTrips(res.data);
+                            this.tripPageCount = res.count;
+                            this.tripTotalCount = res.totalCount;
 
                             this._asynctrips.next(this.trips);
 
@@ -192,7 +213,7 @@ export class MainDropdownsComponent {
                                 }
                               }
 
-                            this.updateDepartures(this.departureid);
+                              this.updateDepartures(this.departureid);
 
                             }
                             
@@ -257,7 +278,7 @@ export class MainDropdownsComponent {
 
         let endmonth = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat),  'MMM');
 
-        text = `<b>${startday}</b> ${startmonth} <span class="lighter">to</span> <b>${endday}</b> ${endmonth}`
+        text = `<span class="">${startday} ${startmonth}</span> <span class="text-lighter">to</span> <span class="">${endday} ${endmonth}</span>`
       }
 
       departures.push({
@@ -500,14 +521,41 @@ export class MainDropdownsComponent {
     console.log("removed:", data);
   }
 
+  private _unsubscribeSearch(){
+    if(this._searchfilter){
+      this._searchfilter.subscription.complete();
+      this._searchfilter.subscription.unsubscribe();
+    }
+  }
+
+  private _subscribeSearch(){
+    this._searchfilter = this.app.searchFilter((model: string) => 
+                        { 
+                          console.log("model:", model);
+                          this._search = model;
+                          this.updateTrips('',true); 
+                          // return model;
+                          if(model){
+                            return model;
+                          }
+                          else{
+                            return Observable.of<any>([])
+                          }
+                        });
+  }
+
   typed(data){
     console.log("typed:", data);
-    // if(data.length === 0){
-    //   this.updateTrips('',true)
-    // }
-    // else{
+    this._offset = 0;
+    if(data.length === 0){ // do this to compensate for a bug in the observable stream returned for search
+      this._unsubscribeSearch();
+      this._subscribeSearch();
+      this._search = '';
+      this.updateTrips('',true)
+    }
+    else{
       this._searchfilter.triggersearch(data);
-    // }
+    }
   }
 
 }

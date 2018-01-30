@@ -6,7 +6,7 @@
 				<option *ngFor="let option of trips" [value]="option.id">{{option.code}} - {{option.name}}</option>
 			</select> -->
 
-			<ng-select
+			<!-- <ng-select
 						#tripSelect
 						[items]="trips"
 						[active]="activeTrip"
@@ -15,7 +15,23 @@
 						(removed)="removed($event)"
 						(typed)="typed($event)"
 						[placeholder]="tripError ? 'No trip found' : 'Select a tour'">
-			</ng-select>
+			</ng-select> -->
+			<custom-select
+						#tripSelect
+						[items]="trips"
+						[pageIndex]="page"
+						[pageCount]="limit"
+						[totalItems]="tripTotalCount"
+						(onPrev)="prevPage()"
+						(onNext)="nextPage()"
+						[active]="activeTrip"
+						(data)="refreshValue($event)"
+						(selected)="tripSelected($event)"
+						(removed)="removed($event)"
+						(typed)="typed($event)"
+						[placeholder]="tripError ? 'No trip found' : 'Select a tour'"
+			>
+			</custom-select>
 		</div>
 		<div class="col-sm-4">
 			<!-- <select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" (change)="onDepartureUpdate()" [disabled]="departures.length == 0 || departureError != ''">
@@ -24,14 +40,14 @@
 				<option *ngFor="let option of departures" [value]="option.departure_id">{{option.starts_at | amParse: dateFormat | amDateFormat:'DD MMM' }} - {{option.ends_at | amParse: dateFormat | amDateFormat:'DD MMM' }}</option>
 			</select> -->
 
-			<ng-select
+			<custom-select
 						showSearchInputInDropdown="true"
 						[items]="departures"
 						[active]="activeDeparture"
 						[disabled]="departures.length == 0 || departureError != ''"
 						(selected)="depSelected($event)"
 						[placeholder]="departureError ? 'No departure found' : 'Select a departure'">
-			</ng-select>
+			</custom-select>
 		</div>
 		<div class="col-sm-4 filter-action mt-2 mt-sm-0" [hidden]="exactPath == 'sms-notifications'">
 			<button [disabled]="!departureid" (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>

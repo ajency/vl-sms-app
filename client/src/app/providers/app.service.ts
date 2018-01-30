@@ -73,6 +73,14 @@ export class AppService {
                                           console.warn("err:", err);
                                           return '';
                                         })
+
+     searchsubscription
+            .subscribe((res) => {
+              // console.log("search response",res);
+            },(err) => {
+              // console.warn("search subscription err", err)
+            });
+
     return {
       subscription: searchsubscription,
       terms: searchterms,
