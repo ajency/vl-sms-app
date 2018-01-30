@@ -133,7 +133,7 @@
 			</data-table>
 		</div>
 		<div [ngClass]="{'col-sm-4': participantsAvailable, 'compose-msg': participantsAvailable}">
-			<send-sms [participants]="participants" [checkupdate]="checkUpdate" *ngIf="participantsAvailable" (onSendSms)="sendSMS($event)"></send-sms>
+			<send-sms [departureid]="departureId" [participants]="participants" [checkupdate]="checkUpdate" *ngIf="participantsAvailable" (onSendSms)="sendSMS($event)"></send-sms>
 		</div>
 
 	</div>

@@ -10,6 +10,8 @@ export class SendSmsComponent {
 
   @Input() participants: Array<any>;
   @Input() checkupdate: boolean;
+  @Input() departureid: string;
+
   @Output() onSendSms = new EventEmitter<any>();
 
   public smsMessage: string = '';
@@ -49,6 +51,7 @@ export class SendSmsComponent {
   addMessage(): any{
     let smsclients = this.filterSMSContacts();
     let smsjson = {
+      departure_id: this.departureid,
       message: this.smsMessage,
       publishnotification: this.publishNotification, 
       to: smsclients
