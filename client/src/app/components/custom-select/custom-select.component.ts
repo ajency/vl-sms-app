@@ -5,6 +5,7 @@ import { SelectItem } from './select-item';
 import { stripTags } from './select-pipes';
 import { OptionsBehavior } from './select-interfaces';
 import { escapeRegexp } from './common';
+import { SimpleChange } from '@angular/core/src/change_detection/change_detection_util';
 
 @Component({
   selector: 'custom-select',
@@ -210,9 +211,16 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     this.typed.emit(this.inputValue);
   }
 
+  private _loader: any;
   public ngOnInit(): any {
     this.behavior = (this.firstItemHasChildren) ?
       new ChildrenBehavior(this) : new GenericBehavior(this);
+
+      this._setloader();
+  }
+
+  private _setloader(){
+    this._loader = this.element.nativeElement.querySelector(".content-loader.align-items-center.d-flex.justify-content-center");
   }
 
   public remove(item: SelectItem): void {
@@ -400,22 +408,44 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     }
     
     this.loadingItems = false;
+    // this._setloader();
+    // this._loader ? this._loader.classList.add("d-none") : null;
+    // console.log("items:")
   }
 
-  // ngOnChanges(){
-  //   this._setpageIndices();
-  // }
+  ngOnChanges(changes){
+    // this._setpageIndices();
+
+    // for (let propName in changes) {
+    //   let chng = changes[propName];
+    //   // let cur  = JSON.stringify(chng.currentValue);
+    //   // let prev = JSON.stringify(chng.previousValue);
+    //   // console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
+
+    //   if(propName === 'items'){
+    //     if(chng.length){
+    //       // this._setloader();
+    //       this._loader ? this._loader.classList.add("d-none") : null;
+    //       console.log("hide loader", chng.length);
+    //     }
+    //   }
+    // }
+  }
 
   public loadingItems: boolean = false;
 
   public prevPage(){
     this.loadingItems = true;
+    // this._setloader();
+    // this._loader.classList.remove("d-none");
     console.log("page:", --this.pageIndex);
     this.onPrev.emit(this.pageIndex);
   }
 
   public nextPage(){
     this.loadingItems = true;
+    // this._setloader();
+    // this._loader.classList.remove("d-none");
     console.log("page:", ++this.pageIndex);
     this.onNext.emit(this.pageIndex);
   }
