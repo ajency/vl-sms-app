@@ -952,6 +952,9 @@ input[type="checkbox"].toggle__check {
 .ui-select-container .ui-select-choices-row.active .dropdown-item > div b {
   color: #fff;
 }
+.ui-select-container .ui-select-choices-row.active .dropdown-item span {
+  color: #fff;
+}
 .ui-select-container .ui-select-choices-row > a {
   padding: 8px 20px !important;
   border-bottom: 2px solid #eee;
