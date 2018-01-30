@@ -1029,6 +1029,9 @@ input[type="checkbox"].toggle__check {
 .custom-nav .counts {
   font-size: 0.8em;
 }
+.message-area {
+  overflow: hidden;
+}
 .content-loader {
   position: absolute;
   top: 0;
