@@ -10,7 +10,6 @@
 						#tripSelect
 						[items]="trips"
 						[active]="activeTrip"
-						[disabled]="trips.length == 0 || tripError != ''"
 						(data)="refreshValue($event)"
 						(selected)="tripSelected($event)"
 						(removed)="removed($event)"
@@ -26,7 +25,7 @@
 			</select> -->
 
 			<ng-select
-						showSearchInputInDropdown="false"
+						showSearchInputInDropdown="true"
 						[items]="departures"
 						[active]="activeDeparture"
 						[disabled]="departures.length == 0 || departureError != ''"
