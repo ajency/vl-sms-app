@@ -145,7 +145,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
         if (this.active.length > 0) {
           this.remove(this.active[this.active.length - 1]);
         }
-        e.preventDefault();
+        // e.preventDefault();
       }
     }
     // esc
@@ -199,10 +199,13 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     if (target && target.value) {
       this.inputValue = target.value;
       this.behavior.filter(new RegExp(escapeRegexp(this.inputValue), 'ig'));
-      this.doEvent('typed', this.inputValue);
+      // this.doEvent('typed', this.inputValue);
     } else {
+      this.inputValue = '';
       this.open();
     }
+    // console.log("emit inout event")
+    this.typed.emit(this.inputValue);
   }
 
   public ngOnInit(): any {
@@ -269,6 +272,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   public registerOnTouched(fn: () => {}): void { this.onTouched = fn; }
 
   protected matchClick(e: any): void {
+    console.log("match click")
     if (this._disabled === true) {
       return;
     }
@@ -276,10 +280,12 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     if (this.inputMode === true && ((this.multiple === true && e) || this.multiple === false)) {
       this.focusToInput();
       this.open();
+      this.typed.emit("");
     }
   }
 
   protected mainClick(event: any): void {
+    console.log("main click")
     if (this.inputMode === true || this._disabled === true) {
       return;
     }
