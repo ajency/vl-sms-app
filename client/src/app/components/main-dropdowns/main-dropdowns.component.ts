@@ -138,6 +138,26 @@ export class MainDropdownsComponent {
   public tripError: string;
   public selectIsOpen: boolean = false;
 
+  private _offset: number = 0;
+  
+  get offset(): number {
+    return this._offset;
+  }
+
+  set offset(offset: number) {
+    this._offset = offset;
+  }
+  
+  prevPage(){
+    this._offset--;
+    this.updateTrips('', true);
+  }
+
+  nextPage(){
+    this._offset++;
+    this.updateTrips('', true);
+  }
+
   updateTrips(inittripid: string = '', opendrop: boolean = false): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
       this.tripSub.unsubscribe();
@@ -150,8 +170,8 @@ export class MainDropdownsComponent {
 
     this.tripSub = this.api.getTrips({
                             search: inittripid ? this.tripcode : this._search,
-                            offset:0,
-                            // limit:10
+                            offset:this._offset,
+                            limit:10
                           }) 
                           .subscribe((res: any) => {
                             

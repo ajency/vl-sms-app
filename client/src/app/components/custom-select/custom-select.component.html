@@ -31,6 +31,16 @@
      <!-- options template -->
      <ul *ngIf="optionsOpened && options && options.length > 0 && !firstItemHasChildren"
           class="ui-select-choices dropdown-menu" role="menu">
+        <li *ngIf="pageCount < totalItems">
+          <button (click)="prevPage()">
+            Prev
+          </button>
+          <button (click)="nextPage()">
+            Next
+          </button>
+
+          <span>{{firstPage}}</span> to <span>{{lastPage}}</span> of <span>{{totalItems}}</span> results
+        </li>
         <li *ngFor="let o of options" role="menuitem">
           <div class="ui-select-choices-row"
                [class.active]="isActive(o)"

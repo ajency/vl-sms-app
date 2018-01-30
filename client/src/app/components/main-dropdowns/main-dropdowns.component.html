@@ -19,6 +19,11 @@
 			<custom-select
 			#tripSelect
 						[items]="trips"
+						[pageIndex]="offset + 1"
+						[pageCount]="trips.length"
+						totalItems="500"
+						(onPrev)="prevPage()"
+						(onNext)="nextPage()"
 						[active]="activeTrip"
 						(data)="refreshValue($event)"
 						(selected)="tripSelected($event)"
