@@ -236,10 +236,12 @@ class ExternalApiController extends Controller
 
                             } else if (strpos($cus_key, 'vl_phone') !== false) {
 
-                                $other_passenger_details['vl_phone'] = $cus_value['country_code'] . $cus_value['number'];
-                                if (!isset($other_passenger_details['vl_first_name'])) {
-                                    $other_passenger_details['vl_first_name'] = $other_passenger_details['vl_phone'];
-                                    $other_passenger_details['vl_last_name']  = '';
+                                if(isset( $cus_value['country_code']) && isset($cus_value['number'])){
+                                    $other_passenger_details['vl_phone'] = $cus_value['country_code'] . $cus_value['number'];
+                                    if (!isset($other_passenger_details['vl_first_name'])) {
+                                        $other_passenger_details['vl_first_name'] = $other_passenger_details['vl_phone'];
+                                        $other_passenger_details['vl_last_name']  = '';
+                                    }
                                 }
 
                             }
