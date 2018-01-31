@@ -30,7 +30,7 @@ export class MainDropdownsComponent {
 
   public trips: Array<any> = [];
   public departures: Array<any> = [];
-  public activeTrip: Array<{id: string, text: string}>; // reference for the trip select dropdown component
+  public activeTrip: Array<{id: string, text: string}> = []; // reference for the trip select dropdown component
 
   public tripSub: any;
   public depSub: any;
@@ -190,6 +190,7 @@ export class MainDropdownsComponent {
            
             
                             if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                              console.log("exact match")
                               // this.tripid = inittripid  ? inittripid : this.trips[0].id;
                               // this.activeTrip = [ this.trips[0] ];
                             }
@@ -415,15 +416,13 @@ export class MainDropdownsComponent {
 
   getTripMeta(){
     let meta = {};
-    this.trips.map((val) => {
-      if(val.id == this.tripid){
+    console.log("getTripMeta active trip: ", this.activeTrip, " tipid:  ", this.tripid);
+    this.activeTrip.map((val) => {
         meta['id'] = val['id'];
-
         let txtparts = val['text'].split(' - ');
         meta['code'] = this._stripBTag(txtparts[0]);
         meta['name'] = txtparts[1];
-      }
-    });
+    })
     return meta;
   }
 
@@ -451,7 +450,7 @@ export class MainDropdownsComponent {
 
   updateLocation(type: string){
     if(this._occurenceMatch){
-      console.log("############################################## url update ", type , this.frompage);
+      console.log("############################################## url update ", type , this.frompage, " active trip: ",this.activeTrip);
       let tripmeta = this.getTripMeta();
       let depmeta = this.getDepMeta();
 
