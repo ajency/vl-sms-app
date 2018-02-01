@@ -24,8 +24,7 @@
   margin-bottom: 0.5em;
 }
 .results-header__details {
-  color: #8d8e8f;
-  font-size: 0.9em;
+  font-size: 1.1em;
 }
 .results-header .date-range:before {
   content: '';
@@ -33,7 +32,8 @@
   width: 4px;
   height: 4px;
   background-color: #8d8e8f;
-  border-radius: 50%;
+  -moz-border-radius: 50%;
+       border-radius: 50%;
   position: relative;
   vertical-align: middle;
   margin-right: 5px;
@@ -62,6 +62,8 @@ main-dropdowns {
   padding-left: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
+  font-size: 0.9em;
+  color: #373E55;
 }
 .notification-element:nth-child(odd) {
   background: #fafafa;
@@ -72,7 +74,9 @@ main-dropdowns {
 }
 .notification-time {
   color: #b3b0b0;
-  font-size: 0.8rem;
+  color: #969BA7;
+  text-transform: uppercase;
+  font-size: 0.75rem;
 }
 @media screen and (max-width: 480px) {
   .no-data {
@@ -100,16 +104,12 @@ main-dropdowns {
 }
 @media screen and (min-width: 480px) and (max-width: 769px) {
   .vl-participants__data {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-    -ms-flex-direction: column;
-    flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+         flex-direction: column;
   }
   .passenger-data,
   .compose-msg {
     max-width: 100%;
   }
 }
-/*# sourceMappingURL=default.component.css.map */
-/*# sourceMappingURL=sms-notification.component.css.map */

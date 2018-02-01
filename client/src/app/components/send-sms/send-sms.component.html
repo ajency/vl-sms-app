@@ -13,10 +13,10 @@
     <label class="x-small text-color m-b-0 cursor-pointer d-flex"><input type="checkbox" (change)="publishNotification = !publishNotification" class="fnb-checkbox checkbox"> Publish notification on the website</label>
   </div>
   <div class="send-message">
-    <button [disabled]="!smsMessage || !validContacts" (click)="sendSMS()" type="button" [ngClass]="{'secondary-btn': !smsError, 'danger-btn': smsError}" class="btn vl-btn secondary-btn text-uppercase lighter fullwidth">
-      <i class="fa fa-circle-o-notch fa-spin mr-1" [ngClass]="{'d-none': !sendingSMS}" ></i> 
+    <button [disabled]="!smsMessage || !validContacts" (click)="sendSMS()" type="button" [ngClass]="{'secondary-btn': !smsError, 'danger-btn': smsError}" class="btn vl-btn secondary-btn text-uppercase  fullwidth">
+      <i class="fa fa-circle-o-notch fa-spin mr-1" [ngClass]="{'d-none': !sendingSMS}" ></i>
       <i class="fa fa-check pr-1 success-icon" [ngClass]="{'d-none': !sentSMS || sendingSMS || smsError}"  aria-hidden="true"></i>
-      <i class="fa fa-times pr-1 failure-icon" [ngClass]="{'d-none': !smsError}" aria-hidden="true"></i> 
+      <i class="fa fa-times pr-1 failure-icon" [ngClass]="{'d-none': !smsError}" aria-hidden="true"></i>
         <span *ngIf="!smsError && !sentSMS" >Send message</span>
         <span *ngIf="!smsError && sentSMS" >Request successful</span>
         <span *ngIf="smsError" >Request Failed! Please try again.</span>
