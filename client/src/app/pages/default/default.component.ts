@@ -14,6 +14,7 @@ export class DefaultComponent implements OnInit {
 
   public passengerResource;
   participants = [];
+  public smsParticipants: Array<any> = [];
   public participantCount = 0;
 
   @ViewChild(DataTable) carsTable: DataTable;
@@ -100,6 +101,7 @@ export class DefaultComponent implements OnInit {
 
   reloadItems(params) {
     console.log("reload cars",params)
+    this.smsParticipants = [];
     this.passengerResource.query(params).then((data) => {
       this.participants = data;
       this.participantCount = data.length;
@@ -119,14 +121,38 @@ export class DefaultComponent implements OnInit {
     this.reloadItems({});
   }
   
-  updateRows(passenger,event) {
-    if(this.statusFilter && this.statusFilter !== 'all'){
-      return passenger.booking_status !== this.statusFilter ? {'d-none': true} : {};
-    }
-    else{
-      return {}
-    }
+
+
+  updateRows(passenger,event): any {
+    // console.log("update ros:", this.statusFilter)
+    // if(this.statusFilter && this.statusFilter !== 'all'){
+    //   if(passenger.booking_status !== this.statusFilter){
+    //     return {'d-none': true};
+    //   }
+    //   else{
+    //     this._setsmsParticipants(passenger);
+    //     return {};
+    //   }
+    // }
+    // else{
+    //   this._setsmsParticipants(passenger);
+    //   return {}
+    // }
   }
+
+  private _setsmsParticipants(passenger){
+    let partfound = this.smsParticipants.find((val) => {
+      return JSON.stringify(val) === JSON.stringify(passenger);
+    });
+
+    if(!partfound){
+      this.smsParticipants.push(passenger);
+    }
+
+  }
+
+
+
 
   public checkUpdate: boolean = true; // trigger change detection in send-sms-component
 
