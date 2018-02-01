@@ -240,19 +240,22 @@ class ExternalApiController extends Controller
                         }
                     }
 
+                    $final_additional_primary_data=array();
                     if (!empty($additional_primary_details)) {
-                        $final_additional_primary_data = [
-                            "booking_id"        => $dvalue['booking_ref'],
-                            "booking_ref_url"   => $booking_ref_url,
-                            "passenger_name"    => $additional_primary_details['vl_first_name'] . ' ' . $additional_primary_details['vl_last_name'],
-                            "primary"           => false,
-                            "phone_no"          => isset($additional_primary_details['vl_phone']) ? $additional_primary_details['vl_phone'] : "",
-                            "phone_type"        => '',
-                            "booking_status"    => $booking_status,
-                            "redundant_contact" => '',
-                        ];
+                            if($additional_primary_details['vl_first_name']!=''){
+                            $final_additional_primary_data = [
+                                "booking_id"        => $dvalue['booking_ref'],
+                                "booking_ref_url"   => $booking_ref_url,
+                                "passenger_name"    => $additional_primary_details['vl_first_name'] . ' ' . $additional_primary_details['vl_last_name'],
+                                "primary"           => false,
+                                "phone_no"          => isset($additional_primary_details['vl_phone']) ? $additional_primary_details['vl_phone'] : "",
+                                "phone_type"        => '',
+                                "booking_status"    => $booking_status,
+                                "redundant_contact" => '',
+                            ];
 
-                        $final_data[] = $final_additional_primary_data;
+                            $final_data[] = $final_additional_primary_data;
+                        }
 
                     }
                 }
@@ -302,21 +305,25 @@ class ExternalApiController extends Controller
                             }
 
                         }
+
+                        $final_other_passenger_data=array();
                         if (!empty($other_passenger_details)) {
-                            $final_other_passenger_data = [
-                                "booking_id"        => $dvalue['booking_ref'],
-                                "booking_ref_url"   => $booking_ref_url,
-                                "passenger_name"    => $other_passenger_details['vl_first_name'] . ' ' . $other_passenger_details['vl_last_name'],
-                                "primary"           => false,
-                                "phone_no"          => isset($other_passenger_details['vl_phone']) ? $other_passenger_details['vl_phone'] : "",
-                                "phone_type"        => isset($other_passenger_details['vl_phone_type'])?$other_passenger_details['vl_phone_type']:"",
-                                "booking_status"    => $booking_status,
-                                "redundant_contact" => "",
-                            ];
+                            if($other_passenger_details['vl_first_name'] !=''){
+                                $final_other_passenger_data = [
+                                    "booking_id"        => $dvalue['booking_ref'],
+                                    "booking_ref_url"   => $booking_ref_url,
+                                    "passenger_name"    => $other_passenger_details['vl_first_name'] . ' ' . $other_passenger_details['vl_last_name'],
+                                    "primary"           => false,
+                                    "phone_no"          => isset($other_passenger_details['vl_phone']) ? $other_passenger_details['vl_phone'] : "",
+                                    "phone_type"        => isset($other_passenger_details['vl_phone_type'])?$other_passenger_details['vl_phone_type']:"",
+                                    "booking_status"    => $booking_status,
+                                    "redundant_contact" => "",
+                                ];
 
-                            // if ( ($final_other_passenger_data['phone_no'] != $primary_contact_person['phone_no']) || ( isset($primary_alt_contact['phone_no']) and $final_other_passenger_data['phone_no'] != $primary_alt_contact['phone_no']) ){
+                                // if ( ($final_other_passenger_data['phone_no'] != $primary_contact_person['phone_no']) || ( isset($primary_alt_contact['phone_no']) and $final_other_passenger_data['phone_no'] != $primary_alt_contact['phone_no']) ){
 
-                            $final_data[] = $final_other_passenger_data;
+                                $final_data[] = $final_other_passenger_data;
+                            }
 
                             // }
                         }
