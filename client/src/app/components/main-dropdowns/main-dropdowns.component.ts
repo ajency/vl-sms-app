@@ -75,14 +75,14 @@ export class MainDropdownsComponent {
         }
       }
       else{
-        this.tripid = '';
+        this._resettripid();
       }
 
       if(params['departure_id']){
         this.departureid = params['departure_id'];
       }
       else{
-        this.departureid = '';
+        this._resetdepid();
       }
 
       let exact = this._matchUrl('exact');
@@ -131,6 +131,7 @@ export class MainDropdownsComponent {
 
   public tripPageCount: number = 0;
   public tripTotalCount: number = 0;
+  public tripRequestComplete: boolean = false;
 
   private _offset: number = 0;
   private _limit: number = 10;
@@ -167,10 +168,14 @@ export class MainDropdownsComponent {
     this.trips = [];
     this._asynctrips.next(this.trips);
 
+    this.tripRequestComplete = false;
     this.tripSub = this.api.getTrips({
                             search: inittripid ? this.tripcode : this._search,
                             offset:this._offset,
                             limit: this._limit
+                          })
+                          .finally(() =>{
+                            this.tripRequestComplete = true;
                           }) 
                           .subscribe((res: any) => {
                             
@@ -209,7 +214,7 @@ export class MainDropdownsComponent {
                                 }
                                 else{
                                   this.tripError = "Could not find trip specified!";
-                                  this.tripid = '';
+                                  this._resettripid();
                                   this.onError.emit(this.tripError);
                                 }
                               }
@@ -295,7 +300,7 @@ export class MainDropdownsComponent {
   }
 
   updateDepartures(initdepid: string = ''): void{ // gets the data for the 2nd select dropdown for the departure
-    this.departureid = '';
+    this._resetdepid();
     this.departures = [];
     this.departureError = '';
 
@@ -329,7 +334,7 @@ export class MainDropdownsComponent {
                                 this.onError.emit('');
                               }
                               else{
-                                this.departureid = ''; // set this because its n ng model
+                                this._resetdepid(); // set this because its n ng model
                                 this.departureError = 'No departure found';
                                 this.onError.emit("No departures found for trip!");
                               }
@@ -344,7 +349,7 @@ export class MainDropdownsComponent {
                                 }
                                 else{
                                   this.departureError = 'Invalid departure for selected trip';
-                                  this.departureid = '';
+                                  this._resetdepid();
                                   this.onError.emit(this.departureError);
                                 }
                                 this.updateLocation('departure');
@@ -516,8 +521,24 @@ export class MainDropdownsComponent {
     this.onDepartureUpdate();
   }
 
-  removed(data){
-    console.log("removed:", data);
+  tripRemoved(data){
+    console.log("trip removed:", data);
+    this._resettripid();
+    this._resetdepid();
+    this.departures = [];
+  }
+
+  departureRemoved(data){
+    console.log("departure removed:", data);
+    this._resetdepid();
+  }
+
+  private _resettripid(){
+    this.tripid = '';
+  }
+
+  private _resetdepid(){
+    this.departureid = '';
   }
 
   private _unsubscribeSearch(){

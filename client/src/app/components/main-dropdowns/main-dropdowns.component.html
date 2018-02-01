@@ -6,19 +6,10 @@
 				<option *ngFor="let option of trips" [value]="option.id">{{option.code}} - {{option.name}}</option>
 			</select> -->
 
-			<!-- <ng-select
-						#tripSelect
-						[items]="trips"
-						[active]="activeTrip"
-						(data)="refreshValue($event)"
-						(selected)="tripSelected($event)"
-						(removed)="removed($event)"
-						(typed)="typed($event)"
-						[placeholder]="tripError ? 'No trip found' : 'Select a tour'">
-			</ng-select> -->
 			<custom-select
 						#tripSelect
 						[items]="trips"
+						[noMatches]="tripRequestComplete && tripTotalCount == 0"
 						[pageIndex]="page"
 						[pageCount]="limit"
 						[totalItems]="tripTotalCount"
@@ -27,7 +18,7 @@
 						[active]="activeTrip"
 						(data)="refreshValue($event)"
 						(selected)="tripSelected($event)"
-						(removed)="removed($event)"
+						(removed)="tripRemoved($event)"
 						(typed)="typed($event)"
 						[placeholder]="tripError ? 'No trip found' : 'Select a tour'"
 			>
@@ -46,6 +37,7 @@
 						[active]="activeDeparture"
 						[disabled]="departures.length == 0 || departureError != ''"
 						(selected)="depSelected($event)"
+						(removed)="departureRemoved($event)"
 						[placeholder]="departureError ? 'No departure found' : 'Select a departure'">
 			</custom-select>
 		</div>

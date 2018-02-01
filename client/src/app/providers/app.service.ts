@@ -60,7 +60,7 @@ export class AppService {
 
   public logout(){
     this.localstorage.remove("token");
-    this.router.navigate(['/login']);
+    this.router.navigate(['/admin']);
   }
 
   public searchFilter(callback: any = (model: string) => {return model;}): any{
@@ -86,6 +86,16 @@ export class AppService {
       terms: searchterms,
       triggersearch: (value) => { value.trim(); searchterms.next(value); }
     }
+  }
+
+  public filterParticipants(participants: Array<any>): Array<any>{
+    let filteredparticipants = participants.filter((val)=>{
+      let dups = participants.filter((bval) => bval.booking_id === val.booking_id);
+      val.redundant_contact = val.redundant_contact === '' && dups.length > 1 ? true : false;
+      return val.phone_no ? true : false;
+    });
+
+    return filteredparticipants;
   }
 
 }

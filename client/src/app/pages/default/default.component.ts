@@ -54,18 +54,21 @@ export class DefaultComponent implements OnInit {
     console.log("initdatatable:",event);
     this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
 
-    if(event.response.data && event.response.data.length){
-      this.errorMessage = '';
+    if(event.response && event.response.data){
 
-      this.passengerResource = new DataTableResource(event.response.data);
-      // this.passengerResource.count().then(count => this.participantCount = count);
-      this.reloadItems({});
-      
-      this.tripDetails = event['trip_details'];
-      this.depDetails = event['dep_details'];
+      if(event.response.data.length){
+        this.errorMessage = '';
 
-      this.participantsAvailable = true;
-
+        this.passengerResource = new DataTableResource(this.app.filterParticipants(event.response.data));
+        // this.passengerResource.count().then(count => this.participantCount = count);
+        this.reloadItems({});
+        this.tripDetails = event['trip_details'];
+        this.depDetails = event['dep_details'];  
+        this.participantsAvailable = true;
+      }
+      else{
+        this.errorMessage = 'No Data!';  
+      }
     }
     else if(typeof event.response === 'string'){
       this.errorMessage = globals.serverErrMsg;

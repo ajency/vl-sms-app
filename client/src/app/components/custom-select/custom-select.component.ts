@@ -38,6 +38,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   @Input() pageIndex: number;
   @Input() pageCount: number;
   @Input() totalItems: number;
+  @Input() noMatches: boolean;
 
   @Input()
   public set items(value: Array<any>) {
@@ -53,6 +54,10 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     }
 
     this._setpageIndices();
+  }
+
+  public get items(){
+    return this._items;
   }
 
   @Input()
@@ -208,7 +213,10 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
       this.open();
     }
     // console.log("emit inout event")
+
     this.typed.emit(this.inputValue);
+
+    this._showLoader();
   }
 
   private _loader: any;
@@ -408,9 +416,6 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     }
     
     this.loadingItems = false;
-    // this._setloader();
-    // this._loader ? this._loader.classList.add("d-none") : null;
-    // console.log("items:")
   }
 
   ngOnChanges(changes){
@@ -424,8 +429,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
       if(propName === 'items'){
         // console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
         if(chng.currentValue.length && chng.previousValue.length === 0){
-          // this._setloader();
-          this._loader ? this._loader.classList.add("d-none") : null;
+          this._hideLoader();
           console.log("hide loader", chng.length);
         }
       }
@@ -434,9 +438,19 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   public loadingItems: boolean = false;
 
+  private _showLoader(){
+    this._setloader();
+    this._loader ? this._loader.classList.remove("d-none") : null;
+  }
+
+  private _hideLoader(){
+    this._setloader();
+    this._loader ? this._loader.classList.add("d-none") : null;
+  }
+
   public prevPage(){
     this.loadingItems = true;
-    this._setloader();
+    this._showLoader();
     this._loader.classList.remove("d-none");
     console.log("page:", --this.pageIndex);
     this.onPrev.emit(this.pageIndex);
@@ -444,7 +458,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   public nextPage(){
     this.loadingItems = true;
-    this._setloader();
+    this._hideLoader();
     this._loader.classList.remove("d-none");
     console.log("page:", ++this.pageIndex);
     this.onNext.emit(this.pageIndex);
