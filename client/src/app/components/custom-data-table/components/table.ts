@@ -42,6 +42,7 @@ export class DataTable implements DataTableParams, OnInit {
     @Input() indexColumn = true;
     @Input() indexColumnHeader = '';
     @Input() rowColors: RowCallback;
+    @Input() rowClasses: RowCallback;
     @Input() rowTooltip: RowCallback;
     @Input() selectColumn = false;
     @Input() multiSelect = true;
@@ -267,6 +268,12 @@ export class DataTable implements DataTableParams, OnInit {
     getRowColor(item: any, index: number, row: DataTableRow) {
         if (this.rowColors !== undefined) {
             return (<RowCallback>this.rowColors)(item, row, index);
+        }
+    }
+
+    getRowClasses(item: any, index: number, row: DataTableRow) {
+        if (this.rowClasses !== undefined) {
+            return (<RowCallback>this.rowClasses)(item, row, index); // should return ngClass type object
         }
     }
 

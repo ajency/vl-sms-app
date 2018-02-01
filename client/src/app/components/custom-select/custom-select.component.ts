@@ -420,19 +420,24 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
 
   ngOnChanges(changes){
     // this._setpageIndices();
+    try{
+      for (let propName in changes) {
+        let chng = changes[propName];
+        // let cur  = JSON.stringify(chng.currentValue);
+        // let prev = JSON.stringify(chng.previousValue);
 
-    for (let propName in changes) {
-      let chng = changes[propName];
-      // let cur  = JSON.stringify(chng.currentValue);
-      // let prev = JSON.stringify(chng.previousValue);
+        if(propName === 'items'){
+          // console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
 
-      if(propName === 'items'){
-        // console.log(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
-        if(chng.currentValue.length && chng.previousValue.length === 0){
-          this._hideLoader();
-          console.log("hide loader", chng.length);
+            if(chng.currentValue.length && chng.previousValue.length === 0){
+              this._hideLoader();
+              console.log("hide loader", chng.length);
+            }
         }
       }
+    }
+    catch(e){
+      console.warn(e);
     }
   }
 

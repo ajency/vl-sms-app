@@ -57,6 +57,17 @@
 
 		<div *ngIf="participantsAvailable" class="col-sm-8 passenger-data">
 			<!-- Datables -->
+			<div>
+				<custom-select
+							showSearchInputInDropdown="true"
+							[items]="statuses"
+							[active]="activeStatus"
+							(selected)="filterStatus($event)"
+							(removed)="statusRemoved($event)"
+							placeholder="Filter by status">
+				</custom-select>
+			</div>
+
 			<data-table
 				[items]="participants"
 				[itemCount]="participantCount"
@@ -69,7 +80,7 @@
 				[indexColumn]="false"
 				[selectColumn]="true"
 				[multiSelect]="true"
-				[rowColors]="updateRows"
+				[rowClasses]="updateRows"
 				class="passenger-data__details"
 				>
 				<data-table-column

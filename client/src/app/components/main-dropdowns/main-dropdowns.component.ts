@@ -284,7 +284,7 @@ export class MainDropdownsComponent {
 
         let endmonth = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat),  'MMM');
 
-        text = `<span class="">${startday} ${startmonth}</span> <span class="text-lighter">to</span> <span class="">${endday} ${endmonth}</span>`
+        text = `<span class=""><b>${startday}</b> ${startmonth}</span> <span class="text-lighter">to</span> <span class=""><b>${endday}</b> ${endmonth}</span>`
       }
 
       departures.push({

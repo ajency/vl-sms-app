@@ -2,7 +2,7 @@ import { DataTableRow } from './row';
 import { DataTableColumn } from './column';
 
 
-export type RowCallback = (item: any, row: DataTableRow, index: number) => string;
+export type RowCallback = (item: any, row: DataTableRow, index: number) => any;
 
 export type CellCallback = (item: any, row: DataTableRow, column: DataTableColumn, index: number) => string;
 

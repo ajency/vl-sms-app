@@ -30,6 +30,9 @@ export class DefaultComponent implements OnInit {
   public dateFormat: string;
   public errorMessage: string;
 
+  public activeStatus: any;
+  public statuses = [{id: "confirmed", text: 'Confirmed'} , {id:"pending_confirmation", text: "Pending confirmation" }, {id: "pending_inquiry", text: "Pending Inquiry"}, {id: "cancelled", text: 'Cancelled'}, {id: "rejected", text: "Rejected"}, {id: "unconfirmed", text: "Unconfirmed"}, {id: "incomplete", text: "Incompleted" }, {id: "cart_abandoned", text: "Cart abandoned" } ];
+
   public loadingParticipants: boolean = false;
 
   constructor(private api: ApiService, private element: ElementRef, private router: Router, private app: AppService) {
@@ -51,17 +54,21 @@ export class DefaultComponent implements OnInit {
   }
 
   initDatatable(event: any = {}){
+
     console.log("initdatatable:",event);
     this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
 
     if(event.response && event.response.data){
 
       if(event.response.data.length){
+        // this.activeStatus = [];
+
         this.errorMessage = '';
 
         this.passengerResource = new DataTableResource(this.app.filterParticipants(event.response.data));
         // this.passengerResource.count().then(count => this.participantCount = count);
-        this.reloadItems({});
+        this.statusRemoved();
+
         this.tripDetails = event['trip_details'];
         this.depDetails = event['dep_details'];  
         this.participantsAvailable = true;
@@ -93,15 +100,26 @@ export class DefaultComponent implements OnInit {
     });
   }
 
-  yearLimit = 1999;
+  public statusFilter = "";
+  public filterStatus(status){
+    this.activeStatus = [status];
+    this.statusFilter = status.id;
+    this.reloadItems({});
+  }
 
+  public statusRemoved(){
+    this.activeStatus = [];
+    this.statusFilter = "";
+    this.reloadItems({});
+  }
+  
   updateRows(passenger,event) {
-      // console.log('rowcolor:', passenger,event);
-
-      // if (passenger.redundant) {
-      //   passenger.disabled = true; //disable the checkbox for a row without mobile from self
-      //   return 'rgba(0, 0, 0, 0.1)';
-      // }
+    if(this.statusFilter){
+      return passenger.booking_status !== this.statusFilter ? {'d-none': true} : {};
+    }
+    else{
+      return {}
+    }
   }
 
   public checkUpdate: boolean = true; // trigger change detection in send-sms-component
