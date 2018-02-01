@@ -91,7 +91,7 @@ export class AppService {
   public filterParticipants(participants: Array<any>): Array<any>{
     let filteredparticipants = participants.filter((val)=>{
       let dups = participants.filter((bval) => bval.booking_id === val.booking_id);
-      val.redundant_contact = val.redundant_contact === '' && dups.length > 1 ? true : false;
+      // val.redundant_contact = val.redundant_contact === '' && dups.length > 1 ? true : false;
       return val.phone_no ? true : false;
     });
 
