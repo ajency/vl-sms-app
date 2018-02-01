@@ -43,6 +43,7 @@ export class DataTable implements DataTableParams, OnInit {
     @Input() indexColumnHeader = '';
     @Input() rowColors: RowCallback;
     @Input() rowClasses: RowCallback;
+    @Input() renderRow: RowCallback;
     @Input() rowTooltip: RowCallback;
     @Input() selectColumn = false;
     @Input() multiSelect = true;
@@ -274,6 +275,15 @@ export class DataTable implements DataTableParams, OnInit {
     getRowClasses(item: any, index: number, row: DataTableRow) {
         if (this.rowClasses !== undefined) {
             return (<RowCallback>this.rowClasses)(item, row, index); // should return ngClass type object
+        }
+    }
+
+    getRowRender(item: any, index: number, row: DataTableRow) {
+        if (this.renderRow !== undefined) {
+            return (<RowCallback>this.renderRow)(item, row, index); // should return boolean
+        }
+        else{
+            return true;
         }
     }
 
