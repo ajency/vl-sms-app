@@ -124,20 +124,6 @@ export class DefaultComponent implements OnInit {
 
 
   updateRows(passenger,event): any {
-    // console.log("update ros:", this.statusFilter)
-    // if(this.statusFilter && this.statusFilter !== 'all'){
-    //   if(passenger.booking_status !== this.statusFilter){
-    //     return {'d-none': true};
-    //   }
-    //   else{
-    //     this._setsmsParticipants(passenger);
-    //     return {};
-    //   }
-    // }
-    // else{
-    //   this._setsmsParticipants(passenger);
-    //   return {}
-    // }
   }
 
   private _setsmsParticipants(passenger){
