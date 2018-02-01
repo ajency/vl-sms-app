@@ -13,6 +13,9 @@
 			</div>
 			<div class="col-sm-4 text-center text-sm-right align-self-center back-row d-flex justify-content-between justify-content-sm-end">
 				<a href="http://app.vacationlabs.com" class="back-link cloud-color thinner m-r-20"><i class="fa fa-angle-left p-r-5 label-size" aria-hidden="true"></i> Back to the app</a>
+				<a href="/sms-notifications" class="">
+					<i class="fa fa-comments-o cursor-pointer sms-notif-link m-r-20" title="SMS Notifications"></i>
+				</a>
 				<i (click)="logOut($event)" class="fa fa-power-off cursor-pointer power-off" data-toggle="tooltip" data-placement="bottom" title="Logout"></i>
 			</div>
 		</div>
@@ -38,11 +41,28 @@
 		<!-- Results -->
 		<div *ngIf="participantsAvailable" class="col-sm-12 mb-2">
 			<div class="results-header pt-3 pb-3">
-				<h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails && tripDetails.name ? tripDetails.name : naText}}</h5>
-				<ul class="d-flex text-medium results-header__details">
-					<li class="pr-2"><b>{{tripDetails && tripDetails.code ? tripDetails.code : naText}}</b></li>
-					<li class="lighter date-range" [innerHTML]="depDetails.text || naText"></li>
-				</ul>
+				<div class="row">
+				  <div class="col-sm-5">
+					<h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails && tripDetails.name ? tripDetails.name : naText}}</h5>
+					<ul class="d-flex text-medium results-header__details">
+						<li class="pr-2"><b>{{tripDetails && tripDetails.code ? tripDetails.code : naText}}</b></li>
+						<li class="lighter date-range" [innerHTML]="depDetails.text || naText"></li>
+					</ul>
+				  </div>
+				  <div class="col-sm-3">
+				  	    <div class="lighter">
+				  	    	<small >Filter by status</small>
+				  	    </div>
+				  		<custom-select
+				  					showSearchInputInDropdown="true"
+				  					[items]="statuses"
+				  					[active]="activeStatus"
+				  					(selected)="filterStatus($event)"
+				  					(removed)="statusRemoved($event)"
+				  					placeholder="Filter by status">
+				  		</custom-select>
+				  </div>
+				</div>
 			</div>
 		</div>
 
@@ -56,17 +76,9 @@
 		<!-- loader -->
 
 		<div *ngIf="participantsAvailable" class="col-sm-8 passenger-data">
+
+
 			<!-- Datables -->
-			<div>
-				<custom-select
-							showSearchInputInDropdown="true"
-							[items]="statuses"
-							[active]="activeStatus"
-							(selected)="filterStatus($event)"
-							(removed)="statusRemoved($event)"
-							placeholder="Filter by status">
-				</custom-select>
-			</div>
 
 			<data-table
 				[items]="participants"
@@ -92,12 +104,12 @@
 							<div class="d-flex">
 								<div class="ellipsis" title="{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}}">{{ (item.passenger_name ? item.passenger_name : naText) | titleCase}} </div><span [hidden]="!item.primary" data-toggle="tooltip" data-placement="top" title="Primary booking contact" onmouseenter="$(this).tooltip('show')">
 									<i class="fa fa-star text-warning p-l-5" aria-hidden="true"></i>
-								</span>	
+								</span>
 							</div>
 						</div>
 					</ng-template>
 				</data-table-column>
-				
+
 				<data-table-column
 				property="phone_no"
 				header="Phone No.">
@@ -108,19 +120,19 @@
 						</div>
 					</ng-template>
 				</data-table-column>
-				
+
 				<data-table-column
 				property="booking_id"
 				header="Booking ID"
 				sortable="true">
 					<ng-template #dataTableCell let-item="item">
 						<span [ngClass]="{'d-none': item['redundant_contact']}" class="booking-id">
-							{{item.booking_id ? item.booking_id : naText}} 
+							{{item.booking_id ? item.booking_id : naText}}
 							<a [href]="item.booking_ref_url || ''" target="_blank"><i class="fa fa-external-link external-link p-l-5" aria-hidden="true"></i></a>
 						</span>
 					</ng-template>
 				</data-table-column>
-				
+
 				<data-table-column
 				property="booking_status"
 				header="Booking Status"
@@ -130,7 +142,7 @@
 						<span class="status-label" [ngClass]="{'d-none': item['redundant_contact'], 'confirmed': item.booking_status == 'confirmed', 'pending': item.booking_status != 'confirmed'}">{{ ( item.booking_status ? item.booking_status : naText ) | titleCase}}</span>
 					</ng-template>
 				</data-table-column>
-				
+
 				<!-- <data-table-column
 				header="Actions">
 				<ng-template #dataTableHeader let-item="item">
@@ -140,7 +152,7 @@
 					<button (click)="carClicked(item)" class="btn btn-sm btn-default">Buy</button>
 				</ng-template>
 				</data-table-column> -->
-			
+
 			</data-table>
 		</div>
 		<div [ngClass]="{'col-sm-4': participantsAvailable, 'compose-msg': participantsAvailable}">
