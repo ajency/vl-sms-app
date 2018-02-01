@@ -99,7 +99,7 @@ export class AppService {
   }
 
   public getStatuses(participants: Array<any>): Array<any>{
-    let statuses = []
+    let statuses = [{id: 'all', text: 'All'}]
     participants.map((val) => {
       if(val.booking_status){
         if(statuses.find(sval => sval.id === val.booking_status) === undefined){

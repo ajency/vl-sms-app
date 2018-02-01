@@ -120,7 +120,7 @@ export class DefaultComponent implements OnInit {
   }
   
   updateRows(passenger,event) {
-    if(this.statusFilter){
+    if(this.statusFilter && this.statusFilter !== 'all'){
       return passenger.booking_status !== this.statusFilter ? {'d-none': true} : {};
     }
     else{
