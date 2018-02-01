@@ -23,8 +23,9 @@
           <div class="col-sm-8 align-self-center">
               <h5 class="vl-logo m-b-0"><img src="./assets/img/sms-notifcation-logo.png" width="120"></h5>
           </div>
-          <div class="col-sm-4 text-center align-self-center">
-              <h3 class="mb-0 text-medium">SMS Notifications</h3>
+          <div class="col-sm-4 text-right align-self-center">
+            <a href="/admin" class="btn btn-sm text-primary">Admin <i class="fa fa-lock"></i></a>
+              <h5 class="mb-0 text-medium">SMS Notifications</h5>
           </div>
       </div>
       <div class="row vl-participant__filter">
@@ -40,7 +41,7 @@
             <p class="label-size m-b-0 text-lighter" [hidden]="!errorMessage">{{errorMessage}}</p>
           </div>
         </div>
-  
+
 
         <!-- Results -->
         <div *ngIf="notifications.length" class="col-sm-12 mb-2">

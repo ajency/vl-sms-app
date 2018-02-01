@@ -52,6 +52,10 @@ main-dropdowns {
   font-size: 1.5em;
   color: #f11717;
 }
+.sms-notif-link {
+  font-size: 1.6em;
+  color: #71abcf;
+}
 @media screen and (max-width: 480px) {
   .no-data {
     min-height: 60vh;
