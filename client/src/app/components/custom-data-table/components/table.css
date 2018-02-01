@@ -84,15 +84,15 @@
 }
 
 .column-header {
-  font-weight: 500;
-  font-size: 0.8em;
+  font-weight: 600;
+  font-size: 0.75em;
   text-transform: uppercase;
   color: #8d8e8f;
 }
 
 @media screen and (max-width: 500px){
   .column-header{
-    min-width: 140px;  
+    min-width: 140px;
   }
 }
 
@@ -107,7 +107,7 @@ input[type="checkbox"]:before{
   .data-table{
     white-space: nowrap;
     table-layout: auto;
-  }  
+  }
 }
 
 .glyphicon{
@@ -121,7 +121,7 @@ input[type="checkbox"]:before{
 }
 
 .glyphicon-triangle-bottom:before{
-  content: "\f0dd";  
+  content: "\f0dd";
 }
 
 .glyphicon-triangle-top:before{

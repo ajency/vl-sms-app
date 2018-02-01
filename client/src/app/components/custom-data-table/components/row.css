@@ -13,7 +13,7 @@
 
 .data-column{
 	font-weight: 400;
-    font-size: 0.85em;
+    font-size: 0.9em;
 	padding: .35rem .5rem;
 	border-right: 0;
 	border-left: 0;
@@ -21,13 +21,13 @@
 
 .select-column{
 	border-right: 0;
-	border-left: 0;	
+	border-left: 0;
 }
 
 
 .column-booking_id{
 	color: #8d8e8f;
-	font-weight: 300;
+	font-weight: 400;
 }
 
 .data-table-row{

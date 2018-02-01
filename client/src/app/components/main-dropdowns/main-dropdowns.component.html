@@ -24,7 +24,7 @@
 			>
 			</custom-select>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-4 date-select">
 			<!-- <select class="vl-select departure" placeholder="Select a departure" [(ngModel)]="departureid" (change)="onDepartureUpdate()" [disabled]="departures.length == 0 || departureError != ''">
 				<option value="" disabled="true" *ngIf="!departureError" [selected]="departureid == ''">Select a departure</option>
 				<option value="" disabled="true" *ngIf="departureError" [selected]="departureError != ''">No departure found</option>
@@ -42,6 +42,6 @@
 			</custom-select>
 		</div>
 		<div class="col-sm-4 filter-action mt-2 mt-sm-0" [hidden]="exactPath == 'sms-notifications'">
-			<button [disabled]="!departureid" (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase lighter show-participant">Show Participants</button>
+			<button [disabled]="!departureid" (click)="triggerOutput()" type="button" class="btn vl-btn primary-btn text-uppercase show-participant">Show Participants</button>
 		</div>
 	</div>

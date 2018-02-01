@@ -20,7 +20,7 @@
   margin-bottom: 0.5em;
 }
 .results-header__details {
-  color: #8d8e8f;
+  color: #878b91;
   font-size: 0.9em;
 }
 .results-header__details b {
@@ -31,8 +31,9 @@
   display: inline-block;
   width: 4px;
   height: 4px;
-  background-color: #8d8e8f;
-  border-radius: 50%;
+  background-color: #878b91;
+  -moz-border-radius: 50%;
+       border-radius: 50%;
   position: relative;
   vertical-align: middle;
   margin-right: 5px;
@@ -79,15 +80,17 @@ main-dropdowns {
 }
 @media screen and (min-width: 480px) and (max-width: 769px) {
   .vl-participants__data {
-    -webkit-box-orient: vertical;
-    -webkit-box-direction: normal;
-    -webkit-flex-direction: column;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -moz-box-orient: vertical;
+    -moz-box-direction: normal;
+         flex-direction: column;
   }
   .passenger-data,
   .compose-msg {
     max-width: 100%;
   }
 }
-/*# sourceMappingURL=default.component.css.map */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 960px;
+  }
+}
