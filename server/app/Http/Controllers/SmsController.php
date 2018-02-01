@@ -34,12 +34,12 @@ class SmsController extends Controller
     {
         $api_key     = env('SMS_API_KEY', '');
         $sender_id   = env('SMS_SENDER_ID', '');
-        $environment = env('APP_ENV', 'dev');
+        $environment = env('APP_ENV', 'local');
 
         $client     = new Client();
         $sms_no_arr = array();
 
-        if ($environment == 'prod') {
+        if ($environment == 'production') {
             foreach ($phone_number as $ph_value) {
                 $sms_no_arr[] = array('to' => $ph_value);
             }
