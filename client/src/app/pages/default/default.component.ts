@@ -31,7 +31,7 @@ export class DefaultComponent implements OnInit {
   public errorMessage: string;
 
   public activeStatus: any;
-  public statuses = [{id: "confirmed", text: 'Confirmed'} , {id:"pending_confirmation", text: "Pending confirmation" }, {id: "pending_inquiry", text: "Pending Inquiry"}, {id: "cancelled", text: 'Cancelled'}, {id: "rejected", text: "Rejected"}, {id: "unconfirmed", text: "Unconfirmed"}, {id: "incomplete", text: "Incompleted" }, {id: "cart_abandoned", text: "Cart abandoned" } ];
+  public statuses = [];
 
   public loadingParticipants: boolean = false;
 
@@ -65,7 +65,13 @@ export class DefaultComponent implements OnInit {
 
         this.errorMessage = '';
 
-        this.passengerResource = new DataTableResource(this.app.filterParticipants(event.response.data));
+        let participants = this.app.filterParticipants(event.response.data);
+
+        this.statuses = this.app.getStatuses(participants);
+        
+        console.log("sttusee", this.statuses);
+
+        this.passengerResource = new DataTableResource(participants);
         // this.passengerResource.count().then(count => this.participantCount = count);
         this.statusRemoved();
 

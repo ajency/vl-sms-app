@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { LocalStorageService } from 'angular-2-local-storage';
 import { Router } from '@angular/router';
-
+import { TitleCasePipe } from '../pipes/title-case.pipe';
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 
@@ -97,5 +97,22 @@ export class AppService {
 
     return filteredparticipants;
   }
+
+  public getStatuses(participants: Array<any>): Array<any>{
+    let statuses = []
+    participants.map((val) => {
+      if(val.booking_status){
+        if(statuses.find(sval => sval.id === val.booking_status) === undefined){
+          statuses.push({
+            id: val.booking_status,
+            text: new TitleCasePipe().transform(val.booking_status) 
+          })
+        }
+      }
+    });
+
+    return statuses;
+  }
+
 
 }
