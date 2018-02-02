@@ -93,6 +93,7 @@ class ExternalApiController extends Controller
         $user_id = \Request::get('user_id');
         $globalhelper=new GlobalHelper;
         $user = $globalhelper->getUserApiSecret($user_id);
+        $exclude_flag=$request->input('exclude_past_departure');
 
         if(empty($user)){
         return [ "message" => "Unauthenticated."];
@@ -113,13 +114,25 @@ class ExternalApiController extends Controller
         foreach ($data['departures'] as $dvalue) {
 
             $end_date = explode('T', $dvalue['ends_at'])[0];
+            $start_date = explode('T', $dvalue['starts_at'])[0];
 
-            if ($end_date >= $current_date) {
-                $final_data[] = [
-                    "departure_id" => $dvalue['id'],
-                    "starts_at"    => $dvalue['starts_at'],
-                    "ends_at"      => $dvalue['ends_at'],
-                ];
+            if($exclude_flag!=''){
+                if ($current_date >= $start_date  && $current_date <=$end_date) {
+                    $final_data[] = [
+                        "departure_id" => $dvalue['id'],
+                        "starts_at"    => $dvalue['starts_at'],
+                        "ends_at"      => $dvalue['ends_at'],
+                    ];
+                }
+            }
+            else{
+                if ($end_date >= $current_date) {
+                    $final_data[] = [
+                        "departure_id" => $dvalue['id'],
+                        "starts_at"    => $dvalue['starts_at'],
+                        "ends_at"      => $dvalue['ends_at'],
+                    ];
+                }
             }
         }
 
