@@ -125,30 +125,25 @@ export class DefaultComponent implements OnInit {
 
   updateRows(passenger,event): any {
     // console.log("update ros:", this.statusFilter)
-    // if(this.statusFilter && this.statusFilter !== 'all'){
-    //   if(passenger.booking_status !== this.statusFilter){
-    //     return {'d-none': true};
-    //   }
-    //   else{
-    //     this._setsmsParticipants(passenger);
-    //     return {};
-    //   }
-    // }
-    // else{
-    //   this._setsmsParticipants(passenger);
-    //   return {}
-    // }
+    if(this.statusFilter && this.statusFilter !== 'all'){
+      if(passenger.booking_status !== this.statusFilter){
+        this._setfilteredout(passenger, true);
+        return {'d-none': true};
+      }
+      else{
+        this._setfilteredout(passenger, false);
+        return {};
+      }
+    }
+    else{
+      this._setfilteredout(passenger, false);
+      return {}
+    }
   }
 
-  private _setsmsParticipants(passenger){
-    let partfound = this.smsParticipants.find((val) => {
-      return JSON.stringify(val) === JSON.stringify(passenger);
-    });
-
-    if(!partfound){
-      this.smsParticipants.push(passenger);
-    }
-
+  private _setfilteredout(passenger, filteredout: boolean){
+    passenger.filteredout = filteredout;
+    return passenger;
   }
 
 
