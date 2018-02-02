@@ -6,24 +6,24 @@
   .ui-select-placeholder {
     float: left;
   }
-  
+
   /* Fix Bootstrap dropdown position when inside a input-group */
   .input-group > .dropdown {
     /* Instead of relative */
     position: static;
   }
-  
+
   .ui-select-match > .btn {
     /* Instead of center because of .btn */
     text-align: left !important;
   }
-  
+
   .ui-select-match > .caret {
     position: absolute;
     top: 45%;
     right: 15px;
   }
-  
+
   .ui-disabled {
     background-color: #eceeef;
     border-radius: 4px;
@@ -36,15 +36,15 @@
     left: 0;
     cursor: not-allowed;
   }
-  
+
   .ui-select-choices {
     width: 100%;
     height: auto;
     max-height: 200px;
     overflow-x: hidden;
-    margin-top: 0;
+    margin-top: 2px;
   }
-  
+
   .ui-select-multiple .ui-select-choices {
     margin-top: 1px;
   }
@@ -61,14 +61,18 @@
       color: #fff;
       text-decoration: none;
       outline: 0;
-      background-color: #428bca;
+      background-color: transparent;
   }
-  
+  .ui-select-choices-row.active{
+      background-color: #428bca;
+
+  }
+
   .ui-select-multiple {
     height: auto;
     padding:3px 3px 0 3px;
   }
-  
+
   .ui-select-multiple input.ui-select-search {
     background-color: transparent !important; /* To prevent double background when disabled */
     border: none;
@@ -77,13 +81,13 @@
     height: 1.6666em;
     padding: 0;
     margin-bottom: 3px;
-    
+
   }
   .ui-select-match .close {
       font-size: 1.6em;
       line-height: 0.75;
   }
-  
+
   .ui-select-multiple .ui-select-match-item {
     outline: 0;
     margin: 0 3px 3px 0;
