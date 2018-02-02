@@ -40,7 +40,7 @@ export class SendSmsComponent {
   filterSMSContacts(){
     let smsclients = [];
     this.participants.map((val) => {
-      if(val.selected == true){
+      if(val.selected == true && !isNaN(val.phone_no)){
         smsclients.push(val.phone_no);
       }
     });
