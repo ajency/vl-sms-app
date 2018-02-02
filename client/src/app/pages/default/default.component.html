@@ -83,7 +83,7 @@
 				#passengerTable
 				[items]="participants"
 				[itemCount]="participantCount"
-				(reload)="reloadComplete($event)"
+				(reload)="reloadItems($event)"
 				(rowClick)="rowClick($event)"
 				(headerClick) = "headerClick($event)"
 				(headerCheckClick) = "onSelectChange($event)"
