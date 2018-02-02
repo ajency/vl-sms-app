@@ -4,6 +4,7 @@ import { DataTable, DataTableResource } from '../../components/custom-data-table
 import { ApiService } from '../../providers/api.service';
 import { AppService } from '../../providers/app.service';
 import { globals } from '../../app.global';
+import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-default',
@@ -17,7 +18,7 @@ export class DefaultComponent implements OnInit {
   public smsParticipants: Array<any> = [];
   public participantCount = 0;
 
-  @ViewChild(DataTable) carsTable: DataTable;
+  @ViewChild(DataTable) passengerTable: DataTable;
 
   public tripCode: string;
   public tripId: string;
@@ -106,6 +107,15 @@ export class DefaultComponent implements OnInit {
       this.participants = data;
       this.participantCount = data.length;
     });
+
+    setTimeout(() => {
+      this.passengerTable.setSelect(false);
+    },0);
+
+  }
+
+  reloadComplete(params){
+    console.log("reload complete:", params);
   }
 
   public statusFilter = "";

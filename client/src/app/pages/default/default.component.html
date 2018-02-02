@@ -80,9 +80,10 @@
 
 			<!-- Datables -->
 			<data-table
+				#passengerTable
 				[items]="participants"
 				[itemCount]="participantCount"
-				(reload)="reloadItems($event)"
+				(reload)="reloadComplete($event)"
 				(rowClick)="rowClick($event)"
 				(headerClick) = "headerClick($event)"
 				(headerCheckClick) = "onSelectChange($event)"

@@ -299,6 +299,10 @@ export class DataTable implements DataTableParams, OnInit {
     }
 
     set selectAllCheckbox(value) {
+        this.setSelect(value);
+    }
+
+    public setSelect(value){
         this._selectAllCheckbox = value;
         this._onSelectAllChanged(value);
     }
