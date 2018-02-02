@@ -4,7 +4,6 @@ import { DataTable, DataTableResource } from '../../components/custom-data-table
 import { ApiService } from '../../providers/api.service';
 import { AppService } from '../../providers/app.service';
 import { globals } from '../../app.global';
-import { setTimeout } from 'timers';
 
 @Component({
   selector: 'app-default',
