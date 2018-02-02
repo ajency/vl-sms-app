@@ -7,8 +7,10 @@
   border: 1px solid #dfe7ed;
 }
 .vl-participant__filter {
-  background-color: #f3f3f3;
-  padding: 1.5em 0;
+  background-color: #fafafa;
+  padding: 1.2em 0;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #dddddd;
 }
 .show-participant {
   font-size: 0.85em;
@@ -54,7 +56,7 @@ main-dropdowns {
 }
 .vl-sms__header {
   background: #fff;
-  padding: 1em 0;
+  padding: 1em 0 0.2em;
 }
 .notification-element {
   background: #ffffff;
@@ -76,7 +78,7 @@ main-dropdowns {
   color: #b3b0b0;
   color: #969BA7;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
 }
 @media screen and (max-width: 480px) {
   .no-data {

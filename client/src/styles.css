@@ -711,7 +711,11 @@ input[type=radio].fnb-radio.disabled:before {
   position: relative;
 }
 .app-detail {
-  font-size: 2em;
+  font-size: 1.9em;
+  font-weight: 300;
+}
+.back-link {
+  font-size: 0.95em;
 }
 .vl-select {
   background-color: #fff;
@@ -996,6 +1000,10 @@ input[type="checkbox"].toggle__check {
   }
 }
 .date-select .ui-select-match-text b {
+  color: #000;
+  font-weight: normal;
+}
+.date-select .ui-select-container .dropdown-item > div b {
   color: #000;
   font-weight: normal;
 }
@@ -1508,6 +1516,9 @@ input[type="checkbox"].toggle__check {
 }
 .element-title {
   font-size: 1.3em;
+}
+.small-label {
+  font-size: 0.7em;
 }
 .blocked {
   overflow: hidden;

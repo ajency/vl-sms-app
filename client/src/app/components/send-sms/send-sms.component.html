@@ -1,16 +1,16 @@
 
   <!-- Additional options -->
   <div class="message-box mb-3 relative">
-    <label class="vl-label label-color d-block mb-1 xx-small text-uppercase heavier">Message</label>
+    <label class="vl-label label-color d-block mb-1 small-label text-uppercase bolder">Message</label>
     <textarea [(ngModel)]="smsMessage" (change)="checkSMSlength($event)" (keyup)="checkSMSlength($event)" class="vl-textarea vl-shadow message-area" rows="4" placeholder="Start typing your message here..."></textarea>
     <span class="character-count label-color xx-small" #smsTextCount><span>{{smsMessage.length}}</span>/{{smsMaxLength}}</span>
   </div>
   <div class="phone-box mb-3">
-    <label class="vl-label label-color d-block mb-1 xx-small text-uppercase heavier">Additional phone numbers<span class="lighter text-capitalize"> (Comma Separated)</span></label>
+    <label class="vl-label label-color d-block mb-1 small-label text-uppercase bolder">Additional phone numbers<span class="lighter text-capitalize"> (Comma Separated)</span></label>
     <input [(ngModel)]="additionContacts" pattern="[0-9]+" (keyup)="validateExtraContacts()" type="tel" class="vl-text vl-shadow" placeholder="eg. 9812435687, 981234567">
   </div>
   <div class="publish-link mb-3">
-    <label class="x-small text-color m-b-0 cursor-pointer d-flex"><input type="checkbox" (change)="publishNotification = !publishNotification" class="fnb-checkbox checkbox"> Publish notification on the website</label>
+    <label class="xx-small text-color m-b-0 cursor-pointer d-flex"><input type="checkbox" (change)="publishNotification = !publishNotification" class="fnb-checkbox checkbox"> Publish notification on the website</label>
   </div>
   <div class="send-message">
     <button [disabled]="!smsMessage || !validContacts" (click)="sendSMS()" type="button" [ngClass]="{'secondary-btn': !smsError, 'danger-btn': smsError}" class="btn vl-btn secondary-btn text-uppercase  fullwidth">
