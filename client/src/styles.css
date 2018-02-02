@@ -944,6 +944,7 @@ input[type="checkbox"].toggle__check {
 }
 .ui-select-container .dropdown-menu {
   display: block;
+  border-color: #979797;
 }
 .ui-select-container:focus {
   -moz-box-shadow: none;
@@ -967,9 +968,14 @@ input[type="checkbox"].toggle__check {
 .ui-select-container .ui-select-choices-row.active .dropdown-item span {
   color: #fff;
 }
+.ui-select-container .ui-select-choices-row.active > a {
+  border-color: transparent;
+}
 .ui-select-container .ui-select-choices-row > a {
-  padding: 8px 20px !important;
-  border-bottom: 2px solid #eee;
+  padding: 8px 0px !important;
+  border-bottom: 2px solid #efefef;
+  width: 92%;
+  margin: auto;
 }
 .ui-select-container .dropdown-item > div {
   font-size: 0.85em;
