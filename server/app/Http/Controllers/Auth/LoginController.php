@@ -53,7 +53,12 @@ class LoginController extends Controller
 
         if (Hash::check($password, $user_results->password)) {
          
-            $access_token  = $user_results->createToken('access-token')->accessToken;
+            $access_token=md5(uniqid($email, true));
+
+            User::where('id', $user_results->id)
+              ->update(['access_token' => $access_token]);
+
+           // $access_token  = $user_results->createToken('access-token')->accessToken;
             return array('status' =>'success','msg' => 'ok' ,'token' =>$access_token );
         }
         return array('status' =>'error','msg' => 'Wrong Password');     
