@@ -4,7 +4,7 @@
 // ---------------------------
 
 
-// custom Dropdown 
+// custom Dropdown
 
 .ui-select-container{
 	.ui-select-search{
@@ -62,7 +62,7 @@
 		& > div{
 			font-size: 0.85em;
     		b{
-    			color: #96999e;	
+    			color: #96999e;
     			font-weight: 500;
     		}
 		}
@@ -75,18 +75,29 @@
 		outline: 0;
 	}
 	.ui-select-placeholder{
-		color: #c1c3c5 !important;
+		color: #808080 !important;
     	font-weight: 300;
 	}
 	&-text{
 		font-size: 0.9em;
 		white-space: initial;
 		b{
-			color: #7d7d7d;	
+			color: #7d7d7d;
 		}
 	}
 	@media screen and (max-width: @mobile){
 		margin: 0.5em 0;
+	}
+}
+
+.date-select{
+	.ui-select-match{
+		&-text{
+			b{
+				color: #000;
+				font-weight: normal;
+			}
+		}
 	}
 }
 
