@@ -309,15 +309,19 @@ export class MainDropdownsComponent {
         this.depSub.unsubscribe();
       }
 
-      this.depSub = this.api.getDepartures({
-                                        filters: {
-                                                trip_id: this.tripid,
-                                                // departure_date: {
-                                                //   start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
-                                                //   // end: '2017-01-02'
-                                                // } 
-                                        }
-                            })
+      let reqbody = {
+        filters: {
+                trip_id: this.tripid,
+                // departure_date: {
+                //   start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
+                //   // end: '2017-01-02'
+                // } 
+        }
+      }
+
+      this.exactPath === 'sms-notifications' ? reqbody['exclude_past_departure'] = 'yes' : null;
+
+      this.depSub = this.api.getDepartures(reqbody)
                             .subscribe((res: any) => {
                               console.log("depatures", res);
 
