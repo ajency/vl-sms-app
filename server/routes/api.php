@@ -29,3 +29,6 @@ Route::group(['middleware' => ['IsValidUser']], function () {
   Route::post('send-sms', 'SmsController@sendSms');
 });
 
+
+Route::resource('user', 'UserController');
+
