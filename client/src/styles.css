@@ -316,6 +316,7 @@ span {
   color: #ffffff;
   font-weight: 500;
   font-size: 0.8em;
+  white-space: nowrap;
 }
 .status-label.confirmed {
   background-color: #11a44a;
@@ -1594,7 +1595,7 @@ input[type="checkbox"].toggle__check {
 .tooltip {
   font-size: 0.65em;
 }
-.ui-select-choices-row > a{
-	white-space: normal !important;
+.ui-select-choices-row > a {
+  white-space: normal !important;
 }
 /*# sourceMappingURL=styles.css.map */
