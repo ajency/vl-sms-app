@@ -48,7 +48,7 @@
             <h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails && tripDetails.name ? tripDetails.name : naText}}</h5>
             <ul class="d-flex text-medium results-header__details">
               <!-- <li class="pr-2"><b>{{tripDetails && tripDetails.code ? tripDetails.code : naText}}</b></li> -->
-              <li class="lighter" [innerHTML]="depDetails.text || naText"></li>
+              <li class="bat-color sms-date" [innerHTML]="depDetails.text || naText"></li>
             </ul>
           </div>
         </div>
@@ -67,7 +67,7 @@
         <div *ngIf="notifications.length" class="col-sm-12 passenger-data">
           <div *ngFor="let notification of notifications" class="notification-element">
             <div class="notification-message">{{notification.message || naText}}</div>
-            <span class="notification-time">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
+            <span class="notification-time lighter text-uppercase">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
           </div>
 
           <div class="col-sm-12 text-center sms-footer m-t-30 m-b-10">
