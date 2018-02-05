@@ -76,7 +76,7 @@ export class SendSmsComponent {
     return parsecontacts;
   }
 
-  public smsMaxLength: number = 160;
+  public smsMaxLength: number = 1000;
 
   checkSMSlength(event){
     this.sentSMS = false
