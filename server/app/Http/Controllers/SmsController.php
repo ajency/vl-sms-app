@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\SmsNotification;
+use App\SmsNotificationDeparture;
+use App\SmsNotificationTrip;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -15,17 +17,38 @@ class SmsController extends Controller
         $phone_number        = $request->input('to');
         $message             = $request->input('message');
         $publishnotification = $request->input('publishnotification');
-        $departure_id        = $request->input('departure_id');
+        $departure           = $request->input('departure');
+        $trip                = $request->input('trip');
 
         if ($publishnotification) {
             $notification               = new SmsNotification;
-            $notification->departure_id = $departure_id;
+            $notification->departure_id = $departure['departure_id'];
+            $notification->trip_id      = $trip['id'];
             $notification->message      = $message;
             $notification->send_to      = serialize($phone_number);
             $notification->created_at   = date('Y-m-d h:m:i');
             $notification->save();
 
+            $departure_notification = new SmsNotificationDeparture;
+
+            $departure_notification->departure_id = $departure['departure_id'];
+            $departure_notification->trip_id      = $trip['id'];
+            $departure_notification->starts_at    = $departure['starts_at'];
+            $departure_notification->ends_at      = $departure['ends_at'];
+            $notification->created_at             = date('Y-m-d h:m:i');
+            $departure_notification->save();
+
+            $trip_notification = new SmsNotificationTrip;
+
+            $trip_notification->trip_id    = $trip['id'];
+            $trip_notification->name       = $trip['name'];
+            $trip_notification->code       = $trip['code'];
+            $trip_notification->created_at = date('Y-m-d h:m:i');
+            $trip_notification->save();
+
         }
+        return array('success');
+
         return $this->initiateSmsGuzzle($phone_number, $message);
 
     }
@@ -83,6 +106,47 @@ class SmsController extends Controller
             "status" => "success",
             "msg"    => "ok",
             "data"   => $sms_notification,
+        ];
+    }
+
+    public function smsNotificaitonTrips(Request $request)
+    {
+
+
+        // set search query is passed
+        if ($request->has('search')) {
+            $search_query = $request->input('search');
+        } else {
+            $search_query = '';
+        }
+
+        // set offset is passed
+        if ($request->has('offset')) {
+            $offset = $request->input('offset');
+        } else {
+            $offset = 0;
+        }
+
+        // set limit is passed
+        if ($request->has('limit')) {
+            $limit = $request->input('limit');
+        } else {
+            $limit = 100;
+        }
+
+
+        $smsnotification = new SmsNotification;
+        
+        $final_data      = $smsnotification->getPublishedNotification($limit,$offset,$search_query);
+
+        $totalCount     = SmsNotification::groupBy('sms_notifications.trip_id')->count();
+
+        return [
+            "status"     => "success",
+            "msg"        => "ok",
+            "data"       => $final_data,
+            "count"      => count($final_data),
+            "totalCount" => $totalCount,
         ];
     }
 }
