@@ -14,10 +14,25 @@ import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/switchMap';
 
+declare const Array: any;
+
 @Injectable()
 export class AppService {
 
-  constructor(private http: HttpClient, private localstorage: LocalStorageService, private router: Router) { }
+  constructor(private http: HttpClient, private localstorage: LocalStorageService, private router: Router) { 
+    Array.prototype.unique = function() {
+        var a = this.concat();
+        for(var i=0; i<a.length; ++i) {
+            for(var j=i+1; j<a.length; ++j) {
+                if(a[i] === a[j])
+                    a.splice(j--, 1);
+            }
+        }
+    
+        return a;
+    };
+
+  }
 
   public request(url: string, method: string = 'get', body: any = {}, headers: any = {}){
 
