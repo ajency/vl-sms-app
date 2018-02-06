@@ -39,33 +39,32 @@ class UserController extends Controller
     {
         $email       = $request->input('email');
         $password    = $request->input('password');
-        $api_key     = $request->input('api_key');
-        $user_secret = $request->input('user_secret');
+        $api_key     = ($request->input('api_key') == '') ? env('USER_API_KEY') : $request->input('api_key');
+        $user_secret = ($request->input('user_secret') == '') ? env('USER_SECRET_KEY') : $request->input('user_secret');
 
-         $validatedData = $request->validate([
-        'email' => 'required|unique:users|max:255',
-        'password' => 'required',
-        'api_key' => 'required',
-        'user_secret' => 'required',
+        $validatedData = $request->validate([
+            'email'    => 'required|unique:users|max:255',
+            'password' => 'required',
+            //'api_key' => 'required',
+            //'user_secret' => 'required',
         ]);
 
-       
-            $user             = new User;
-            $user->name      = $email;
-            $user->email      = $email;
-            $user->password   = Hash::make($password);
-            $user->created_at = date('Y-m-d h:m:i');
-            $user->save();
-            $lastInsertedId = $user->id;
+        $user             = new User;
+        $user->name       = $email;
+        $user->email      = $email;
+        $user->password   = Hash::make($password);
+        $user->created_at = date('Y-m-d h:m:i');
+        $user->save();
+        $lastInsertedId = $user->id;
 
-            $account          = new Account;
-            $account->user_id = $lastInsertedId;
-            $account->api_key = $api_key;
-            $account->user_secret = $user_secret;
-            $account->save();
-            
-            return array('User Successfully Created');
-        
+        $account              = new Account;
+        $account->user_id     = $lastInsertedId;
+        $account->api_key     = $api_key;
+        $account->user_secret = $user_secret;
+        $account->save();
+
+        return array('User Successfully Created');
+
     }
 
     /**
