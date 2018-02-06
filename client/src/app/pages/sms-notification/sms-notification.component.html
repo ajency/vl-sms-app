@@ -29,7 +29,7 @@
           </div>
           <div class="col-sm-4 text-right align-self-center">
             <!-- <a href="/admin" class="btn btn-sm text-primary">Admin <i class="fa fa-lock"></i></a> -->
-              <h3 class="mb-0 text-medium">SMS Notifications</h3>
+              <h1 class="mb-0 text-medium">SMS Updates</h1>
           </div>
       </div>
       <div class="row vl-participant__filter  px-3">
@@ -41,8 +41,8 @@
         <div *ngIf="!loadinNotifications && !notifications.length" class="col-sm-12 align-self-center">
           <div class="empty-box text-center px-3">
             <i class="fa fa-commenting" aria-hidden="true"></i>
-            <p class="label-size m-b-0 text-lighter" [hidden]="errorMessage">Please select a <b>trip</b> and <b>departure</b> to show notifications.</p>
-            <p class="label-size m-b-0 text-lighter" [hidden]="!errorMessage">{{errorMessage}}</p>
+            <p class="label-size m-b-0 text-lighter" [hidden]="errorMessage">Please select a <b>trip</b> and <b>departure</b> to show updates.</p>
+            <p class="label-size m-b-0 text-lighter" [hidden]="!errorMessage">{{errorMessage == 'No departures found for trip!' ? 'No updates found for the selected trip!' : errorMessage}}</p>
           </div>
         </div>
 

@@ -64,7 +64,7 @@ export class DefaultComponent implements OnInit {
       if(event.response.data.length){
 
         this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
-        this.tripId = event['trip_details'] ? Number(event['trip_details']['id']) : '';
+        this.tripId = event['trip_details'] ? event['trip_details']['id'] : '';
         // this.activeStatus = [];
 
         this.errorMessage = '';
