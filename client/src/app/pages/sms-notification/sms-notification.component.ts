@@ -40,12 +40,16 @@ export class SmsNotificationComponent implements OnInit {
   loadNotification(event){
     console.log("load notification event", event);
 
-    if(event.response.data && event.response.data.length){
-      this.errorMessage = '';        
-      this.tripDetails = event['trip_details'];
-      this.depDetails = event['dep_details'];
-
-      this.notifications = event.response.data;
+    if(event.response && event.response.data){
+      if(event.response.data.length){
+        this.errorMessage = '';        
+        this.tripDetails = event['trip_details'];
+        this.depDetails = event['dep_details'];
+        this.notifications = event.response.data;
+      }
+      else{
+        this.errorMessage = 'No Data!';  
+      }
     }
     else if(typeof event.response === 'string'){
       this.errorMessage = globals.serverErrMsg;

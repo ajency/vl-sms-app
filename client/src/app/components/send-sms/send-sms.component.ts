@@ -10,6 +10,8 @@ export class SendSmsComponent {
 
   @Input() participants: Array<any>;
   @Input() checkupdate: boolean;
+  @Input() departureid: string;
+
   @Output() onSendSms = new EventEmitter<any>();
 
   public smsMessage: string = '';
@@ -38,7 +40,7 @@ export class SendSmsComponent {
   filterSMSContacts(){
     let smsclients = [];
     this.participants.map((val) => {
-      if(val.selected == true){
+      if(val.selected === true && val.filteredout === false && !isNaN(val.phone_no)){
         smsclients.push(val.phone_no);
       }
     });
@@ -49,6 +51,7 @@ export class SendSmsComponent {
   addMessage(): any{
     let smsclients = this.filterSMSContacts();
     let smsjson = {
+      departure_id: this.departureid,
       message: this.smsMessage,
       publishnotification: this.publishNotification, 
       to: smsclients
@@ -73,7 +76,7 @@ export class SendSmsComponent {
     return parsecontacts;
   }
 
-  public smsMaxLength: number = 160;
+  public smsMaxLength: number = 1000;
 
   checkSMSlength(event){
     this.sentSMS = false

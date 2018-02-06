@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
                                 res(true);
                             }
                             else{
-                                this.router.navigate(['/login']);
+                                this.router.navigate(['/admin']);
                                 res(false);
                             }
                         })
@@ -52,7 +52,7 @@ export class AuthGuard implements CanActivate {
             console.log("local token:" , token);
 
             return new Promise((res,rej) => {
-                if(route.routeConfig.path == 'login'){
+                if(route.routeConfig.path == 'admin'){
                     if(token){
                         this.router.navigate(['/send-sms']);
                         // return false;
@@ -70,7 +70,7 @@ export class AuthGuard implements CanActivate {
                         res(true);
                     }
                     else{
-                        this.router.navigate(['/login']);
+                        this.router.navigate(['/admin']);
                         // return false;
                         res(false);
                     }

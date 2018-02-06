@@ -4,12 +4,12 @@
 // ---------------------------
 
 
-// custom Dropdown 
+// custom Dropdown
 
 .ui-select-container{
 	.ui-select-search{
-		color: #c1c3c5;
-    	font-weight: 300;
+		color: #000;
+    	font-weight: 400;
     	font-size: 0.9em;
 		&:focus{
 			outline: 0;
@@ -19,6 +19,7 @@
 	}
 	.dropdown-menu{
 		display: block;
+		border-color: #979797;
 	}
 	&:focus{
 		box-shadow: none;
@@ -45,11 +46,19 @@
 		    			color: #fff;
 		    		}
 				}
+				span{
+					color: #fff;
+				}
+			}
+			& > a{
+				border-color: transparent;
 			}
 		}
 		& > a{
-			padding: 8px 20px !important;
-			border-bottom: 2px solid #eee;
+			padding: 8px 0px !important;
+			border-bottom: 2px solid #efefef;
+			width: 92%;
+			margin: auto;
 		}
 	}
 	.dropdown-item{
@@ -59,7 +68,7 @@
 		& > div{
 			font-size: 0.85em;
     		b{
-    			color: #96999e;	
+    			color: #96999e;
     			font-weight: 500;
     		}
 		}
@@ -72,18 +81,39 @@
 		outline: 0;
 	}
 	.ui-select-placeholder{
-		color: #c1c3c5 !important;
+		color: #808080 !important;
     	font-weight: 300;
 	}
 	&-text{
 		font-size: 0.9em;
 		white-space: initial;
 		b{
-			color: #7d7d7d;	
+			color: #7d7d7d;
 		}
 	}
 	@media screen and (max-width: @mobile){
 		margin: 0.5em 0;
+	}
+}
+
+.date-select{
+	.ui-select-match{
+		&-text{
+			b{
+				color: #000;
+				font-weight: normal;
+			}
+		}
+	}
+	.ui-select-container{
+		.dropdown-item{
+			& > div{
+	    		b{
+					color: #000;
+					font-weight: normal;
+				}
+			}
+		}
 	}
 }
 
@@ -102,3 +132,60 @@
 		border-color: transparent;
 	}
 }
+
+.ui-select-match-text{
+	font-weight: 400;
+}
+
+.custom-nav{
+    border-bottom: 2px solid #eee;
+    .btn{
+    	font-size: 0.8em;
+    	padding: 1px 10px;
+    	border: 1px solid #ddd;
+    	&:focus{
+    		outline: 0;
+    		box-shadow: none;
+    	}
+    	&:hover{
+    		background-color: #eee;
+    	}
+    }
+    .fa{
+    	position: relative;
+    	top: -2px;
+    }
+    .counts{
+    	font-size: 0.8em;
+    }
+}
+
+.message-area{
+	overflow-x: hidden;
+}
+
+.content-loader{
+	position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background-color: #ffffffd9;
+    .fa{
+    	font-size: 2em;
+    	color: @accent-primary;
+    }
+    &.d-none{
+    	display: none !important;
+    }
+}
+
+
+
+
+
+
+
+

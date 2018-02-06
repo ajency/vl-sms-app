@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import { DataTable, DataTableResource } from '../../custom-data-table';
+import { DataTable, DataTableResource } from '../../components/custom-data-table';
 import { ApiService } from '../../providers/api.service';
 import { AppService } from '../../providers/app.service';
 import { globals } from '../../app.global';
@@ -14,9 +14,10 @@ export class DefaultComponent implements OnInit {
 
   public passengerResource;
   participants = [];
+  public smsParticipants: Array<any> = [];
   public participantCount = 0;
 
-  @ViewChild(DataTable) carsTable: DataTable;
+  @ViewChild(DataTable) passengerTable: DataTable;
 
   public tripCode: string;
   public tripId: string;
@@ -29,6 +30,9 @@ export class DefaultComponent implements OnInit {
   public naText: string = '--';
   public dateFormat: string;
   public errorMessage: string;
+
+  public activeStatus: any;
+  public statuses = [];
 
   public loadingParticipants: boolean = false;
 
@@ -51,18 +55,34 @@ export class DefaultComponent implements OnInit {
   }
 
   initDatatable(event: any = {}){
-    if(event.response.data && event.response.data.length){
-      this.errorMessage = '';
 
-      this.passengerResource = new DataTableResource(event.response.data);
-      // this.passengerResource.count().then(count => this.participantCount = count);
-      this.reloadItems({});
-      
-      this.tripDetails = event['trip_details'];
-      this.depDetails = event['dep_details'];
+    console.log("initdatatable:",event);
+    this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
 
-      this.participantsAvailable = true;
+    if(event.response && event.response.data){
 
+      if(event.response.data.length){
+        // this.activeStatus = [];
+
+        this.errorMessage = '';
+
+        let participants = this.app.filterParticipants(event.response.data);
+
+        this.statuses = this.app.getStatuses(participants);
+        
+        console.log("sttusee", this.statuses);
+
+        this.passengerResource = new DataTableResource(participants);
+        // this.passengerResource.count().then(count => this.participantCount = count);
+        this.statusRemoved();
+
+        this.tripDetails = event['trip_details'];
+        this.depDetails = event['dep_details'];  
+        this.participantsAvailable = true;
+      }
+      else{
+        this.errorMessage = 'No Data!';  
+      }
     }
     else if(typeof event.response === 'string'){
       this.errorMessage = globals.serverErrMsg;
@@ -81,22 +101,62 @@ export class DefaultComponent implements OnInit {
 
   reloadItems(params) {
     console.log("reload cars",params)
+    this.smsParticipants = [];
     this.passengerResource.query(params).then((data) => {
       this.participants = data;
       this.participantCount = data.length;
     });
+
+    setTimeout(() => {
+      this.passengerTable.setSelect(false);
+    },0);
+
   }
 
-  yearLimit = 1999;
-
-  updateRows(passenger,event) {
-      // console.log('rowcolor:', passenger,event);
-
-      // if (passenger.redundant) {
-      //   passenger.disabled = true; //disable the checkbox for a row without mobile from self
-      //   return 'rgba(0, 0, 0, 0.1)';
-      // }
+  reloadComplete(params){
+    console.log("reload complete:", params);
   }
+
+  public statusFilter = "";
+  public filterStatus(status){
+    this.activeStatus = [status];
+    this.statusFilter = status.id;
+    this.reloadItems({});
+  }
+
+  public statusRemoved(){
+    this.activeStatus = [];
+    this.statusFilter = "";
+    this.reloadItems({});
+  }
+  
+
+
+  updateRows(passenger,event): any {
+    // console.log("update ros:", this.statusFilter)
+    if(this.statusFilter && this.statusFilter !== 'all'){
+      if(passenger.booking_status !== this.statusFilter){
+        this._setfilteredout(passenger, true);
+        return {'d-none': true};
+      }
+      else{
+        this._setfilteredout(passenger, false);
+        return {};
+      }
+    }
+    else{
+      this._setfilteredout(passenger, false);
+      return {}
+    }
+  }
+
+  private _setfilteredout(passenger, filteredout: boolean){
+    passenger.filteredout = filteredout;
+    return passenger;
+  }
+
+
+
 
   public checkUpdate: boolean = true; // trigger change detection in send-sms-component
 

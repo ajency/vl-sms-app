@@ -19,12 +19,16 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'Auth\LoginController@login');
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::post('sms-notifications', 'SmsController@smsNotifications');
 
-    // Route::get('trip-passengers', 'ExternalApiController@participants');
+
+Route::group(['middleware' => ['IsValidUser']], function () {
+  Route::post('trip-passengers', 'ExternalApiController@participants');
+  Route::post('trips', 'ExternalApiController@trips');
+  Route::post('departures', 'ExternalApiController@departures'); 
+  Route::post('send-sms', 'SmsController@sendSms');
 });
 
-Route::post('trip-passengers', 'ExternalApiController@participants');
-Route::post('trips', 'ExternalApiController@trips');
-Route::post('departures', 'ExternalApiController@departures');
-Route::post('send-sms', 'SmsController@sendSms');
+
+Route::resource('user', 'UserController');
+

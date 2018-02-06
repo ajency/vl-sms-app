@@ -7,15 +7,16 @@ import { LocalStorageModule } from 'angular-2-local-storage';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule, routedComponents, miscComponents } from './app-routing.module';
-import { DataTableModule } from './custom-data-table';
+import { DataTableModule } from './components/custom-data-table';
 
-import { SelectModule } from 'ng2-select';
+// import { SelectModule } from 'ng2-select';
 
 import { AppService, AuthService, ApiService } from './providers';
 
 import { AuthGuard } from './guards/auth-guard.service';
 
 import { TitleCasePipe } from './pipes/title-case.pipe';
+import { CustomSelectModule } from './components/custom-select';
 
 
 @NgModule({
@@ -23,15 +24,16 @@ import { TitleCasePipe } from './pipes/title-case.pipe';
     AppComponent,
     miscComponents,
     routedComponents,
-    TitleCasePipe
+    TitleCasePipe,
   ],
   imports: [
     LocalStorageModule.withConfig({
       prefix: 'vlsms',
       storageType: 'localStorage'
     }),
+    CustomSelectModule,
     MomentModule,
-    SelectModule,
+    // SelectModule,
     HttpClientModule,
     AppRoutingModule,
     FormsModule,

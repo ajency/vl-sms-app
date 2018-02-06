@@ -1,10 +1,14 @@
-import { Component, OnInit, EventEmitter, Input, Output , NgZone } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { PlatformLocation } from '@angular/common';
 import { ApiService } from '../../providers/api.service';
+import { AppService } from '../../providers/app.service';
 import { globals } from '../../app.global';
 import { ActivatedRoute } from '@angular/router';
 import { prettyUrlRoutes } from '../../app-routing.module';
 import { DateFormatPipe, ParsePipe } from 'angular2-moment';
+
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/of';
 
 @Component({
   selector: 'main-dropdowns',
@@ -22,9 +26,11 @@ export class MainDropdownsComponent {
   @Output() onError = new EventEmitter<any>();
   @Output() loadingParticipants = new EventEmitter<any>();
 
+  public _asynctrips = new EventEmitter<any>();
+
   public trips: Array<any> = [];
   public departures: Array<any> = [];
-  public activeTrip: Array<{id: string, text: string}>; // reference for the trip select dropdown component
+  public activeTrip: Array<{id: string, text: string}> = []; // reference for the trip select dropdown component
 
   public tripSub: any;
   public depSub: any;
@@ -35,13 +41,18 @@ export class MainDropdownsComponent {
   public departureError: string = '';
   public tripPlaceholder: string = "Hello there";
 
-  public tripcode: string;
+  public tripcode: string = '';
 
   private _exactMatch: boolean = false;
   private _occurenceMatch: boolean = false;
   public exactPath: string = '';
 
-  constructor(private api: ApiService, private zone: NgZone, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
+  private _searchfilter: any;
+  private _search: string = '';
+
+  @ViewChild('tripSelect') tripSelect: any;
+
+  constructor(private app: AppService, private api: ApiService, private platformlocation: PlatformLocation, private route: ActivatedRoute) {
     this.dateFormat = this.api.dateFormat;
   }
 
@@ -64,14 +75,14 @@ export class MainDropdownsComponent {
         }
       }
       else{
-        this.tripid = '';
+        this._resettripid();
       }
 
       if(params['departure_id']){
         this.departureid = params['departure_id'];
       }
       else{
-        this.departureid = '';
+        this._resetdepid();
       }
 
       let exact = this._matchUrl('exact');
@@ -101,28 +112,90 @@ export class MainDropdownsComponent {
     console.log("main drops init:  from page: ", this.frompage, " tripid: ",this.tripFromParent, "departureid: ", this.depFromParent);
 
     this.updateTrips(this.tripid);
+
+    // this._subscribeSearch();
+
   }
 
   // ngOnChanges(){
 
   // }
 
+  ngOnDestroy(){
+    this._unsubscribeSearch();
+  }
+
   public disableDep: boolean = true;
-
   public tripError: string;
+  public selectIsOpen: boolean = false;
 
-  updateTrips(inittripid: string = ''): void{ // gets the data for the 1st select dropdown for the list of trips
+  public tripPageCount: number = 0;
+  public tripTotalCount: number = 0;
+  public tripRequestComplete: boolean = false;
+
+  private _offset: number = 0;
+  private _limit: number = 10;
+
+  get limit(): number{
+    return this._limit;
+  }
+
+  get page(): number {
+    return (this._offset / this._limit) + 1;
+  }
+
+  set offset(offset: number) {
+    this._offset = offset;
+  }
+  
+  prevPage(){
+    this._offset -= this._limit;
+    this.updateTrips('', true);
+  }
+
+  nextPage(){
+    this._offset += this._limit;
+    this.updateTrips('', true);
+  }
+
+  updateTrips(inittripid: string = '', opendrop: boolean = false): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
       this.tripSub.unsubscribe();
     }
     this.tripError = '';
-    this.tripSub = this.api.getTrips({}) 
+    this.tripid = inittripid ? inittripid : '';
+    
+    this.trips = [];
+    this._asynctrips.next(this.trips);
+
+    this.tripRequestComplete = false;
+    this.tripSub = this.api.getTrips({
+                            search: inittripid ? this.tripcode : this._search,
+                            offset:this._offset,
+                            limit: this._limit
+                          })
+                          .finally(() =>{
+                            this.tripRequestComplete = true;
+                          }) 
                           .subscribe((res: any) => {
                             
                             this.trips = this.formatTrips(res.data);
+                            this.tripPageCount = res.count;
+                            this.tripTotalCount = res.totalCount;
+
+                            this._asynctrips.next(this.trips);
+
                             console.log("trips ", this.trips);
                             
+                            if(opendrop){
+                              setTimeout(() => {
+                                this.tripSelect.open();
+                              },300);
+                            }
+           
+            
                             if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+                              console.log("exact match")
                               // this.tripid = inittripid  ? inittripid : this.trips[0].id;
                               // this.activeTrip = [ this.trips[0] ];
                             }
@@ -131,19 +204,22 @@ export class MainDropdownsComponent {
 
                               // check if tripid passed in from url or otherwise is present in the trips array
                               // before fetching the departures array for the specified trip id
-                              let trip = this.trips.find(val => val.id == this.tripid);
 
-                              console.log("found trip: ", trip);
-                              if(trip){
-                                this.onError.emit(this.tripError); // emit blank error
-                              }
-                              else{
-                                this.tripError = "Could not find trip specified!";
-                                this.tripid = '';
-                                this.onError.emit(this.tripError);
+                              if(inittripid){
+                                let trip = this.trips.find(val => val.id == this.tripid);
+
+                                console.log("found trip: ", trip);
+                                if(trip){
+                                  this.onError.emit(this.tripError); // emit blank error
+                                }
+                                else{
+                                  this.tripError = "Could not find trip specified!";
+                                  this._resettripid();
+                                  this.onError.emit(this.tripError);
+                                }
                               }
 
-                            this.updateDepartures(this.departureid);
+                              this.updateDepartures(this.departureid);
 
                             }
                             
@@ -209,6 +285,7 @@ export class MainDropdownsComponent {
         let endmonth = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat),  'MMM');
 
         text = `<b>${startday}</b> ${startmonth} <span class="text-lighter">to</span> <b>${endday}</b> ${endmonth}`
+
       }
 
       departures.push({
@@ -224,7 +301,7 @@ export class MainDropdownsComponent {
   }
 
   updateDepartures(initdepid: string = ''): void{ // gets the data for the 2nd select dropdown for the departure
-    this.departureid = '';
+    this._resetdepid();
     this.departures = [];
     this.departureError = '';
 
@@ -233,15 +310,19 @@ export class MainDropdownsComponent {
         this.depSub.unsubscribe();
       }
 
-      this.depSub = this.api.getDepartures({
-                                        filters: {
-                                                trip_id: this.tripid,
-                                                // departure_date: {
-                                                //   start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
-                                                //   // end: '2017-01-02'
-                                                // } 
-                                        }
-                            })
+      let reqbody = {
+        filters: {
+                trip_id: this.tripid,
+                // departure_date: {
+                //   start:  new DateFormatPipe().transform(new Date(),"YYYY-MM-DD"),
+                //   // end: '2017-01-02'
+                // } 
+        }
+      }
+
+      this.exactPath === 'sms-notifications' ? reqbody['exclude_past_departure'] = 'yes' : null;
+
+      this.depSub = this.api.getDepartures(reqbody)
                             .subscribe((res: any) => {
                               console.log("depatures", res);
 
@@ -258,7 +339,7 @@ export class MainDropdownsComponent {
                                 this.onError.emit('');
                               }
                               else{
-                                this.departureid = ''; // set this because its n ng model
+                                this._resetdepid(); // set this because its n ng model
                                 this.departureError = 'No departure found';
                                 this.onError.emit("No departures found for trip!");
                               }
@@ -273,7 +354,7 @@ export class MainDropdownsComponent {
                                 }
                                 else{
                                   this.departureError = 'Invalid departure for selected trip';
-                                  this.departureid = '';
+                                  this._resetdepid();
                                   this.onError.emit(this.departureError);
                                 }
                                 this.updateLocation('departure');
@@ -327,7 +408,7 @@ export class MainDropdownsComponent {
                                     });
     }
     else if(this.exactPath === 'sms-notifications'){
-      this.participantSub = this.api.getSMSnotifications({})
+      this.participantSub = this.api.getSMSnotifications({"departure_id": this.departureid})
                                     .subscribe((res: any) => {
                                       console.log("notifcations api respsonse:",res);
                                       oevent['response'] = res;
@@ -345,15 +426,13 @@ export class MainDropdownsComponent {
 
   getTripMeta(){
     let meta = {};
-    this.trips.map((val) => {
-      if(val.id == this.tripid){
+    console.log("getTripMeta active trip: ", this.activeTrip, " tipid:  ", this.tripid);
+    this.activeTrip.map((val) => {
         meta['id'] = val['id'];
-
         let txtparts = val['text'].split(' - ');
         meta['code'] = this._stripBTag(txtparts[0]);
         meta['name'] = txtparts[1];
-      }
-    });
+    })
     return meta;
   }
 
@@ -381,7 +460,7 @@ export class MainDropdownsComponent {
 
   updateLocation(type: string){
     if(this._occurenceMatch){
-      console.log("############################################## url update ", type , this.frompage);
+      console.log("############################################## url update ", type , this.frompage, " active trip: ",this.activeTrip);
       let tripmeta = this.getTripMeta();
       let depmeta = this.getDepMeta();
 
@@ -447,12 +526,61 @@ export class MainDropdownsComponent {
     this.onDepartureUpdate();
   }
 
-  removed(data){
-    console.log("removed:", data);
+  tripRemoved(data){
+    console.log("trip removed:", data);
+    this._resettripid();
+    this._resetdepid();
+    this.departures = [];
+  }
+
+  departureRemoved(data){
+    console.log("departure removed:", data);
+    this._resetdepid();
+  }
+
+  private _resettripid(){
+    this.tripid = '';
+  }
+
+  private _resetdepid(){
+    this.departureid = '';
+  }
+
+  private _unsubscribeSearch(){
+    if(this._searchfilter){
+      this._searchfilter.subscription.complete();
+      this._searchfilter.subscription.unsubscribe();
+    }
+  }
+
+  private _subscribeSearch(){
+    this._searchfilter = this.app.searchFilter((model: string) => 
+                        { 
+                          console.log("model:", model);
+                          this._search = model;
+                          this.updateTrips('',true); 
+                          // return model;
+                          if(model){
+                            return model;
+                          }
+                          else{
+                            return Observable.of<any>([])
+                          }
+                        });
   }
 
   typed(data){
     console.log("typed:", data);
+    this._offset = 0;
+    if(data.length === 0){ // do this to compensate for a bug in the observable stream returned for search
+      this._unsubscribeSearch();
+      this._subscribeSearch();
+      this._search = '';
+      this.updateTrips('',true)
+    }
+    else{
+      this._searchfilter.triggersearch(data);
+    }
   }
 
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\SmsNotification;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 
@@ -11,10 +12,20 @@ class SmsController extends Controller
     public function sendSms(Request $request)
     {
 
-        $phone_number = $request->input('to');
+        $phone_number        = $request->input('to');
+        $message             = $request->input('message');
+        $publishnotification = $request->input('publishnotification');
+        $departure_id        = $request->input('departure_id');
 
-        $message = $request->input('message');
+        if ($publishnotification) {
+            $notification               = new SmsNotification;
+            $notification->departure_id = $departure_id;
+            $notification->message      = $message;
+            $notification->send_to      = serialize($phone_number);
+            $notification->created_at   = date('Y-m-d h:m:i');
+            $notification->save();
 
+        }
         return $this->initiateSmsGuzzle($phone_number, $message);
 
     }
@@ -23,12 +34,12 @@ class SmsController extends Controller
     {
         $api_key     = env('SMS_API_KEY', '');
         $sender_id   = env('SMS_SENDER_ID', '');
-        $environment = env('APP_ENV', 'dev');
+        $environment = env('APP_ENV', 'local');
 
         $client     = new Client();
         $sms_no_arr = array();
 
-        if ($environment == 'prod') {
+        if ($environment == 'production') {
             foreach ($phone_number as $ph_value) {
                 $sms_no_arr[] = array('to' => $ph_value);
             }
@@ -59,6 +70,19 @@ class SmsController extends Controller
         return [
             "status" => "success",
             "msg"    => "ok",
+        ];
+    }
+
+    public function smsNotifications(Request $request)
+    {
+        $departure_id = $request->input('departure_id');
+
+        $sms_notification = SmsNotification::where('departure_id', $departure_id)->select('message', 'created_at as date')->get();
+
+        return [
+            "status" => "success",
+            "msg"    => "ok",
+            "data"   => $sms_notification,
         ];
     }
 }

@@ -19,36 +19,42 @@
 
 <div class="notify-page">
   <div class="container vl-participant sms-notfication">
-      <div class="row vl-participant__filter vl-sms__header">
+      <div class="row vl-sms__header">
           <div class="col-sm-8 align-self-center">
-              <h5 class="vl-logo m-b-0"><img src="./assets/img/sms-notifcation-logo.png" width="120"></h5>
+              <h5 class="vl-logo m-b-0">
+                <a href="http://www.foliageoutdoors.com" target="_blank">
+                  <img src="./assets/img/sms-notifcation-logo.png" width="120">
+                </a>
+              </h5>
           </div>
-          <div class="col-sm-4 text-center align-self-center">
+          <div class="col-sm-4 text-right align-self-center">
+            <!-- <a href="/admin" class="btn btn-sm text-primary">Admin <i class="fa fa-lock"></i></a> -->
               <h3 class="mb-0 text-medium">SMS Notifications</h3>
           </div>
       </div>
-      <div class="row vl-participant__filter">
+      <div class="row vl-participant__filter  px-3">
         <main-dropdowns (onOutput)="loadNotification($event)" (onError)="checkError($event)" (loadingParticipants)="setLoader()">
         </main-dropdowns>
       </div>
       <div class="row vl-participants__data pb-3" [ngClass]="{'no-data': !notifications.length}">
         		<!-- If not values selected -->
         <div *ngIf="!loadinNotifications && !notifications.length" class="col-sm-12 align-self-center">
-          <div class="empty-box text-center">
+          <div class="empty-box text-center px-3">
             <i class="fa fa-commenting" aria-hidden="true"></i>
             <p class="label-size m-b-0 text-lighter" [hidden]="errorMessage">Please select a <b>trip</b> and <b>departure</b> to show notifications.</p>
             <p class="label-size m-b-0 text-lighter" [hidden]="!errorMessage">{{errorMessage}}</p>
           </div>
         </div>
-  
+
 
         <!-- Results -->
         <div *ngIf="notifications.length" class="col-sm-12 mb-2">
-          <div class="results-header pt-3 pb-3">
+          <div class="results-header pt-4 pb-3 px-3">
             <h5 class="heavier m-b-0 pb-1 result--title">{{tripDetails && tripDetails.name ? tripDetails.name : naText}}</h5>
             <ul class="d-flex text-medium results-header__details">
               <!-- <li class="pr-2"><b>{{tripDetails && tripDetails.code ? tripDetails.code : naText}}</b></li> -->
               <li class="bat-color sms-date" [innerHTML]="depDetails.text || naText"></li>
+
             </ul>
           </div>
         </div>
@@ -65,9 +71,12 @@
 
         <!-- notification list -->
         <div *ngIf="notifications.length" class="col-sm-12 passenger-data">
-          <div *ngFor="let notification of notifications" class="notification-element">
-            <div class="notification-message">{{notification.message || naText}}</div>
-            <span class="notification-time lighter text-uppercase">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
+
+          <div class=" px-3">
+            <div *ngFor="let notification of notifications" class="notification-element">
+              <div class="notification-message">{{notification.message || naText}}</div>
+              <span class="notification-time lighter text-uppercase">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
+            </div>
           </div>
 
           <div class="col-sm-12 text-center sms-footer m-t-30 m-b-10">
