@@ -168,12 +168,18 @@ export class MainDropdownsComponent {
     this.trips = [];
     this._asynctrips.next(this.trips);
 
+    let body = {
+      search: inittripid ? this.tripcode : this._search,
+      offset:this._offset,
+      limit: this._limit
+    };
+
+    this.exactPath === 'sms-notifications' ? body['trips_with_updates'] = 'yes' : null;
+    
+
     this.tripRequestComplete = false;
-    this.tripSub = this.api.getTrips({
-                            search: inittripid ? this.tripcode : this._search,
-                            offset:this._offset,
-                            limit: this._limit
-                          })
+
+    this.tripSub = this.api.getTrips(body)
                           .finally(() =>{
                             this.tripRequestComplete = true;
                           }) 
@@ -320,6 +326,7 @@ export class MainDropdownsComponent {
       }
 
       this.exactPath === 'sms-notifications' ? reqbody['exclude_past_departure'] = 'yes' : null;
+      
 
       this.depSub = this.api.getDepartures(reqbody)
                             .subscribe((res: any) => {
