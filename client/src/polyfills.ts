@@ -64,3 +64,9 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+if (!String.prototype.startsWith) {
+    String.prototype.startsWith = function(searchString, position) {
+        position = position || 0;
+        return this.indexOf(searchString, position) === position;
+    };
+}
