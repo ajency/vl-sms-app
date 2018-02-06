@@ -34,8 +34,7 @@
   width: 4px;
   height: 4px;
   background-color: #8d8e8f;
-  -moz-border-radius: 50%;
-       border-radius: 50%;
+  border-radius: 50%;
   position: relative;
   vertical-align: middle;
   margin-right: 5px;
@@ -80,6 +79,9 @@ main-dropdowns {
   text-transform: uppercase;
   font-size: 0.7rem;
 }
+.sms-date .lighter {
+  color: #b3b0b0;
+}
 @media screen and (max-width: 480px) {
   .no-data {
     min-height: 60vh;
@@ -106,12 +108,16 @@ main-dropdowns {
 }
 @media screen and (min-width: 480px) and (max-width: 769px) {
   .vl-participants__data {
-    -moz-box-orient: vertical;
-    -moz-box-direction: normal;
-         flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
   }
   .passenger-data,
   .compose-msg {
     max-width: 100%;
   }
 }
+/*# sourceMappingURL=default.component.css.map */
+/*# sourceMappingURL=sms-notification.component.css.map */
