@@ -44,11 +44,11 @@ export class SendSmsComponent {
   validateSMSContacts(): boolean{ //
     // console.log("validateion")
     if(this.validContacts && this.validExtraContacts){ // if both are valid
-      console.log("this.validContacts && this.validExtraContacts")
+      // console.log("this.validContacts && this.validExtraContacts")
       return false;
     }
     else if(this.validContacts && !this.validExtraContacts){
-      console.log("this.validContacts && !this.validExtraContacts")
+      // console.log("this.validContacts && !this.validExtraContacts")
       if(this.additionContacts.length){
         return true; // if invalid contacts in extras field
       }
@@ -57,11 +57,11 @@ export class SendSmsComponent {
       }
     }
     else if(!this.validContacts && this.validExtraContacts){
-      console.log("!this.validContacts && this.validExtraContacts")
+      // console.log("!this.validContacts && this.validExtraContacts")
       return false;
     }
     else{
-      console.log("default");
+      // console.log("default");
       return true;
     }
   }
@@ -101,9 +101,10 @@ export class SendSmsComponent {
     let validcontact = true;
 
     extracontacts.map((val: any) => {
-      let num = parseInt(val);
-      let valid = ( !isNaN(num) && num.toString().length === 12 ) ? true : false;
-      valid ? parsecontacts.push( num.toString() ) : null;
+      // let num = parseInt(val);
+      val = val.trim();
+      let valid = ( !isNaN(val) && val.length === 12 && val.indexOf('.') < 0 ) ? true : false;
+      valid ? parsecontacts.push( val ) : null;
       if(validcontact){
         validcontact = valid;
       }
