@@ -18,6 +18,10 @@ export class ApiService {
     return this.app.request(`${this.apiUrl}/trips`,'post',body);
   }
 
+  public getTripUpdates(body: any){
+    return this.app.request(`${this.apiUrl}/trips-sms-notifications`,'post',body);
+  }
+
   public getDepartures( body: any){
     return this.app.request(`${this.apiUrl}/departures`,'post',body);
   }
