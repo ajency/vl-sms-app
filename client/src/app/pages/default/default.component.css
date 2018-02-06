@@ -32,14 +32,13 @@
   width: 4px;
   height: 4px;
   background-color: #878b91;
-  -moz-border-radius: 50%;
-       border-radius: 50%;
+  border-radius: 50%;
   position: relative;
   vertical-align: middle;
   margin-right: 5px;
 }
 .result--title {
-  font-size: 1.45em;
+  font-size: 1.35em;
   color: #2d323b;
 }
 main-dropdowns {
@@ -81,9 +80,11 @@ main-dropdowns {
 }
 @media screen and (min-width: 480px) and (max-width: 769px) {
   .vl-participants__data {
-    -moz-box-orient: vertical;
-    -moz-box-direction: normal;
-         flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .passenger-data,
   .compose-msg {
@@ -95,3 +96,4 @@ main-dropdowns {
     max-width: 960px;
   }
 }
+/*# sourceMappingURL=default.component.css.map */
