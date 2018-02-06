@@ -278,13 +278,13 @@ export class MainDropdownsComponent {
       if(startday === endday){
         let starttime = new DateFormatPipe().transform( new ParsePipe().transform(val.starts_at, this.dateFormat), 'h:mm A' );
         let endtime = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat), 'h:mm A' );
-        text=`<b>${startday}</b> ${startmonth}, ${starttime} <span class="lighter">to</span> ${endtime}`;
+        text=`<b>${startday}</b> ${startmonth}, ${starttime} <span class="text-lighter">to</span> ${endtime}`;
       }
       else{
 
         let endmonth = new DateFormatPipe().transform( new ParsePipe().transform(val.ends_at, this.dateFormat),  'MMM');
 
-        text = `<span class=""><b>${startday}</b> ${startmonth}</span> <span class="text-lighter">to</span> <span class=""><b>${endday}</b> ${endmonth}</span>`
+        text = `<b>${startday}</b> ${startmonth} <span class="text-lighter">to</span> <b>${endday}</b> ${endmonth}`
       }
 
       departures.push({

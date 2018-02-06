@@ -318,6 +318,7 @@ span {
   color: #ffffff;
   font-weight: 500;
   font-size: 0.8em;
+  white-space: nowrap;
 }
 .status-label.confirmed {
   background-color: #478747;
