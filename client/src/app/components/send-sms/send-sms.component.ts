@@ -39,7 +39,18 @@ export class SendSmsComponent {
     this.sentSMS = false;
     this.validContacts = this.filterSMSContacts().length ? true : false;
     this.filterExtraContacts();
-    
+    this._formatdeparture();
+  }
+
+  private _formatdeparture(){
+    let dep = {};
+    Object.keys(this.departure).map((key) => {
+      if(key === 'departure_id' || key === 'starts_at' || key === 'ends_at'){
+        dep[key] = this.departure[key];
+      }
+    });
+
+    this.departure = dep;
   }
 
   validateSMSContacts(): boolean{ //
