@@ -57,11 +57,14 @@ export class DefaultComponent implements OnInit {
   initDatatable(event: any = {}){
 
     console.log("initdatatable:",event);
-    this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
+
 
     if(event.response && event.response.data){
 
       if(event.response.data.length){
+
+        this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
+        this.tripId = event['trip_details'] ? Number(event['trip_details']['id']) : '';
         // this.activeStatus = [];
 
         this.errorMessage = '';
