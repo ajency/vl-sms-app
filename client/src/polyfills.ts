@@ -70,3 +70,10 @@ if (!String.prototype.startsWith) {
         return this.indexOf(searchString, position) === position;
     };
 }
+
+if(!String.prototype.endsWith){
+    String.prototype.endsWith = function(pattern) {
+        var d = this.length - pattern.length;
+        return d >= 0 && this.lastIndexOf(pattern) === d;
+      };
+}
