@@ -70,9 +70,12 @@
 
         <!-- notification list -->
         <div *ngIf="notifications.length" class="col-sm-12 passenger-data">
-          <div *ngFor="let notification of notifications" class="notification-element">
-            <div class="notification-message">{{notification.message || naText}}</div>
-            <span class="notification-time lighter text-uppercase">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
+
+          <div class=" px-3">
+            <div *ngFor="let notification of notifications" class="notification-element">
+              <div class="notification-message">{{notification.message || naText}}</div>
+              <span class="notification-time lighter text-uppercase">{{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'h:mm A') : naText }}, {{notification.date ? (notification.date | amParse: dateFormat | amDateFormat:'DD MMM YYYY') : naText }}</span>
+            </div>
           </div>
 
           <div class="col-sm-12 text-center sms-footer m-t-30 m-b-10">
