@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { Router, NavigationEnd, GuardsCheckStart, GuardsCheckEnd, ActivatedRoute } from '@angular/router'
-import { Title }  from '@angular/platform-browser';
+import { Title, DOCUMENT }  from '@angular/platform-browser';
 
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/map';
@@ -18,7 +18,7 @@ export class AppComponent {
 
   public navigationGuardCheck: boolean = false;
   public online: boolean = true;
-  constructor(private titleservice: Title, private router: Router, private activateroute: ActivatedRoute){
+  constructor(@Inject(DOCUMENT) private document: HTMLDocument, private titleservice: Title, private router: Router, private activateroute: ActivatedRoute){
 
   }
 
@@ -35,6 +35,7 @@ export class AppComponent {
               .subscribe((event) => {
                 console.log("router event",event);
                 this.titleservice.setTitle(event["title"]);
+                this.document.getElementById('appFavicon').setAttribute('href', event['icon']);
               });
 
 
