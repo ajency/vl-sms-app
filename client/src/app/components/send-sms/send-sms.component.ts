@@ -12,6 +12,7 @@ export class SendSmsComponent {
   @Input() participants: Array<any>;
   @Input() checkupdate: boolean;
   @Input() departureid: string;
+  @Input() tripid: string;
 
   @Output() onSendSms = new EventEmitter<any>();
 
@@ -85,6 +86,7 @@ export class SendSmsComponent {
     let smsclients = this.filterSMSContacts();
     let smsjson = {
       departure_id: this.departureid,
+      trip_id: this.tripid,
       message: this.smsMessage,
       publishnotification: this.publishNotification, 
       to: smsclients

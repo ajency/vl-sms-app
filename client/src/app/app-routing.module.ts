@@ -15,11 +15,11 @@ import { AuthGuard } from './guards/auth-guard.service';
 
 const routes: Routes = [
     { path: '', redirectTo: 'sms-notifications', pathMatch: 'full' },
-    { path: 'admin', component: LoginComponent, data: {title: "VL SMS App - Login"}, canActivate: [AuthGuard] },
-    { path: 'send-sms', component: DefaultComponent, data: {title: "VL SMS App - Send SMS"}, canActivate: [AuthGuard]},
-    { path: 'send-sms/:trip_slug', component: DefaultComponent, data: {title: "VL SMS App - Send SMS slug"}, canActivate: [AuthGuard]},
-    { path: 'sms-notifications', component: SmsNotificationComponent, data: {title: "VL SMS App - Notifications"}},
-    { path: 'sms-notifications/:trip_slug', component: SmsNotificationComponent, data: {title: "VL SMS App - Notifications Detail"}},
+    { path: 'admin', component: LoginComponent, data: {title: "SMS App | Vacation Labs - Online Bookings for tour and activity operators", icon: './assets/img/app.png'}, canActivate: [AuthGuard] },
+    { path: 'send-sms', component: DefaultComponent, data: {title: "SMS App | Vacation Labs - Online Bookings for tour and activity operators", icon: './assets/img/app.png'}, canActivate: [AuthGuard]},
+    { path: 'send-sms/:trip_slug', component: DefaultComponent, data: {title: "SMS App | Vacation Labs - Online Bookings for tour and activity operators", icon: './assets/img/app.png'}, canActivate: [AuthGuard]},
+    { path: 'sms-notifications', component: SmsNotificationComponent, data: {title: "SMS Updates - Best Wildlife & Adventure Holidays | Summer Camps | Offbeat Trips | Treks | Nature Camps | Kids Camps Pune Mumbai", icon: './assets/img/foliage.png'}},
+    { path: 'sms-notifications/:trip_slug', component: SmsNotificationComponent, data: {title: "SMS Updates - Best Wildlife & Adventure Holidays | Summer Camps | Offbeat Trips | Treks | Nature Camps | Kids Camps Pune Mumbai", icon: './assets/img/foliage.png'}},
     { path: '**', component: NotfoundComponent}
 ];
 
