@@ -6,8 +6,8 @@ import { environment } from './environments/environment';
 
 
 function disableLogs(){
-  console.log = function() {};
-  console.warn = function() {};
+  // console.log = function() {};
+  // console.warn = function() {};
 }
 
 if (environment.production) {
