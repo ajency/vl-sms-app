@@ -1023,6 +1023,8 @@ input[type="checkbox"].toggle__check {
 }
 .ui-select-match .ui-select-toggle .dropdown-toggle {
   color: #696666;
+  position: absolute;
+  right: 12px;
 }
 .ui-select-match .ui-select-toggle:focus {
   box-shadow: none;

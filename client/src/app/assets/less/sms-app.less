@@ -128,3 +128,15 @@ main-dropdowns{
 	    max-width: 960px;
 	}
 }
+
+
+// IE loader fix
+
+@media all and (-ms-high-contrast:none){
+	*::-ms-backdrop, .bar-loader { display:block !important } /* IE11 */
+}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {  
+  .bar-loader { display:block !important }
+}
+
