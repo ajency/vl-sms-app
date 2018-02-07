@@ -30,24 +30,26 @@ class SmsController extends Controller
             $notification->save();
 
             $departure_notification = new SmsNotificationDeparture;
-
-            $departure_notification->departure_id = $departure['departure_id'];
-            $departure_notification->trip_id      = $trip['id'];
-            $departure_notification->starts_at    = $departure['starts_at'];
-            $departure_notification->ends_at      = $departure['ends_at'];
-            $notification->created_at             = date('Y-m-d h:m:i');
-            $departure_notification->save();
+            if (!SmsNotificationDeparture::where('departure_id', '=', $departure['departure_id'])->exists()) {
+                $departure_notification->departure_id = $departure['departure_id'];
+                $departure_notification->trip_id      = $trip['id'];
+                $departure_notification->starts_at    = $departure['starts_at'];
+                $departure_notification->ends_at      = $departure['ends_at'];
+                $notification->created_at             = date('Y-m-d h:m:i');
+                $departure_notification->save();
+            }
 
             $trip_notification = new SmsNotificationTrip;
-
-            $trip_notification->trip_id    = $trip['id'];
-            $trip_notification->name       = $trip['name'];
-            $trip_notification->code       = $trip['code'];
-            $trip_notification->created_at = date('Y-m-d h:m:i');
-            $trip_notification->save();
+            if (!SmsNotificationTrip::where('trip_id', '=', $trip['id'])->exists()) {
+                $trip_notification->trip_id    = $trip['id'];
+                $trip_notification->name       = $trip['name'];
+                $trip_notification->code       = $trip['code'];
+                $trip_notification->created_at = date('Y-m-d h:m:i');
+                $trip_notification->save();
+            }
 
         }
-        return array('success');
+        // return array('success');
 
         return $this->initiateSmsGuzzle($phone_number, $message);
 
