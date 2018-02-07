@@ -43,7 +43,8 @@ export class LoginComponent implements OnInit {
 
     },(err) => {
         this.loginIn = false;
-        this.error = err.error ? err.error.msg : err.message;
+        // this.error = err.error ? err.error.msg : err.message;
+        this.error = "Server Error!";
     });
   }
 

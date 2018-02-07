@@ -39,6 +39,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
   @Input() pageCount: number;
   @Input() totalItems: number;
   @Input() noMatches: boolean;
+  @Input() disableClientFilter: boolean = false;
 
   @Input()
   public set items(value: Array<any>) {
@@ -206,7 +207,7 @@ export class CustomSelectComponent implements OnInit, ControlValueAccessor {
     let target = e.target || e.srcElement;
     if (target && target.value) {
       this.inputValue = target.value;
-      this.behavior.filter(new RegExp(escapeRegexp(this.inputValue), 'ig'));
+      this.disableClientFilter ? null : this.behavior.filter(new RegExp(escapeRegexp(this.inputValue), 'ig'));
       // this.doEvent('typed', this.inputValue);
     } else {
       this.inputValue = '';

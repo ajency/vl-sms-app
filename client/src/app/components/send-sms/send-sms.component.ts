@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ApiService } from '../../providers/api.service';
 
+
 @Component({
   selector: 'send-sms',
   templateUrl: './send-sms.component.html',
@@ -10,19 +11,20 @@ export class SendSmsComponent {
 
   @Input() participants: Array<any>;
   @Input() checkupdate: boolean;
-  @Input() departureid: string;
-  @Input() tripid: string;
+  @Input() departure: any;
+  @Input() trip: any;
 
   @Output() onSendSms = new EventEmitter<any>();
 
   public smsMessage: string = '';
-  public additionContacts: string;
+  public additionContacts: string = '';
 
   public sendingSMS: boolean = false;
   public sentSMS: boolean = false;
   public publishNotification: boolean = false;
 
-  public validContacts: boolean = true;
+  public validContacts: boolean = false;
+  public validExtraContacts: boolean = false;
   public smsError: boolean;
 
   @ViewChild('smsTextCount') smsTextCount;
@@ -36,6 +38,48 @@ export class SendSmsComponent {
     console.log("sms participants",this.participants);
     this.sentSMS = false;
     this.validContacts = this.filterSMSContacts().length ? true : false;
+    this.filterExtraContacts();
+    this._formatdeparture();
+  }
+
+  private _formatdeparture(){
+    let dep = {};
+    Object.keys(this.departure).map((key) => {
+      if(key === 'departure_id' || key === 'starts_at' || key === 'ends_at'){
+        dep[key] = this.departure[key];
+      }
+    });
+
+    this.departure = dep;
+  }
+
+  validateSMSContacts(): boolean{ //
+    // console.log("validateion")
+    if(this.validContacts && this.validExtraContacts){ // if both are valid
+      // console.log("this.validContacts && this.validExtraContacts")
+      return false;
+    }
+    else if(this.validContacts && !this.validExtraContacts){
+      // console.log("this.validContacts && !this.validExtraContacts")
+      if(this.additionContacts.length){
+        return true; // if invalid contacts in extras field
+      }
+      else{
+        return false;
+      }
+    }
+    else if(!this.validContacts && this.validExtraContacts){
+      // console.log("!this.validContacts && this.validExtraContacts")
+      return false;
+    }
+    else{
+      // console.log("default");
+      return true;
+    }
+  }
+
+  checkForValidExtras(flag){
+    this.validExtraContacts = flag;
   }
 
   filterSMSContacts(){
@@ -52,8 +96,8 @@ export class SendSmsComponent {
   addMessage(): any{
     let smsclients = this.filterSMSContacts();
     let smsjson = {
-      departure_id: this.departureid,
-      trip_id: this.tripid,
+      departure: this.departure,
+      trip: this.trip,
       message: this.smsMessage,
       publishnotification: this.publishNotification, 
       to: smsclients
@@ -61,19 +105,25 @@ export class SendSmsComponent {
     return smsjson;
   }
 
-  validateExtraContacts(){
+  filterExtraContacts(){
     this.sentSMS = false;
 
     let extracontacts = this.additionContacts ? this.additionContacts.split(',') : [];
-    let validcontacts = false;
 
-    let parsecontacts = extracontacts.map((val: any) => {
-      let num = Number(val);
-      validcontacts = ( !isNaN(num) && num.toString().length === 12 ) ? true : false;
-      return validcontacts ? num.toString() : false;
+    let parsecontacts = [];
+    let validcontact = true;
+
+    extracontacts.map((val: any) => {
+      // let num = parseInt(val);
+      val = val.trim();
+      let valid = ( !isNaN(val) && parseInt(val).toString().length === 12 && val.indexOf('.') < 0 ) ? true : false;
+      valid ? parsecontacts.push( val ) : null;
+      if(validcontact){
+        validcontact = valid;
+      }
     });
-
-    this.validContacts = extracontacts.length ? validcontacts : true;
+    
+    this.checkForValidExtras(extracontacts.length ? validcontact : false);
 
     return parsecontacts;
   }
@@ -101,8 +151,8 @@ export class SendSmsComponent {
 
     let body = this.addMessage()
 
-    if(this.validContacts){
-      body['to'] = body['to'].concat(this.validateExtraContacts());
+    if(this.validExtraContacts){
+      body['to'] = body['to'].concat(this.filterExtraContacts()).unique();
     }
 
     this.sendingSMS = true;

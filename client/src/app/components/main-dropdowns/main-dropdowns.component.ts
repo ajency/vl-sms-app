@@ -158,6 +158,9 @@ export class MainDropdownsComponent {
     this.updateTrips('', true);
   }
 
+  private _tripsuccesscb: (value: {} | Object) => void;
+  private _triperrorcb: (error: any) => void;
+
   updateTrips(inittripid: string = '', opendrop: boolean = false): void{ // gets the data for the 1st select dropdown for the list of trips
     if(this.tripSub){
       this.tripSub.unsubscribe();
@@ -174,66 +177,79 @@ export class MainDropdownsComponent {
       limit: this._limit
     };
 
-    this.exactPath === 'sms-notifications' ? body['trips_with_updates'] = 'yes' : null;
-    
 
+    this._tripsuccesscb = (res: any) => {
+                            
+      this.trips = this.formatTrips(res.data);
+      this.tripPageCount = res.count;
+      this.tripTotalCount = res.totalCount;
+
+      this._asynctrips.next(this.trips);
+
+      console.log("trips ", this.trips);
+      
+      if(opendrop){
+        setTimeout(() => {
+          this.tripSelect.open();
+        },300);
+      }
+
+
+      if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
+        console.log("exact match")
+        // this.tripid = inittripid  ? inittripid : this.trips[0].id;
+        // this.activeTrip = [ this.trips[0] ];
+      }
+      else{
+        this.activeTrip = this._getActiveTrip(this.tripid);
+
+        // check if tripid passed in from url or otherwise is present in the trips array
+        // before fetching the departures array for the specified trip id
+
+        if(inittripid){
+          let trip = this.trips.find(val => val.id == this.tripid);
+
+          console.log("found trip: ", trip);
+          if(trip){
+            this.onError.emit(this.tripError); // emit blank error
+          }
+          else{
+            this.tripError = "Could not find trip specified!";
+            this._resettripid();
+            this.onError.emit(this.tripError);
+          }
+        }
+
+        this.updateDepartures(this.departureid);
+
+      }
+      console.log("hola all done")
+    }; // end _tripsuccesscb
+
+    this._triperrorcb = () => {
+      this.tripError = globals.serverErrMsg;
+      this.onError.emit(this.tripError);
+      // this.updateDepartures(this.departureid);
+    };
+    
     this.tripRequestComplete = false;
 
-    this.tripSub = this.api.getTrips(body)
-                          .finally(() =>{
-                            this.tripRequestComplete = true;
-                          }) 
-                          .subscribe((res: any) => {
-                            
-                            this.trips = this.formatTrips(res.data);
-                            this.tripPageCount = res.count;
-                            this.tripTotalCount = res.totalCount;
+    if(this.exactPath === 'sms-notifications'){
+      body['trips_with_updates'] = 'yes'
+      this.tripSub = this.api.getTripUpdates(body)
+                            .finally(() =>{
+                              this.tripRequestComplete = true;
+                            }) 
+                            .subscribe(this._tripsuccesscb, this._triperrorcb);
+    }
+    else{
+      this.tripSub = this.api.getTrips(body)
+                            .finally(() =>{
+                              this.tripRequestComplete = true;
+                            }) 
+                            .subscribe(this._tripsuccesscb, this._triperrorcb);
+    }
 
-                            this._asynctrips.next(this.trips);
-
-                            console.log("trips ", this.trips);
-                            
-                            if(opendrop){
-                              setTimeout(() => {
-                                this.tripSelect.open();
-                              },300);
-                            }
-           
-            
-                            if(this._exactMatch){ // if this is default send-sms page navigation set the trip id to that of the 1st element in the array
-                              console.log("exact match")
-                              // this.tripid = inittripid  ? inittripid : this.trips[0].id;
-                              // this.activeTrip = [ this.trips[0] ];
-                            }
-                            else{
-                              this.activeTrip = this._getActiveTrip(this.tripid);
-
-                              // check if tripid passed in from url or otherwise is present in the trips array
-                              // before fetching the departures array for the specified trip id
-
-                              if(inittripid){
-                                let trip = this.trips.find(val => val.id == this.tripid);
-
-                                console.log("found trip: ", trip);
-                                if(trip){
-                                  this.onError.emit(this.tripError); // emit blank error
-                                }
-                                else{
-                                  this.tripError = "Could not find trip specified!";
-                                  this._resettripid();
-                                  this.onError.emit(this.tripError);
-                                }
-                              }
-
-                              this.updateDepartures(this.departureid);
-
-                            }
-                            
-                          },() => {
-                            this.tripError = globals.serverErrMsg;
-                            this.onError.emit(this.tripError);
-                            // this.updateDepartures(this.departureid);
-                          });
   }
 
   private _getActiveTrip(id: string): Array<any>{

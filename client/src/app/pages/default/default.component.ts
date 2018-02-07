@@ -20,8 +20,8 @@ export class DefaultComponent implements OnInit {
   @ViewChild(DataTable) passengerTable: DataTable;
 
   public tripCode: string;
-  public tripId: string;
-  public departureId: string;
+  public trip: any;
+  public departure: any;
 
   public participantsAvailable: boolean = false;
 
@@ -63,8 +63,8 @@ export class DefaultComponent implements OnInit {
 
       if(event.response.data.length){
 
-        this.departureId = event['dep_details'] ? event['dep_details']['departure_id'] : '';
-        this.tripId = event['trip_details'] ? event['trip_details']['id'] : '';
+        this.departure = event['dep_details'] ? event['dep_details'] : {};
+        this.trip = event['trip_details'] ? event['trip_details'] : {};
         // this.activeStatus = [];
 
         this.errorMessage = '';
