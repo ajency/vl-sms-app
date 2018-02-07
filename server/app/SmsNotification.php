@@ -10,9 +10,9 @@ class SmsNotification extends Model
     {
         $current_date=date('Y-m-d');
 
-        $sms_notifications = SmsNotification::join('sms_notification_trips', 'sms_notification_trips.trip_id', '=', 'sms_notifications.trip_id')
-        ->join('sms_notification_departures','sms_notification_departures.departure_id','=','sms_notifications.departure_id')
-        ->whereRaw("'".$current_date."' between date(starts_at) and date(ends_at)");
+        $sms_notifications = SmsNotification::join('sms_notification_trips', 'sms_notification_trips.trip_id', '=', 'sms_notifications.trip_id');
+       // ->join('sms_notification_departures','sms_notification_departures.departure_id','=','sms_notifications.departure_id')
+        //->whereRaw("'".$current_date."' between date(starts_at) and date(ends_at)");
 
         if (trim($search_query) != '') {
             $sms_notifications->where('name','like',"%$search_query%")->orWhere('code','like',"%$search_query%");
