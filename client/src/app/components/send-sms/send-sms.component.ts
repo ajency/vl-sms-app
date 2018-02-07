@@ -116,7 +116,7 @@ export class SendSmsComponent {
     extracontacts.map((val: any) => {
       // let num = parseInt(val);
       val = val.trim();
-      let valid = ( !isNaN(val) && val.length === 12 && val.indexOf('.') < 0 ) ? true : false;
+      let valid = ( !isNaN(val) && parseInt(val).toString().length === 12 && val.indexOf('.') < 0 ) ? true : false;
       valid ? parsecontacts.push( val ) : null;
       if(validcontact){
         validcontact = valid;

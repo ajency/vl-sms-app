@@ -24,7 +24,13 @@ export class AppService {
         var a = this.concat();
         for(var i=0; i<a.length; ++i) {
             for(var j=i+1; j<a.length; ++j) {
-                if(a[i] === a[j])
+                let foundmatch = false;
+                if(a[i].indexOf(a[j]) > -1)
+                  foundmatch = true;
+                if(a[j].indexOf(a[i]) > -1)
+                  foundmatch = true;
+
+                if(foundmatch)
                     a.splice(j--, 1);
             }
         }
