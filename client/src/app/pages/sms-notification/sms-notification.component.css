@@ -82,6 +82,15 @@ main-dropdowns {
 .sms-date .lighter {
   color: #b3b0b0;
 }
+.smsTitle {
+  font-size: 2.2em;
+}
+@media screen and (max-width: 480px) {
+  .smsTitle {
+    text-align: center;
+    font-size: 1.5em;
+  }
+}
 @media screen and (max-width: 480px) {
   .no-data {
     min-height: 60vh;
