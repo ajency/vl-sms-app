@@ -30,6 +30,7 @@ Route::group(['middleware' => ['IsValidUser']], function () {
 });
 
 Route::post('trips-sms-notifications', 'SmsController@smsNotificaitonTrips');
+Route::post('departures-sms-notifications', 'SmsController@smsNotificaitonDepartures');
 
 Route::resource('user', 'UserController');
 
