@@ -9,7 +9,7 @@
 			<custom-select
 						#tripSelect
 						[items]="trips"
-						[noMatches]="tripRequestComplete && tripTotalCount == 0"
+						[noMatches]="tripRequestComplete && tripPageCount == 0"
 						[pageIndex]="page"
 						[pageCount]="limit"
 						[totalItems]="tripTotalCount"

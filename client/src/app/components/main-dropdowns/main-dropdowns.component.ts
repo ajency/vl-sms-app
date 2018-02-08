@@ -321,6 +321,9 @@ export class MainDropdownsComponent {
     return departures;
   }
 
+  private _depsuccesscb: (value: {} | Object) => void;
+  private _deperrorcb: (error: any) => void;
+
   updateDepartures(initdepid: string = ''): void{ // gets the data for the 2nd select dropdown for the departure
     this._resetdepid();
     this.departures = [];
@@ -341,53 +344,63 @@ export class MainDropdownsComponent {
         }
       }
 
-      this.exactPath === 'sms-notifications' ? reqbody['exclude_past_departure'] = 'yes' : null;
+      this._depsuccesscb = (res: any) => {
+        console.log("depatures", res);
+
+        this.departures = this.formatdepartures(res.data);
+
+
+        
+        this.updateLocation('trip');
       
+        this.onDepartures.emit(res);
 
-      this.depSub = this.api.getDepartures(reqbody)
-                            .subscribe((res: any) => {
-                              console.log("depatures", res);
+        // set local component departure error here
+        if(this.departures.length){
+          this.onError.emit('');
+        }
+        else{
+          this._resetdepid(); // set this because its n ng model
+          this.departureError = 'No departure found';
+          this.onError.emit("No departures found for trip!");
+        }
 
-                              this.departures = this.formatdepartures(res.data);
+        if(initdepid){
+          let vdep = this.departures.find( val => val.departure_id == initdepid);
+          console.log("found dep", vdep);
+          if(vdep){
+            this.departureid = initdepid;
+            this.onError.emit(this.departureError);
+            this.triggerOutput(); // if departure id is passed in from parent component trigger the output event to load participant data
+          }
+          else{
+            this.departureError = 'Invalid departure for selected trip';
+            this._resetdepid();
+            this.onError.emit(this.departureError);
+          }
+          this.updateLocation('departure');
+        }
+
+        this.activeDeparture = this._getActiveDeparture(initdepid || this.departureid);
+
+      };
+      
+      this._deperrorcb = () => {
+        this.departureError = globals.serverErrMsg;
+        this.onError.emit(this.departureError);
+      };
+
+      if(this.exactPath === 'sms-notifications'){
+        reqbody['exclude_past_departure'] = 'yes';
+        this.api.getDepartureUpdates(reqbody)
+                .subscribe(this._depsuccesscb, this._deperrorcb);
+      }
+      else{
+        this.depSub = this.api.getDepartures(reqbody)
+                              .subscribe(this._depsuccesscb, this._deperrorcb);
+      }
 
 
-                              
-                              this.updateLocation('trip');
-                            
-                              this.onDepartures.emit(res);
-
-                              // set local component departure error here
-                              if(this.departures.length){
-                                this.onError.emit('');
-                              }
-                              else{
-                                this._resetdepid(); // set this because its n ng model
-                                this.departureError = 'No departure found';
-                                this.onError.emit("No departures found for trip!");
-                              }
-
-                              if(initdepid){
-                                let vdep = this.departures.find( val => val.departure_id == initdepid);
-                                console.log("found dep", vdep);
-                                if(vdep){
-                                  this.departureid = initdepid;
-                                  this.onError.emit(this.departureError);
-                                  this.triggerOutput(); // if departure id is passed in from parent component trigger the output event to load participant data
-                                }
-                                else{
-                                  this.departureError = 'Invalid departure for selected trip';
-                                  this._resetdepid();
-                                  this.onError.emit(this.departureError);
-                                }
-                                this.updateLocation('departure');
-                              }
-
-                              this.activeDeparture = this._getActiveDeparture(initdepid || this.departureid);
-
-                            }, () => {
-                              this.departureError = globals.serverErrMsg;
-                              this.onError.emit(this.departureError);
-                            });
     }
     else{
       this.departureError = 'No trip specified';

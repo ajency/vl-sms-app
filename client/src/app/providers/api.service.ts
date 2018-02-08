@@ -26,6 +26,10 @@ export class ApiService {
     return this.app.request(`${this.apiUrl}/departures`,'post',body);
   }
 
+  public getDepartureUpdates(body: any){
+    return this.app.request(`${this.apiUrl}/departures-sms-notifications`,'post',body);
+  }
+
   public getParticipants(id: string){
     return this.app.request(`${this.apiUrl}/trip-passengers`,'post',{departure_id: id, access_token: globals.apitoken});
   }
