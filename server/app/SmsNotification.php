@@ -8,14 +8,16 @@ class SmsNotification extends Model
 {
     public function getPublishedNotification($limit, $offset, $search_query)
     {
-        $current_date=date('Y-m-d');
+        $current_date = date('Y-m-d');
 
-        $sms_notifications = SmsNotification::join('sms_notification_trips', 'sms_notification_trips.trip_id', '=', 'sms_notifications.trip_id');
-       // ->join('sms_notification_departures','sms_notification_departures.departure_id','=','sms_notifications.departure_id')
-        //->whereRaw("'".$current_date."' between date(starts_at) and date(ends_at)");
+        $sms_notifications = SmsNotification::join('sms_notification_trips', 'sms_notification_trips.trip_id', '=', 'sms_notifications.trip_id')
+            ->join('sms_notification_departures', 'sms_notification_departures.departure_id', '=', 'sms_notifications.departure_id');
 
         if (trim($search_query) != '') {
-            $sms_notifications->where('name','like',"%$search_query%")->orWhere('code','like',"%$search_query%");
+            $sms_notifications->whereRaw("'" . $current_date . "' between date(starts_at) and date(ends_at) and (name like '%" . $search_query . "%' or code like '%" . $search_query . "%')");
+            // $sms_notifications->where('name','like',"%$search_query%")->orWhere('code','like',"%$search_query%");
+        } else {
+            $sms_notifications->whereRaw("'" . $current_date . "' between date(starts_at) and date(ends_at)");
         }
 
         return $sms_notifications->select('sms_notification_trips.trip_id as id', 'code', 'name')
@@ -24,6 +26,7 @@ class SmsNotification extends Model
             ->offset($offset)
             ->get()
             ->toArray();
-       
+
+        // echo $sms_notifications->toSql();
     }
 }
