@@ -26,7 +26,7 @@ class SmsController extends Controller
             $notification->trip_id      = $trip['id'];
             $notification->message      = $message;
             $notification->send_to      = serialize($phone_number);
-            $notification->created_at   = date('Y-m-d h:m:i');
+            //$notification->created_at   = date('Y-m-d h:m:i');
             $notification->save();
 
             $departure_notification = new SmsNotificationDeparture;
@@ -35,16 +35,16 @@ class SmsController extends Controller
                 $departure_notification->trip_id      = $trip['id'];
                 $departure_notification->starts_at    = $departure['starts_at'];
                 $departure_notification->ends_at      = $departure['ends_at'];
-                $notification->created_at             = date('Y-m-d h:m:i');
+                //$departure_notification->created_at             = date('Y-m-d h:m:i');
                 $departure_notification->save();
             }
 
             $trip_notification = new SmsNotificationTrip;
             if (!SmsNotificationTrip::where('trip_id', '=', $trip['id'])->exists()) {
-                $trip_notification->trip_id    = $trip['id'];
-                $trip_notification->name       = $trip['name'];
-                $trip_notification->code       = $trip['code'];
-                $trip_notification->created_at = date('Y-m-d h:m:i');
+                $trip_notification->trip_id = $trip['id'];
+                $trip_notification->name    = $trip['name'];
+                $trip_notification->code    = $trip['code'];
+                // $trip_notification->created_at = date('Y-m-d h:m:i');
                 $trip_notification->save();
             }
 
@@ -114,7 +114,6 @@ class SmsController extends Controller
     public function smsNotificaitonTrips(Request $request)
     {
 
-
         // set search query is passed
         if ($request->has('search')) {
             $search_query = $request->input('search');
@@ -136,12 +135,11 @@ class SmsController extends Controller
             $limit = 100;
         }
 
-
         $smsnotification = new SmsNotification;
-        
-        $final_data      = $smsnotification->getPublishedNotification($limit,$offset,$search_query);
 
-        $totalCount     = SmsNotification::groupBy('sms_notifications.trip_id')->count();
+        $final_data = $smsnotification->getPublishedNotification($limit, $offset, $search_query);
+
+        $totalCount = SmsNotification::groupBy('sms_notifications.trip_id')->count();
 
         return [
             "status"     => "success",
@@ -149,6 +147,19 @@ class SmsController extends Controller
             "data"       => $final_data,
             "count"      => count($final_data),
             "totalCount" => $totalCount,
+        ];
+    }
+
+    public function smsNotificaitonDepartures(Request $request)
+    {
+        $filters    = $request->input('filters');
+        $trip_id    = $filters['trip_id'];
+        $final_data = SmsNotificationDeparture::where('trip_id', $trip_id)->select('departure_id', 'starts_at', 'ends_at')->get()->toArray();
+
+        return [
+            "status" => "success",
+            "msg"    => "ok",
+            "data"   => $final_data,
         ];
     }
 }
